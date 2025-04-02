@@ -48,8 +48,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function getBoxMenuDetails() {
-  return [
+const adminPanelMenu = [
     {
       text: "Audicije",
       href: "/auditions",
@@ -86,7 +85,7 @@ function getBoxMenuDetails() {
       divider: false,
     },
   ];
-}
+
 
 function ResponsiveAppBar() {
   const theme = useTheme();
@@ -265,10 +264,7 @@ function ResponsiveAppBar() {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
+          boxSizing: "border-box",
         }}
         variant="persistent"
         anchor="right"
@@ -281,7 +277,7 @@ function ResponsiveAppBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {getBoxMenuDetails().map(({ text, href, divider }, index) => {
+          {adminPanelMenu.map(({ text, href, divider }, index) => {
             if (divider) {
               return <Divider key={index}></Divider>;
             } else {
