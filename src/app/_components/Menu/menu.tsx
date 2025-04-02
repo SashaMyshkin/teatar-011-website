@@ -236,7 +236,7 @@ function ResponsiveAppBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          {adminPanelMenu.map(({ text, href, divider }, index) => {
+          {adminPanelMenu.map(({ text, divider }, index) => {
             if (divider) {
               return <Divider key={index}></Divider>;
             } else {
@@ -247,7 +247,8 @@ function ResponsiveAppBar() {
                   style={{ width: "100%" }}
                 >
                   <Link
-                    href={href}
+										
+                    href='#'
                     style={{ display: "inline-block", width: "100%" }}
                   >
                     <ListItemText primary={text} />
