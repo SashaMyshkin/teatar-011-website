@@ -1,44 +1,69 @@
-import { signInAction } from "@/actions";
-import { FormMessage, Message } from "@components/form-message";
-import { SubmitButton } from "@components/submit-button";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import Link from "next/link";
+"use client";
 
-export default async function Login(props: { searchParams: Promise<Message> }) {
-  const searchParams = await props.searchParams;
+import * as React from "react";
+import { Typography, TextField, Button, Box, SxProps } from "@mui/material";
+import { signInAction } from "@/actions";
+
+export default function LoginPage(): React.JSX.Element {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    signInAction(formData)
+
+  }
+
   return (
-    <form className="flex-1 flex flex-col min-w-64">
-      <h1 className="text-2xl font-medium">Sign in</h1>
-      <p className="text-sm text-foreground">
-        Nemate nalog?{" "}
-        <Link className="text-foreground font-medium underline" href="/sign-up">
-          Sign up
-        </Link>
-      </p>
-      <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-        <Label htmlFor="email">Email</Label>
-        <Input name="email" placeholder="you@example.com" required />
-        <div className="flex justify-between items-center">
-          <Label htmlFor="password">Password</Label>
-          <Link
-            className="text-xs text-foreground underline"
-            href="/forgot-password"
-          >
-            Forgot Password?
-          </Link>
-        </div>
-        <Input
-          type="password"
-          name="password"
-          placeholder="Your password"
-          required
+    <Box
+      component="main"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        height: "calc(100vh - 70px)",
+        width: "100%",
+        alignItems: "center",
+        bgcolor: "background.default",
+      }}
+    >
+      <Box component="form" sx={formStyles} onSubmit={handleSubmit}>
+        <Typography component="h1" variant="h6" textAlign="center" sx={{color:"text.primary"}}>
+          Administracija
+        </Typography>
+        <TextField
+          id="email"
+          name="email"
+          type="text"
+          label="Korisničko ime"
+          variant="standard"
+          size="small"
+          autoComplete="false"
         />
-        <SubmitButton pendingText="Signing In..." formAction={signInAction}>
-          Sign in
-        </SubmitButton>
-        <FormMessage message={searchParams} />
-      </div>
-    </form>
+        <TextField
+          id="password"
+          name="password"
+          type="password"
+          label="Lozinka"
+          variant="standard"
+          size="small"
+          autoComplete="false"
+        />
+        <Button variant="contained" type="submit">
+          Uloguj se
+        </Button>
+      </Box>
+    </Box>
   );
 }
+
+const formStyles: SxProps = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  border: 1,
+  borderRadius: "3%",
+  padding: "1.5rem",
+  width: "22rem",
+  boxShadow: 3,
+  bgcolor: "background.paper",
+};
