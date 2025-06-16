@@ -1,19 +1,33 @@
+import * as React from "react";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "@/theme";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
+import NavBarDrawer from "@/components/NavBarDrawer";
+import { Box, Toolbar } from "@mui/material";
+import NavBarDrawerAdmin from "@/components/NavBarDrawerAdmin";
+import { cookies } from "next/headers";
 
+export default async function RootLayout(props: { children: React.ReactNode }) {
 
-import "./globals.css";
+  
 
- 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        
-            {children}
-            
+        <InitColorSchemeScript attribute="class" />
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <NavBarDrawer></NavBarDrawer>
+            <Box component="main" sx={{ p: 3 }}>
+              <Toolbar />
+              {props.children}
+            </Box>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

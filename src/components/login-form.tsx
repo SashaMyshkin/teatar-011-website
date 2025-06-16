@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { createClient } from '@/lib/client'
+import { supabaseBrowserClient } from '@/lib/client'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -25,12 +25,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
     setIsLoading(true)
     setError(null)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabaseBrowserClient.auth.signInWithPassword({
         email,
         password,
       })
