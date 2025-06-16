@@ -1,8 +1,8 @@
 import { updateSession } from "@/lib/middleware";
 import { NextResponse, type NextRequest } from 'next/server'
+import { defaultScript } from "./lib/variables";
 
 const locales = ["sr-cyrl", "sr-latn", "en"]; // add more as needed
-const defaultScript = "sr-latn"
 
 /*function getPreferredLocale(request: NextRequest): string {
   const acceptLang = request.headers.get("accept-language");
