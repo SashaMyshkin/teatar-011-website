@@ -6,8 +6,6 @@ import theme from "@/theme";
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
 import NavBarDrawer from "@/components/NavBarDrawer";
 import { Box, Toolbar } from "@mui/material";
-import NavBarDrawerAdmin from "@/components/NavBarDrawerAdmin";
-import { cookies } from "next/headers";
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
 
