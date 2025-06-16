@@ -41,10 +41,8 @@ export async function GET(request: NextRequest) {
 
   const supabase = await createClient();
 
-  const query = supabase
-    .from("v_members")
-    .select(
-      `
+  const query = supabase.from("v_members").select(
+    `
     muid,
     identifier,
     email,
@@ -59,7 +57,7 @@ export async function GET(request: NextRequest) {
     membership_status_uid,
     membership_status
   `
-    );
+  );
 
   if (identifier) query.eq("identifier", identifier);
   if (membershipStatusUID)
@@ -67,9 +65,13 @@ export async function GET(request: NextRequest) {
   if (isPublic === true) query.eq("public", 1);
   if (isPublic === false) query.eq("public", 0);
   if (email) query.eq("email", email);
-  if(scriptId) query.eq("script_id", scriptId);
+  if (scriptId) query.eq("script_id", scriptId);
 
-  const { data, error } = await query
+  const { data, error } = await query;
+
+  if (error) {
+    Response.json({ error }, { status: 500 });
+  }
 
   return Response.json({ data });
 }
