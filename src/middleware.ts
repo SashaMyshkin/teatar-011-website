@@ -30,8 +30,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  /*if (request.nextUrl.pathname.startsWith("/protected"))
-    return await updateSession(request);*/
+  if (request.nextUrl.pathname.startsWith("/protected"))
+    return await updateSession(request);
   
 }
 
