@@ -4,8 +4,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
-  const searchParams = Object.fromEntries(request.nextUrl.searchParams.entries());
+  const searchParams = Object.fromEntries(
+    request.nextUrl.searchParams.entries()
+  );
   const result = members_uid_get.safeParse(searchParams);
+
+  const user = await supabase.auth.getUser();
+
+  if (!user.data) {
+    return NextResponse.json(
+      { error: "Unauthorized request" },
+      { status: 401 }
+    );
+  }
 
   if (!result.success) {
     return NextResponse.json(
@@ -14,19 +25,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const {
-    offset,
-    limit,
-    identifier,
-    membership_status_uid,
-    is_public,
-    email,
-    
-  } = result.data;
+  const { offset, limit, identifier, membership_status_uid, is_public, email } =
+    result.data;
 
-  const query = supabase
-    .from("members_uid")
-    .select(`
+  const query = supabase.from("members_uid").select(`
       id,
       identifier,
       email,
@@ -38,15 +40,14 @@ export async function GET(request: NextRequest) {
     `);
 
   if (identifier) query.like("identifier", `%${identifier}%`);
-  if (membership_status_uid) query.eq("membership_status_uid", membership_status_uid);
-  if (!(is_public === undefined)) query.eq("is_public", is_public);
+  if (membership_status_uid)
+    query.eq("membership_status_uid", membership_status_uid);
+  if (typeof is_public !== "undefined") query.eq("is_public", is_public);
   if (email) query.like("email", `%${email}%`);
 
   query.range(offset, offset + limit - 1);
 
   const { data, error } = await query;
-
-  console.log()
 
   if (error) {
     return NextResponse.json({ error }, { status: 500 });
@@ -60,21 +61,36 @@ export async function POST(request: NextRequest) {
   const json = await request.json();
   const validationResult = members_uid_post.safeParse(json);
 
+  const user = await supabase.auth.getUser();
+
+  if (!user.data) {
+    return NextResponse.json(
+      { error: "Unauthorized request" },
+      { status: 401 }
+    );
+  }
+
   if (!validationResult.success) {
     return NextResponse.json(validationResult.error, { status: 400 });
   }
 
   const dataToInsert = validationResult.data;
 
-  const insertedData = await supabase.from("members_uid").insert(dataToInsert).select();
+  const insertedData = await supabase
+    .from("members_uid")
+    .insert(dataToInsert)
+    .single();
 
-  if (insertedData.error ) {
-    return NextResponse.json(insertedData.error || { error: "UID insert failed" }, { status: 500 });
+  if (insertedData.error) {
+    return NextResponse.json(
+      insertedData.error || { error: "UID insert failed" },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json(
     {
-      ...insertedData
+      insertedData,
     },
     { status: 201 }
   );
