@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(
     {
-      insertedData,
+      ...insertedData,
     },
     { status: 201 }
   );
