@@ -25,9 +25,9 @@ export const members_get_single = z.object({
 });
 
 export const members_put = z.object({
-    name: z.string().trim().nonempty("You can't insert the record without a name.").optional(),
-    surname: z.string().trim().nonempty("You can't insert the record without a surname.").optional(),
+    name: z.string().trim().nonempty("You can't update the record without a name.").optional(),
+    surname: z.string().trim().nonempty("You can't update the record without a surname.").optional(),
     script_id: z.coerce.number().positive().optional(),
     member_uid: z.coerce.number().positive().optional(),
-    motto:z.string().trim().nonempty("You can't insert the record without a motto.").optional(),
+    motto:z.string().trim().nonempty("You can't update the record without a motto.").optional(),
 });
