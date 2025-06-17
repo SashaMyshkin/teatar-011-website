@@ -13,3 +13,9 @@ interface Member {
     membership_status_uid:number,
     membership_status:string
 }
+
+interface Script  {
+  id: number;
+  name: string;
+  status:number
+};
