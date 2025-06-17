@@ -9,9 +9,9 @@ export async function GET(request: NextRequest) {
   );
   const result = members_uid_get.safeParse(searchParams);
 
-  const user = await supabase.auth.getUser();
+  const authResult = await supabase.auth.getUser();
 
-  if (!user.data) {
+  if (!authResult.data.user) {
     return NextResponse.json(
       { error: "Unauthorized request" },
       { status: 401 }
@@ -61,9 +61,9 @@ export async function POST(request: NextRequest) {
   const json = await request.json();
   const validationResult = members_uid_post.safeParse(json);
 
-  const user = await supabase.auth.getUser();
+  const authResult = await supabase.auth.getUser();
 
-  if (!user.data) {
+  if (!authResult.data.user) {
     return NextResponse.json(
       { error: "Unauthorized request" },
       { status: 401 }
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
 
   if (insertedData.error) {
     return NextResponse.json(
-      insertedData.error || { error: "UID insert failed" },
+      insertedData.error || { error: "Insert action failed" },
       { status: 500 }
     );
   }
