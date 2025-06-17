@@ -16,8 +16,6 @@ export const members_post = z.object({
     script_id: z.coerce.number().positive(),
     member_uid: z.coerce.number().positive(),
     motto:z.string().trim().nonempty("You can't insert the record without a motto."),
-    offset: z.coerce.number().min(0).default(0),
-    limit: z.coerce.number().min(5).max(30).default(15)
 });
 
 export const members_get_single = z.object({
