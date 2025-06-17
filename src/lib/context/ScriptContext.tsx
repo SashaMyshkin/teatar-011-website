@@ -2,6 +2,7 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
+import { Script } from "@/lib/types";
 
 
 
