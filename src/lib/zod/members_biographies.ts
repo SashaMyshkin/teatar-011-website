@@ -29,4 +29,5 @@ export const members_biographies_put = z.object({
     .optional(),
   script_id: z.coerce.number().positive().optional(),
   member_uid: z.coerce.number().positive().optional(),
+  order_number: z.coerce.number().positive(),
 });
