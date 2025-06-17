@@ -9,14 +9,14 @@ export async function GET(
   const supabase = await createClient();
   const { id: member_uid } = await params;
 
-  /*const authResult = await supabase.auth.getUser();
+  const authResult = await supabase.auth.getUser();
 
   if (!authResult.data.user) {
     return NextResponse.json(
       { error: "Unauthorized request" },
       { status: 401 }
     );
-  }*/
+  }
 
   const idValidationResult = members_uid_single.safeParse({ member_uid });
 
@@ -114,25 +114,22 @@ export async function PUT(
   return NextResponse.json({ ...updatedData.data }, { status: 200 });
 }
 
-
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const supabase = await createClient();
 
-  /*const authResult = await supabase.auth.getUser();
+  const authResult = await supabase.auth.getUser();
 
   if (!authResult.data.user) {
     return NextResponse.json(
       { error: "Unauthorized request" },
       { status: 401 }
     );
-  }*/
+  }
 
   const { id: member_uid } = await params;
-
-
 
   const idValidationResult = members_uid_single.safeParse({ member_uid });
 
@@ -146,12 +143,10 @@ export async function DELETE(
     );
   }
 
-  
-
   const deletedData = await supabase
-  .from('members_uid')
-  .delete()
-  .eq('id', idValidationResult.data.member_uid)
+    .from("members_uid")
+    .delete()
+    .eq("id", idValidationResult.data.member_uid);
 
   if (deletedData.error) {
     return NextResponse.json(
