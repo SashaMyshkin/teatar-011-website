@@ -563,8 +563,8 @@ export type Database = {
           email: string | null
           id: number
           identifier: string
+          is_public: number
           membership_status_uid: number
-          public: number | null
         }
         Insert: {
           date_of_birth?: string | null
@@ -573,8 +573,8 @@ export type Database = {
           email?: string | null
           id?: number
           identifier: string
+          is_public?: number
           membership_status_uid: number
-          public?: number | null
         }
         Update: {
           date_of_birth?: string | null
@@ -583,8 +583,8 @@ export type Database = {
           email?: string | null
           id?: number
           identifier?: string
+          is_public?: number
           membership_status_uid?: number
-          public?: number | null
         }
         Relationships: [
           {
@@ -1007,22 +1007,22 @@ export type Database = {
           date_of_premiere: string
           id: number
           identifier: string
+          is_public: number
           performance_type_uid: number
-          public: number
         }
         Insert: {
           date_of_premiere: string
           id?: number
           identifier: string
+          is_public: number
           performance_type_uid: number
-          public: number
         }
         Update: {
           date_of_premiere?: string
           id?: number
           identifier?: string
+          is_public?: number
           performance_type_uid?: number
-          public?: number
         }
         Relationships: [
           {
