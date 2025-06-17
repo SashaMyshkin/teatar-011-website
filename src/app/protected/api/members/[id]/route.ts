@@ -8,14 +8,14 @@ export async function GET(
 ) {
   const supabase = await createClient();
 
-  /*const authResult = await supabase.auth.getUser();
+  const authResult = await supabase.auth.getUser();
 
   if (!authResult.data.user) {
     return NextResponse.json(
       { error: "Unauthorized request" },
       { status: 401 }
     );
-  }*/
+  }
   const { id: member_id } = await params;
 
   const idValidationResult = members_get_single.safeParse({ member_id });
