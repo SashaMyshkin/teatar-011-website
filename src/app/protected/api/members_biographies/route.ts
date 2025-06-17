@@ -35,8 +35,6 @@ export async function GET(request: NextRequest) {
       paragraph,
       order_number
     `).eq("member_uid", member_uid);
-
-  if (member_uid) query.eq("member_uid", member_uid);
   if (script_id) query.eq("script_id", script_id);
 
   query.range(offset, offset + limit - 1);
