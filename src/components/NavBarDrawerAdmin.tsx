@@ -9,17 +9,30 @@ import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Link from "next/link";
 
 const drawerWidth = 240;
-const navItems = ["Početna","Repertoar", "Vesti", "Predstave", "Članovi", "Projekti"];
+
+const navItems = [
+  {
+    name: "Početna",
+    path: "/",
+  },
+  {
+    name: "Članovi",
+    path: "/members",
+  },
+  {
+    name: "Predstave",
+    path: "/performances",
+  },
+];
 
 export default function DrawerNavBarAdmin() {
-
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -44,16 +57,15 @@ export default function DrawerNavBarAdmin() {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.name} disablePadding>
+            <ListItemButton sx={{justifyContent:"center"}}>
+              <Link href={`/protected${item.path}`} style={{ color:"#fff", textDecoration:"none", textAlign: "center" }}>{item.name}</Link>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
     </Box>
   );
-
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -86,9 +98,10 @@ export default function DrawerNavBarAdmin() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
-                {item}
+              <Button key={item.path}>
+                <Link href={`/protected/${item.path}`} style={{textDecoration:"none", color:"#fff"}}>{item.name}</Link>
               </Button>
+              
             ))}
           </Box>
         </Toolbar>
