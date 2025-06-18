@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/server";
 import { NextRequest, NextResponse } from "next/server";
-import { members_get, members_post } from "@/lib/zod/members";
+import { members_get, members_post } from "@/lib/zod/api/members";
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient();

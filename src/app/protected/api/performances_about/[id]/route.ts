@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { performances_about_get_single, performances_about_put } from "@/lib/zod/performances_about";
+import { performances_about_get_single, performances_about_put } from "@/lib/zod/api/performances_about";
 import { NextRequest, NextResponse } from "next/server";
 
 //GET handler not needed

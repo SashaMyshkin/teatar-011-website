@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { performances_get, performances_post } from "@/lib/zod/performances";
+import { performances_get, performances_post } from "@/lib/zod/api/performances";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

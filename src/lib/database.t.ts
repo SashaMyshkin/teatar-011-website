@@ -125,13 +125,6 @@ export type Database = {
             referencedRelation: "members_uid"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "awards_festivals_members_member_uid_fkey"
-            columns: ["member_uid"]
-            isOneToOne: false
-            referencedRelation: "v_members"
-            referencedColumns: ["muid"]
-          },
         ]
       }
       awards_uid: {
@@ -427,13 +420,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "members_member_uid_fkey"
-            columns: ["member_uid"]
-            isOneToOne: false
-            referencedRelation: "v_members"
-            referencedColumns: ["muid"]
-          },
-          {
             foreignKeyName: "members_script_id_fkey"
             columns: ["script_id"]
             isOneToOne: false
@@ -485,13 +471,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members_uid"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "members_biographies_member_uid_fkey"
-            columns: ["member_uid"]
-            isOneToOne: false
-            referencedRelation: "v_members"
-            referencedColumns: ["muid"]
           },
           {
             foreignKeyName: "members_biographies_script_id_fkey"
@@ -902,13 +881,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "performances_roles_members_member_uid_fkey"
-            columns: ["member_uid"]
-            isOneToOne: false
-            referencedRelation: "v_members"
-            referencedColumns: ["muid"]
-          },
-          {
             foreignKeyName: "performances_roles_members_performance_role_uid_fkey"
             columns: ["performance_role_uid"]
             isOneToOne: false
@@ -919,15 +891,21 @@ export type Database = {
       }
       performances_roles_uid: {
         Row: {
+          description: string
           id: number
+          importance: number
           performance_uid: number
         }
         Insert: {
+          description: string
           id?: number
+          importance: number
           performance_uid: number
         }
         Update: {
+          description?: string
           id?: number
+          importance?: number
           performance_uid?: number
         }
         Relationships: [
@@ -992,12 +970,18 @@ export type Database = {
       }
       performances_types_uid: {
         Row: {
+          code: string | null
+          description: string | null
           id: number
         }
         Insert: {
+          code?: string | null
+          description?: string | null
           id?: number
         }
         Update: {
+          code?: string | null
+          description?: string | null
           id?: number
         }
         Relationships: []
@@ -1076,17 +1060,25 @@ export type Database = {
           date_of_leaving: string | null
           email: string | null
           identifier: string | null
+          is_public: number | null
+          member_uid: number | null
           membership_status: string | null
           membership_status_uid: number | null
           motto: string | null
-          muid: number | null
           name: string | null
-          public: number | null
           script: string | null
           script_id: number | null
           surname: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "members_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "members_uid"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       v_membership_statuses: {
         Row: {

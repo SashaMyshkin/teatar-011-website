@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { performances_roles_post } from "@/lib/zod/performances_roles";
+import { performances_roles_post } from "@/lib/zod/api/performances_roles";
 import { NextRequest, NextResponse } from "next/server";
 
 //GET HANDLER NOT NEEDED

@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { members_biographies_get_single, members_biographies_put } from "@/lib/zod/members_biographies";
+import { members_biographies_get_single, members_biographies_put } from "@/lib/zod/api/members_biographies";
 import { NextRequest, NextResponse } from "next/server";
 
 //GET handler not needed

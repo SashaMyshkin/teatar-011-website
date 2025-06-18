@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { members_get_single, members_put } from "@/lib/zod/members";
+import { members_get_single, members_put } from "@/lib/zod/api/members";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

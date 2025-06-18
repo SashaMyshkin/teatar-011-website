@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/server";
-import { performances_roles_get_single, performances_roles_put } from "@/lib/zod/performances_roles";
+import { performances_roles_get_single, performances_roles_put } from "@/lib/zod/api/performances_roles";
 import { NextRequest, NextResponse } from "next/server";
 
 //GET HANLER NOT NEEDED
