@@ -1,8 +1,8 @@
 import z from "zod";
 
 export const v_members_get = z.object({
-  name: z.string().optional(),
-  surname: z.string().optional(),
+  name: z.string().nonempty().toLowerCase().optional(),
+  surname: z.string().nonempty().toLowerCase().optional(),
   script_id: z.coerce.number().optional().default(2),
   date_of_joining: z
     .string()

@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
   }
 
   const { page, pageSize, is_public, script_id, name, surname } = result.data;
-  const from = (page - 1) * pageSize;
+  const from = page * pageSize;
   const to = from + pageSize - 1;
 
   //Creating query
@@ -51,10 +51,15 @@ export async function GET(request: NextRequest) {
     .eq("script_id", script_id);
 
   if (typeof is_public !== "undefined") query.eq("is_public", is_public);
-  if (name) query.eq("name", name);
-  if (surname) query.eq("surname", surname);
+  if (name) query.ilike("name", `%${name}%`);
+  if (surname) query.ilike("surname", `%${surname}%`);
+
+  query.order("is_public", { ascending: false, nullsFirst: false });
+  query.order("date_of_joining", { ascending: true, nullsFirst: false });
 
   query.range(from, to);
+
+  console.log(`from: ${from}; to: ${to}`);
 
   const { data, count, error } = await query;
 
