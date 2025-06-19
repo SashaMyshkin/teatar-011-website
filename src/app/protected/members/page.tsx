@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
@@ -6,7 +7,6 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  NativeSelect,
   Select,
   TextField,
   Typography,
@@ -15,6 +15,7 @@ import { debounce } from "lodash";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
+import NewMember from "@/components/newMember";
 
 export default function Members() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -123,51 +124,56 @@ export default function Members() {
       >
         Članovi
       </Typography>
-      <Box
-        component="form"
-        sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="name"
-          label="Ime"
-          variant="standard"
-          size="small"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
-        <TextField
-          id="surname"
-          label="Prezime"
-          variant="standard"
-          size="small"
-          value={surname}
-          onChange={(e) => {
-            setSurname(e.target.value);
-          }}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="is-public-label"></InputLabel>
-          <Select
-            labelId="is-public-label"
-            id="is-public"
-            label="Objavljen"
-            size="small"
+      <Box sx={{ display: "flex", justifyContent: "space-between", width:"90%", }}>
+        <Box
+          component="form"
+          sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="name"
+            label="Ime"
             variant="standard"
-            displayEmpty
-            value={isPublic}
+            size="small"
+            value={name}
             onChange={(e) => {
-              setIsPublic(e.target.value);
+              setName(e.target.value);
             }}
-          >
-            <MenuItem value="">Svi</MenuItem>
-            <MenuItem value="1">Objavljen</MenuItem>
-            <MenuItem value="0">Neobjavljen</MenuItem>
-          </Select>
-        </FormControl>
+          />
+          <TextField
+            id="surname"
+            label="Prezime"
+            variant="standard"
+            size="small"
+            value={surname}
+            onChange={(e) => {
+              setSurname(e.target.value);
+            }}
+          />
+          <FormControl fullWidth>
+            <InputLabel id="is-public-label"></InputLabel>
+            <Select
+              labelId="is-public-label"
+              id="is-public"
+              label="Objavljen"
+              size="small"
+              variant="standard"
+              displayEmpty
+              value={isPublic}
+              onChange={(e) => {
+                setIsPublic(e.target.value);
+              }}
+            >
+              <MenuItem value="">Svi</MenuItem>
+              <MenuItem value="1">Objavljen</MenuItem>
+              <MenuItem value="0">Neobjavljen</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box>
+          <NewMember></NewMember>
+        </Box>
       </Box>
 
       <div style={{ minHeight: 300, width: "100%" }}>
@@ -189,3 +195,5 @@ export default function Members() {
     </>
   );
 }
+
+

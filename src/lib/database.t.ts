@@ -390,7 +390,7 @@ export type Database = {
         Row: {
           id: number
           member_uid: number
-          motto: string
+          motto: string | null
           name: string
           script_id: number
           surname: string
@@ -398,7 +398,7 @@ export type Database = {
         Insert: {
           id?: number
           member_uid: number
-          motto: string
+          motto?: string | null
           name: string
           script_id: number
           surname: string
@@ -406,7 +406,7 @@ export type Database = {
         Update: {
           id?: number
           member_uid?: number
-          motto?: string
+          motto?: string | null
           name?: string
           script_id?: number
           surname?: string
@@ -521,16 +521,19 @@ export type Database = {
           code: string | null
           description: string
           id: number
+          importance: number
         }
         Insert: {
           code?: string | null
           description: string
           id?: number
+          importance?: number
         }
         Update: {
           code?: string | null
           description?: string
           id?: number
+          importance?: number
         }
         Relationships: []
       }

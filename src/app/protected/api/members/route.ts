@@ -1,6 +1,14 @@
 import { createClient } from "@/lib/server";
 import { NextRequest, NextResponse } from "next/server";
-import { members_get, members_post } from "@/lib/zod/api/members";
+import {
+  members_get,
+  members_post,
+  members_post_required,
+} from "@/lib/zod/api/members";
+import { createErrorResponse } from "@/lib/errors/createErrorResponse";
+import { AuthorizationErrorCodes } from "@/lib/errors/authErrors";
+import { ValidationErrorCodes } from "@/lib/errors/validationErrors";
+import { ServerErrorCodes } from "@/lib/errors/serverErrors";
 
 export async function GET(request: NextRequest) {
   const supabase = await createClient();
@@ -19,7 +27,7 @@ export async function GET(request: NextRequest) {
 
   if (!result.success) {
     return NextResponse.json(
-      { error: "Invalid query parameters", details: result.error.flatten() },
+      { error: "Invalid query parameters", details: result.error.issues[0].message },
       { status: 400 }
     );
   }
@@ -53,36 +61,67 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
-
   const authResult = await supabase.auth.getUser();
 
+  //Authorization check
   if (!authResult.data.user) {
+    const { status, body } = createErrorResponse(
+      AuthorizationErrorCodes.UnauthorizedRequest
+    );
+    return NextResponse.json({ ...body }, { status });
+  }
+
+  //Check if json is valid
+  let json;
+  try {
+    json = await request.json();
+  } catch (error) {
+    const { body, status } = createErrorResponse(
+      ValidationErrorCodes.JSONExpected
+    );
+    return NextResponse.json({ ...body }, { status });
+  }
+
+  //Check if required fields are present
+  const valReqFieldsRes = members_post_required.safeParse(json);
+
+  if (!valReqFieldsRes.success) {
+    const { body, status } = createErrorResponse(
+      ValidationErrorCodes.MissingField
+    );
     return NextResponse.json(
-      { error: "Unauthorized request" },
-      { status: 401 }
+      { ...body, details: valReqFieldsRes.error.issues[0].message },
+      { status }
     );
   }
 
-  const json = await request.json();
-  const validationResult = members_post.safeParse(json);
-
-  if (!validationResult.success) {
-    return NextResponse.json(validationResult.error, { status: 400 });
+  //Check if data are well formed
+  const valDataRes = members_post.safeParse(json);
+  if (!valDataRes.success) {
+    const { body, status } = createErrorResponse(
+      ValidationErrorCodes.InvalidFormat
+    );
+    return NextResponse.json(
+      { ...body, details: valDataRes.error.issues[0].message },
+      { status }
+    );
   }
 
-  const dataToInsert = validationResult.data;
-
+  //Insertion
+  const dataToInsert = valDataRes.data;
   const insertedData = await supabase
     .from("members")
     .insert(dataToInsert)
     .select()
     .single();
 
+  //Just in case of an error
   if (insertedData.error) {
-    return NextResponse.json(
-      insertedData.error || { error: "Insert operation failed." },
-      { status: 500 }
+    console.log(insertedData.error);
+    const { body, status } = createErrorResponse(
+      ServerErrorCodes.SomethingWentWrong
     );
+    return NextResponse.json({ ...body }, { status });
   }
 
   return NextResponse.json(

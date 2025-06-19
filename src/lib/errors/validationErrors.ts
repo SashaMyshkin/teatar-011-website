@@ -1,0 +1,31 @@
+//1100 - 1199 
+export enum ValidationErrorCodes {
+  MissingField = 1100,
+  InvalidFormat = 1101,
+  JSONExpected = 1102,
+  IdentificatorExists = 1103,
+}
+
+export const ValidationErrorRegistry = {
+  [ValidationErrorCodes.MissingField]: {
+    message: "Required field is missing.",
+    type: "ValidationError",
+    status: 400,
+  },
+  [ValidationErrorCodes.InvalidFormat]: {
+    message: "Invalid field format.",
+    type: "ValidationError",
+    status: 422,
+  },
+  [ValidationErrorCodes.JSONExpected]: {
+    message: "JSON is expected in the request body.",
+    type: "ValidationError",
+    status: 400,
+  },
+  [ValidationErrorCodes.IdentificatorExists]: {
+    message: "Member with this identifier already exists.",
+    type: "ValidationError",
+    status: 400,
+  }
+} as const;
+

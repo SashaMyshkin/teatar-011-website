@@ -1,5 +1,5 @@
 import { updateSession } from "@/lib/middleware";
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from "next/server";
 import { defaultScript } from "./lib/variables";
 
 const locales = ["sr-cyrl", "sr-latn", "en"]; // add more as needed
@@ -17,22 +17,26 @@ const locales = ["sr-cyrl", "sr-latn", "en"]; // add more as needed
 }*/
 
 export async function middleware(request: NextRequest) {
-
   const pathname = request.nextUrl.pathname;
-  const startsWithSupportedLang = locales.some(lang => pathname.startsWith(`/${lang}`))
+  const startsWithSupportedLang = locales.some((lang) =>
+    pathname.startsWith(`/${lang}`)
+  );
 
-  if(!pathname.startsWith('/protected') 
-  && !pathname.startsWith('/auth')
-  && !startsWithSupportedLang){
+  if (
+    !pathname.startsWith("/protected") &&
+    !pathname.startsWith("/auth") &&
+    !startsWithSupportedLang
+  ) {
     const url = request.nextUrl.clone();
     url.pathname = `/${defaultScript}`;
-    request.cookies.set('script', `${defaultScript}`);
-    return NextResponse.redirect(url)
+    return NextResponse.redirect(url);
   }
 
-  if (request.nextUrl.pathname.startsWith("/protected"))
+  if (
+    request.nextUrl.pathname.startsWith("/protected") &&
+    !request.nextUrl.pathname.includes("/protected/api/")
+  )
     return await updateSession(request);
-  
 }
 
 export const config = {

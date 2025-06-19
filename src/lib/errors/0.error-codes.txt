@@ -1,0 +1,4 @@
+Authentication errors 1000 - 1099
+Validation errors 1100-1199
+Server errors 1200 - 1299
+Network errors 1300 - 1399

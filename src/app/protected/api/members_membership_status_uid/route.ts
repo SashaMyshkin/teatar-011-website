@@ -12,11 +12,16 @@ export async function GET() {
     );
   }
 
-  const query = supabase.from("members_membership_status_uid").select(`
+  const query = supabase
+    .from("members_membership_status_uid")
+    .select(
+      `
       id,
       code,
       description
-    `);
+    `
+    )
+    .order("importance", { ascending: true });
 
   const { data, error } = await query;
 
@@ -24,5 +29,5 @@ export async function GET() {
     return NextResponse.json({ error }, { status: 500 });
   }
 
-  return NextResponse.json({ data });
+  return NextResponse.json({ membershipStatuses: data });
 }
