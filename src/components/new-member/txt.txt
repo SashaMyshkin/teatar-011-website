@@ -1,0 +1,19 @@
+/components
+  /NewMember
+    index.ts               ← Barrel file if needed
+    NewMember.tsx          ← Entry component that holds the <Fab /> and triggers dialog
+
+    /dialog
+      NewMemberDialog.tsx  ← The Dialog UI component
+      DialogForm.tsx       ← The form body (TextFields, Pickers, Dropdowns)
+
+    /hooks
+      useNewMemberForm.ts  ← Manages all form state, validation, submit logic
+      useMembershipStatuses.ts ← Fetches membership statuses
+
+    /types
+      index.ts             ← Local types for form, responses, etc.
+
+    /utils
+      validation.ts        ← All your Zod schemas + field validation logic
+      formHelpers.ts       ← Generic reset or date helper logic
