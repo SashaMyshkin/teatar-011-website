@@ -22,10 +22,7 @@ export const createMembersValidFormat = z.object({
   date_of_joining: z
     .string({ message: "The field 'date_of_joining' is required" })
     .trim()
-    .transform((value) => value.slice(0, 10))
-    .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
-      message: "Date must be in yyyy-mm-dd format",
-    }),
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in yyyy-mm-dd format"),
   membership_status_uid: z.coerce
     .number({
       message: "The field 'membership_status_uid' has to be a number.",

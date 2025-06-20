@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
-import NewMember from "@/components/newMember";
+import NewMember from "@/components/new-member/NewMember";
 
 export default function Members() {
   const [paginationModel, setPaginationModel] = React.useState({

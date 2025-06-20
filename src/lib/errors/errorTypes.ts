@@ -1,16 +1,19 @@
-import { AuthorizationErrorCodes, AuthorizationErrorRegistry } from "./authErrors";
-import { ServerErrorCodes, ServerErrorRegistry } from "./serverErrors";
-import { ValidationErrorCodes, ValidationErrorRegistry } from "./validationErrors";
+import { AuthorizationErrorCodes, AuthorizationErrorRegistry } from "@/lib/errors/authErrors";
+import { NetworkErrorCodes, NetworkErrorRegistry } from "@/lib/errors/networkError";
+import { ServerErrorCodes, ServerErrorRegistry } from "@/lib/errors/serverErrors";
+import { ValidationErrorCodes, ValidationErrorRegistry } from "@/lib/errors/validationErrors";
 
 export type AllErrorCodes =
   | AuthorizationErrorCodes
   | ValidationErrorCodes
-  | ServerErrorCodes;
+  | ServerErrorCodes
+  | NetworkErrorCodes
 
 export const ErrorRegistry = {
   ...AuthorizationErrorRegistry,
   ...ValidationErrorRegistry,
   ...ServerErrorRegistry,
+  ...NetworkErrorRegistry
 } as const;
 
 export type ErrorRegistryType = typeof ErrorRegistry;

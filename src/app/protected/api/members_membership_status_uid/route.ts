@@ -29,5 +29,5 @@ export async function GET() {
     return NextResponse.json({ error }, { status: 500 });
   }
 
-  return NextResponse.json({ membershipStatuses: data });
+  return NextResponse.json(data);
 }
