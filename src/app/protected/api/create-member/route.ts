@@ -1,5 +1,5 @@
-import { memberUidInsert } from "@/lib/crud/member_uid";
-import { memberInsert } from "@/lib/crud/members";
+import { memberUidInsert } from "@/lib/crud_/member_uid";
+import { memberInsert } from "@/lib/crud_/members";
 import { Database } from "@/lib/database.t";
 import { AuthorizationErrorCodes } from "@/lib/errors/authErrors";
 import { createErrorResponse } from "@/lib/errors/createErrorResponse";
