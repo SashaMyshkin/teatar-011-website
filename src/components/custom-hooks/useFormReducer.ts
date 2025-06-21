@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useReducer } from "react";
 
 type FormState<T> = T;

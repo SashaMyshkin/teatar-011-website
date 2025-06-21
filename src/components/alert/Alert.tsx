@@ -8,8 +8,6 @@ import { AlertProps } from "@/components/alert/types";
 import React from "react";
 
 export default function Alert({ alertProps }: { alertProps: AlertProps }) {
-  const [open, setOpen] = React.useState(alertProps.open);
-
   return (
     <Box sx={{ width: "100%" }}>
       <Collapse in={alertProps.open}>
@@ -17,9 +15,7 @@ export default function Alert({ alertProps }: { alertProps: AlertProps }) {
           variant={alertProps.variant || "standard"}
           severity={alertProps.severity}
           icon={alertProps.icon}
-          onClose={() => {
-            setOpen(false);
-          }}
+          onClose={() => {}}
           action={alertProps.action}
           sx={{ mb: 2 }}
         >

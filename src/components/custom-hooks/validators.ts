@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
-import type { ZodObject, ZodRawShape } from "zod";
+import type { ZodObject } from "zod";
 
 export type FieldError = {
   error: boolean;

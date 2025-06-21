@@ -51,7 +51,8 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
   React.useEffect(() => {
     if (success)
       router.push(`/protected/members/${identifier}`);
-  }, [success]);
+    //identifier and router added for eslint safety
+  }, [success,identifier,router]);
 
   const handleClose = () => {
     resetErrorsState();

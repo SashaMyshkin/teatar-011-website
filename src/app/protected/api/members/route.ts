@@ -76,6 +76,7 @@ export async function POST(request: NextRequest) {
   try {
     json = await request.json();
   } catch (error) {
+    console.error(error)
     const { body, status } = createErrorResponse(
       ValidationErrorCodes.JSONExpected
     );

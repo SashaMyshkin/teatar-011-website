@@ -64,7 +64,7 @@ export function useCreateMember() {
         }
       }
       setSuccess(true);
-    } catch (err) {
+    } catch (err:unknown) {
       const fallbackMsg =
         NetworkErrorRegistry[NetworkErrorCodes.ConnectionFailure].message;
       handleErrorMessage(err instanceof Error ? err.message : fallbackMsg);

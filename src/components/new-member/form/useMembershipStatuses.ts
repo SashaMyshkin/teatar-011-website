@@ -28,8 +28,9 @@ export function useMembershipStatuses() {
         if (!res.ok) throw new Error("Failed to fetch user");
         const data = await res.json();
         if (!isCancelled) setMembershipStatuses(data);
-      } catch (err: any) {
-        if (!isCancelled) setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Error is not an instance of an error";
+        if (!isCancelled) setError(message);
       } finally {
         if (!isCancelled) setLoading(false);
       }
