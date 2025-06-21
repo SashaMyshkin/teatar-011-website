@@ -30,6 +30,10 @@ const navItems = [
     name: "Predstave",
     path: "/performances",
   },
+  {
+    name: "Festivali i nagrade",
+    path: "/festivals-and-awards",
+  },
 ];
 
 export default function DrawerNavBarAdmin() {
