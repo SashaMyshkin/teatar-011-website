@@ -1,5 +1,5 @@
 export default function Home() {
   return (
-    <>Festivals and awards...</>
+    <>Festivals and awards... the best</>
   );
 }

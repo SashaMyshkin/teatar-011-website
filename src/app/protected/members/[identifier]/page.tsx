@@ -2,6 +2,6 @@ export default async function Home({ params }: { params: Promise<{ identifier: s
   const identifier = (await params).identifier
   
   return (
-    <>Dobrodošao{`${identifier}`}</>
+    <>Dobrodošao {`${identifier}`}</>
   );
 }
