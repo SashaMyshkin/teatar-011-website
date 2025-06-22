@@ -1,7 +1,8 @@
-import DrawerNavBarAdmin from "@/components/NavBarDrawerAdmin";
-import ScriptContextWrapper from "@/lib/context/ScriptContextWrapper";
+import AppBarDrawer from "@components/admin-app-bar/AppBarDrawer";
 import { createClient } from "@/lib/server";
-export default async function BlogLayout({
+import { Body } from "@components/admin-app-bar/Body";
+
+export default async function ProtectedMainLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -16,10 +17,8 @@ export default async function BlogLayout({
 
   return (
     <>
-      <DrawerNavBarAdmin></DrawerNavBarAdmin>
-      <ScriptContextWrapper initialScripts={initialScripts}>
-        {children}
-      </ScriptContextWrapper>
+      <AppBarDrawer></AppBarDrawer>
+      <Body>{children}</Body>
     </>
   );
 }

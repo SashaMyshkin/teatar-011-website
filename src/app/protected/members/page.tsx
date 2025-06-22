@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
-import NewMember from "@/components/new-member/NewMember";
+import NewMember from "@components/new-member/NewMember";
 
 export default function Members() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -114,17 +114,7 @@ export default function Members() {
 
   return (
     <>
-      <Typography
-        variant="h1"
-        component="h2"
-        sx={{
-          fontSize: "1rem", // smaller than default h1
-          fontWeight: 600, // semi-bold for clarity
-        }}
-      >
-        Članovi
-      </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-between", width:"90%", }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", width:"95%"}}>
         <Box
           component="form"
           sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
@@ -171,7 +161,7 @@ export default function Members() {
             </Select>
           </FormControl>
         </Box>
-        <Box>
+        <Box sx={{alignSelf:"center"}}>
           <NewMember></NewMember>
         </Box>
       </Box>
