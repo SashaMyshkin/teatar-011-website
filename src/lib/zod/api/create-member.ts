@@ -29,20 +29,18 @@ export const createMembersValidFormat = z.object({
     })
     .positive("The field 'membership_status_uid' has to be a positive number.")
     .min(1, "The field 'membership_status_uid' cannot be zero."),
+  script_id: z.coerce
+    .number({
+      message: "The field 'script_id' has to be a number.",
+    })
+    .positive("The field 'script_id' has to be a positive number.")
+    .min(1, "The field 'script_id' cannot be zero."),
   name: z
     .string({ message: "The field 'name' is required" })
     .trim()
-    .nonempty("The field 'name' cannot be an empty string.")
-    .regex(
-      /^[a-zčćžšđA-ZČĆŽŠĐ\s]+$/,
-      "Only characters of Serbian latin script are allowed."
-    ),
+    .nonempty("The field 'name' cannot be an empty string."),
   surname: z
     .string({ message: "The field 'surname' is required" })
     .trim()
-    .nonempty("The field 'surname' cannot be an empty string.")
-    .regex(
-      /^[a-zčćžšđA-ZČĆŽŠĐ\s]+$/,
-      "Only characters of Serbian latin script are allowed."
-    ),
+    .nonempty("The field 'surname' cannot be an empty string."),
 });

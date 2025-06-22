@@ -35,12 +35,10 @@ export default function Form({
           value={memberData.name}
           onChange={(e) => {
             setField("name", e.target.value);
+            validateField("name", e.target.value)
           }}
           error={errorData.name.error}
           helperText={errorData.name.message}
-          onBlur={(e) => {
-            validateField("name", e.target.value);
-          }}
         />
         <TextField
           required
@@ -55,12 +53,10 @@ export default function Form({
           value={memberData.surname}
           onChange={(e) => {
             setField("surname", e.target.value);
+            validateField("surname", e.target.value);
           }}
           error={errorData.surname.error}
           helperText={errorData.surname.message}
-          onBlur={(e) => {
-            validateField("surname", e.target.value);
-          }}
         />
         <TextField
           required
@@ -75,12 +71,10 @@ export default function Form({
           value={memberData.identifier}
           onChange={(e) => {
             setField("identifier", e.target.value);
+            validateField("identifier", e.target.value);
           }}
           error={errorData.identifier.error}
           helperText={errorData.identifier.message}
-          onBlur={(e) => {
-            validateField("identifier", e.target.value);
-          }}
         />
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={sr}>
           <DatePicker

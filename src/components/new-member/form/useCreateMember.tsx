@@ -8,7 +8,7 @@ import {
   ValidationErrorCodes,
   ValidationErrorRegistry,
 } from "@/lib/errors/validationErrors";
-import { AlertProps } from "@/app/components/alert/types";
+import { AlertProps } from "@components/alert/types";
 
 export function useCreateMember() {
   const [isLoading, setIsLoading] = useState(false);

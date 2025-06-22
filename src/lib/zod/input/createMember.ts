@@ -4,13 +4,11 @@ export const createMemberValidation = z.object({
   name: z
     .string()
     .trim()
-    .nonempty("Ime je obavezan podatak.")
-    .regex(/^[a-zčćžšđA-ZČĆŽŠĐ\s]+$/, "Dozvoljen je samo unos latinice."),
+    .nonempty("Ime je obavezan podatak."),
   surname: z
     .string()
     .trim()
-    .nonempty("Prezime je obavezan podatak.")
-    .regex(/^[a-zčćžšđA-ZČĆŽŠĐ\s]+$/, "Dozvoljen je samo unos latinice."),
+    .nonempty("Prezime je obavezan podatak."),
   identifier: z
     .string()
     .nonempty("Identifikator je obavezan podatak.")

@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     member_uid: memberUidInsertion.data.id,
     name: validFormatRes.data.name,
     surname: validFormatRes.data.surname,
-    script_id: 2,
+    script_id: validFormatRes.data.script_id,
   };
 
   const memberInsertion = await memberInsert(member);

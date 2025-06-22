@@ -16,6 +16,7 @@ import { useFieldValidator } from "@components/custom-hooks/validators";
 import { DialogProps, MemberForm } from "@components/new-member/types";
 import { parse, format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useLanguageContext } from "@/components/context/LanguageContext";
 
 const defaultAlertProps: AlertProps = {
   open: false,
@@ -42,17 +43,16 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
     createMemberValidation
   );
   const [identifier, setIdentifier] = useState("");
+  const languageContext = useLanguageContext();
 
   React.useEffect(() => {
-    if (message.open)
-      setAlertProps(message);
+    if (message.open) setAlertProps(message);
   }, [message]);
 
   React.useEffect(() => {
-    if (success)
-      router.push(`/protected/members/${identifier}`);
+    if (success) router.push(`/protected/members/${identifier}`);
     //identifier and router added for eslint safety
-  }, [success,identifier,router]);
+  }, [success, identifier, router]);
 
   const handleClose = () => {
     resetErrorsState();
@@ -81,6 +81,8 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
               const parsed = parse(date_of_joining, "dd. MM. yyyy", new Date());
               form.set("date_of_joining", format(parsed, "yyyy-MM-dd"));
             }
+
+            form.set("script_id", String(languageContext.scriptId));
 
             await submit(form);
           },
