@@ -1023,19 +1023,48 @@ export type Database = {
       }
       scripts: {
         Row: {
+          default: number
+          description: string
           id: number
           name: string
-          status: number
+          status_id: number
+        }
+        Insert: {
+          default?: number
+          description: string
+          id?: number
+          name: string
+          status_id: number
+        }
+        Update: {
+          default?: number
+          description?: string
+          id?: number
+          name?: string
+          status_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scripts_status_id_fkey"
+            columns: ["status_id"]
+            isOneToOne: false
+            referencedRelation: "scripts_statuses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scripts_statuses: {
+        Row: {
+          id: number
+          status: string | null
         }
         Insert: {
           id?: number
-          name: string
-          status: number
+          status?: string | null
         }
         Update: {
           id?: number
-          name?: string
-          status?: number
+          status?: string | null
         }
         Relationships: []
       }

@@ -1,6 +1,9 @@
+import { LanguageProvider } from "@components/context/LanguageContext";
 import AppBarDrawer from "@components/admin-app-bar/AppBarDrawer";
-import { createClient } from "@/lib/server";
 import { Body } from "@components/admin-app-bar/Body";
+import type { Database } from "@/lib/database.t";
+import { createClient } from "@/lib/server";
+import { Typography } from "@mui/material";
 
 export default async function ProtectedMainLayout({
   children,
@@ -8,17 +11,26 @@ export default async function ProtectedMainLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
-  const result = await supabase.from("scripts").select("*").neq("status", 0);
-  const initialScripts = result.data;
-
-  if (!initialScripts || initialScripts.length === 0) {
-    throw new Error("No scripts found — expected at least one.");
-  }
-
+  const { data } = await supabase
+    .from("scripts")
+    .select("*")
+    .eq("default", 1)
+    .single();
   return (
     <>
-      <AppBarDrawer></AppBarDrawer>
-      <Body>{children}</Body>
+      {data != null ? (
+        <LanguageProvider
+          languageContextProps={{
+            scriptId: data.id,
+            scriptDescription: data.description,
+          }}
+        >
+          <AppBarDrawer></AppBarDrawer>
+          <Body>{children}</Body>
+        </LanguageProvider>
+      ) : (
+        <Typography>No default script. Cannot process further.</Typography>
+      )}
     </>
   );
 }

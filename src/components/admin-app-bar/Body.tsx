@@ -6,20 +6,10 @@ export async function Body({ children }: { children: React.ReactNode }) {
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <Box
-          component="div"
-          sx={{ flexGrow: 1, width: drawerWidth, display: { sx: "none" } }}
-        >
-          0
+        <Box component="div"sx={{ flexGrow: 1, width: drawerWidth, display: { xs: "none", sm:"block" } }}>
+          Fixer
         </Box>
-        <Box
-          component="div"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-          }}
-        >
+        <Box component="div" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` }, }}>
           <Toolbar />
           {children}
         </Box>

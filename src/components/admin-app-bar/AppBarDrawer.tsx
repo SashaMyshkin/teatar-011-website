@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -10,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { DesktopDrawer, MobileDrawer } from "./Drawers";
+import { Button } from "@mui/material";
+import LanguagesMenu from "@components/admin-app-bar/LanguagesMenu";
 
 const drawerWidth = 240;
 
@@ -37,11 +39,8 @@ export default function ResponsiveDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{zIndex:3000}}
-      >
-        <Toolbar>
+      <AppBar position="fixed" sx={{ zIndex: 3000 }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -52,8 +51,9 @@ export default function ResponsiveDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            
+            LOGO
           </Typography>
+          <LanguagesMenu />
         </Toolbar>
       </AppBar>
       <Box
@@ -73,7 +73,6 @@ export default function ResponsiveDrawer() {
           <DesktopDrawer></DesktopDrawer>
         )}
       </Box>
-      
     </Box>
   );
 }
