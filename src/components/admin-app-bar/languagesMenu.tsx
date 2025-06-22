@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import Paper from "@mui/material/Paper";
-import Divider from "@mui/material/Divider";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -9,16 +8,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Check from "@mui/icons-material/Check";
 import { Button, Menu } from "@mui/material";
 import { useScripts } from "@components/admin-app-bar/useScripts";
-import {
-  LanguageContextProps,
-  useLanguageContext,
-} from "@components/context/LanguageContext";
+import { useLanguageContext } from "@components/context/LanguageContext";
 
 export default function LanguagesMenu() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const { scripts, loading, error } = useScripts();
+  const { scripts } = useScripts();
   const languageContext = useLanguageContext();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -59,12 +55,13 @@ export default function LanguagesMenu() {
             {scripts?.map((script) => {
               return (
                 <MenuItem
+                  key={script.name}
                   onClick={() => {
                     handleSelectScript(script.id, script.description);
                   }}
                 >
                   {script.id === languageContext.scriptId && (
-                    <ListItemIcon key={script.name}>
+                    <ListItemIcon>
                       <Check />
                     </ListItemIcon>
                   )}

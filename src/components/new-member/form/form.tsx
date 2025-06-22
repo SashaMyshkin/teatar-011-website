@@ -112,9 +112,6 @@ export default function Form({
           onChange={(e) => {
             setField("membershipStatus", e.target.value);
           }}
-          onBlur={(e) => {
-            validateField("membershipStatus", e.target.value);
-          }}
         >
           {membershipStatuses ? (
             membershipStatuses.map((status) => {

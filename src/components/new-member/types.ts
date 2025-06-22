@@ -1,5 +1,5 @@
-import { ErrorState, ValidateFieldFunction } from "@/app/components/custom-hooks/validators";
-import { SetFieldFunction } from "@/app/components/custom-hooks/useFormReducer";
+import { ErrorState, ValidateFieldFunction } from "@components/custom-hooks/validators";
+import { SetFieldFunction } from "@components/custom-hooks/useFormReducer";
 
 export type DialogProps = {
   open: boolean;

@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Toolbar, Typography } from "@mui/material";
+import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { drawerWidth } from "@components/admin-app-bar/Drawers";
 
 export async function Body({ children }: { children: React.ReactNode }) {

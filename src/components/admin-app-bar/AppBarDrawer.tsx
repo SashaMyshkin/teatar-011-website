@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import { DesktopDrawer, MobileDrawer } from "./Drawers";
-import { Button } from "@mui/material";
 import LanguagesMenu from "@components/admin-app-bar/LanguagesMenu";
 
 const drawerWidth = 240;

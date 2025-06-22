@@ -4,7 +4,7 @@ import {
   Box,
   Collapse,
 } from "@mui/material";
-import { AlertProps } from "@/app/components/alert/types";
+import { AlertProps } from "@components/alert/types";
 import React from "react";
 
 export default function Alert({ alertProps }: { alertProps: AlertProps }) {

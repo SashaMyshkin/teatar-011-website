@@ -1,7 +1,6 @@
 import { LanguageProvider } from "@components/context/LanguageContext";
 import AppBarDrawer from "@components/admin-app-bar/AppBarDrawer";
 import { Body } from "@components/admin-app-bar/Body";
-import type { Database } from "@/lib/database.t";
 import { createClient } from "@/lib/server";
 import { Typography } from "@mui/material";
 
