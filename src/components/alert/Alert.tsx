@@ -15,9 +15,8 @@ export default function Alert({ alertProps }: { alertProps: AlertProps }) {
           variant={alertProps.variant || "standard"}
           severity={alertProps.severity}
           icon={alertProps.icon}
-          onClose={() => {}}
+          onClose={()=>{}}
           action={alertProps.action}
-          sx={{ mb: 2 }}
         >
           {alertProps.title && <AlertTitle>{alertProps.title}</AlertTitle>}
           {alertProps.message}

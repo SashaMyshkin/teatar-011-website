@@ -1,6 +1,8 @@
 import type { Database } from "@/lib/database.t";
 import { createClient } from "@/lib/server";
+
 type MemberUIDInsert = Database["public"]["Tables"]["members_uid"]["Insert"];
+type MemberUIDUpdate = Database["public"]["Tables"]["members_uid"]["Update"];
 
 export async function memberUidInsert(
   dataToInsert: MemberUIDInsert
@@ -14,4 +16,21 @@ export async function memberUidInsert(
     .single();
 
   return insertedData;
+}
+
+export async function memberUidUpdate(identifier:string,
+  dataToUpdate: MemberUIDUpdate
+) {
+  const supabase = await createClient();
+
+  const updatedData = await supabase
+    .from("members_uid")
+    .update(dataToUpdate)
+    .eq('identifier', identifier)
+    .select()
+    .single();
+
+    console.log(updatedData)
+
+  return updatedData;
 }

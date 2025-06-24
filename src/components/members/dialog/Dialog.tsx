@@ -8,12 +8,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import React, { useState } from "react";
-import Form from "@components/new-member/form/form";
-import { useCreateMember } from "@components/new-member/form/useCreateMember";
-import { createMemberValidation } from "@/lib/zod/input/createMember";
+import Form from "@/components/members/form/form";
+import { useCreateMember } from "@/components/members/form/useCreateMember";
+import { memberValidation } from "@/lib/zod/input/createMember";
 import { useFormReducer } from "@components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@components/custom-hooks/validators";
-import { DialogProps, MemberForm } from "@components/new-member/types";
+import { DialogProps, InsertMemberForm } from "@/components/members/types";
 import { parse, format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useLanguageContext } from "@/components/context/LanguageContext";
@@ -23,12 +23,12 @@ const defaultAlertProps: AlertProps = {
   message: "",
 };
 
-export const initialFormState: MemberForm = {
+export const initialFormState:InsertMemberForm = {
   name: "",
   surname: "",
   identifier: "",
-  dateOfJoining: new Date(),
-  membershipStatus: "5",
+  date_of_joining: '',
+  membership_status_uid: 5,
 };
 
 export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
@@ -40,7 +40,7 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
     useFormReducer(initialFormState);
   const { errorState, validateField, resetErrorsState } = useFieldValidator(
     initialFormState,
-    createMemberValidation
+    memberValidation
   );
   const [identifier, setIdentifier] = useState("");
   const languageContext = useLanguageContext();
@@ -93,7 +93,7 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
       <DialogContent>
         <Alert alertProps={alertProps}></Alert>
         <Form
-          createMemberProps={{ formState, errorState, setField, validateField }}
+          manageMemberProps={{ formState, errorState, setField, validateField, action:"insert" }}
         ></Form>
       </DialogContent>
       <DialogActions>

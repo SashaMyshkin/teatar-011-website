@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import {
   Box,
   FormControl,
@@ -14,7 +14,8 @@ import { debounce } from "lodash";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
-import NewMember from "@components/new-member/NewMember";
+import NewMember from "@/components/members/NewMember";
+import { useRouter } from "next/navigation";
 
 export default function Members() {
   const [paginationModel, setPaginationModel] = React.useState({
@@ -27,6 +28,7 @@ export default function Members() {
   const [name, setName] = React.useState("");
   const [surname, setSurname] = React.useState("");
   const [isPublic, setIsPublic] = React.useState("");
+  const router = useRouter();
 
   const debouncedFetch = React.useMemo(
     () =>
@@ -111,9 +113,16 @@ export default function Members() {
     },
   ];
 
+  const handleRowClick: GridEventListener<"rowClick"> = (params) => {
+    const identifier = params.row.identifier;
+    router.push(`/protected/members/${identifier}`);
+  };
+
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "space-between", width:"95%"}}>
+      <Box
+        sx={{ display: "flex", justifyContent: "space-between", width: "95%" }}
+      >
         <Box
           component="form"
           sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}
@@ -160,7 +169,7 @@ export default function Members() {
             </Select>
           </FormControl>
         </Box>
-        <Box sx={{alignSelf:"center"}}>
+        <Box sx={{ alignSelf: "center" }}>
           <NewMember></NewMember>
         </Box>
       </Box>
@@ -177,12 +186,27 @@ export default function Members() {
           disableColumnFilter
           disableColumnSorting
           onPaginationModelChange={setPaginationModel}
-          getRowId={(row) => row.member_uid}
-          sx={{ justifyContent: "center" }}
+          onRowClick={handleRowClick}
+          getRowId={(row) => row.identifier}
+          sx={{
+            justifyContent: "center",
+            "& .MuiDataGrid-row:hover": {
+              cursor: "pointer",
+            },
+            "& .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within":
+              {
+                outline: "none",
+              },
+            "& .MuiDataGrid-columnHeader:active": {
+              backgroundColor: "inherit",
+            },
+          }}
+          checkboxSelection={false}
+          disableRowSelectionOnClick={true}
+          disableColumnSelector={true}
+          disableColumnMenu={true}
         />
       </div>
     </>
   );
 }
-
-

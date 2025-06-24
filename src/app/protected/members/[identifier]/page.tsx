@@ -1,7 +1,10 @@
-export default async function Home({ params }: { params: Promise<{ identifier: string }> }) {
-  const identifier = (await params).identifier
-  
+import MemberTabs from "@/components/members/tabs/MemberTabs";
+import React from "react";
+
+export default async function Home() {
   return (
-    <>Dobrodošao {`${identifier}`}</>
+    <React.Fragment>
+      <MemberTabs></MemberTabs>
+    </React.Fragment>
   );
 }
