@@ -61,3 +61,14 @@ type ManageUpdateProps = {
 }
 
 export type ManageMemberProps = ManageInsertProps | ManageUpdateProps;
+
+export type SelectMembersForm = {
+  name:string,
+  surname:string,
+  is_public:number
+}
+
+export type SelectMembersProps = {
+  formState: SelectMembersForm
+  setField: SetFieldFunction<SelectMembersForm>
+}

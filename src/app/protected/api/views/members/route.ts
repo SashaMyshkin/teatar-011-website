@@ -1,16 +1,17 @@
+import { AuthorizationErrorCodes } from "@/lib/errors/authErrors";
+import { ValidationErrorCodes } from "@/lib/errors/validationErrors";
+import { respondWithError } from "@/lib/helpers/respondWithError";
 import { createClient } from "@/lib/server";
 import { v_members_get } from "@/lib/zod/api/v_members";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  //Authentication
   const supabase = await createClient();
   const authResult = await supabase.auth.getUser();
+
+  //Authorization check
   if (!authResult.data.user) {
-    return NextResponse.json(
-      { error: "Unauthorized request" },
-      { status: 401 }
-    );
+    return respondWithError(AuthorizationErrorCodes.UnauthorizedRequest);
   }
 
   //Parsing and validating params
@@ -20,10 +21,7 @@ export async function GET(request: NextRequest) {
   const result = v_members_get.safeParse(searchParams);
 
   if (!result.success) {
-    return NextResponse.json(
-      { error: "Invalid query parameters", details: result.error.flatten() },
-      { status: 400 }
-    );
+    return respondWithError(ValidationErrorCodes.InvalidFormat, result.error.issues[0].message );
   }
 
   const { page, pageSize, is_public, script_id, name, surname } = result.data;

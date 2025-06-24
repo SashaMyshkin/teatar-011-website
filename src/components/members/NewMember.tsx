@@ -1,3 +1,4 @@
+"use client"
 import { Fab } from "@mui/material";
 import React from "react";
 import Dialog from "./dialog/Dialog";

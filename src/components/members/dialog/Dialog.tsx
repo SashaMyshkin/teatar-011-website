@@ -1,3 +1,4 @@
+"use client"
 import Alert from "@components/alert/Alert";
 import { AlertProps } from "@components/alert/types";
 import {
