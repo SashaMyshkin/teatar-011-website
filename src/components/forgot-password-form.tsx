@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { supabaseBrowserClient } from '@/lib/client'
 import { Button } from '@components/ui/button'
 import {
@@ -41,7 +40,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   }
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div className={""} {...props}>
       {success ? (
         <Card>
           <CardHeader>
