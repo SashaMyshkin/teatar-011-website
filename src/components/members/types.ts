@@ -8,9 +8,14 @@ export type DialogProps = {
 };
 
 type V_members = Database["public"]["Views"]["v_members"]["Row"];
-type MembersUID = Database["public"]["Tables"]["members_uid"]["Insert"];
-type Members = Database["public"]["Tables"]["members"]["Insert"];
-type Members_uid_join_members = MembersUID & Members
+
+type RemoveNull<T> = {
+  [K in keyof T]: Exclude<T[K], null>;
+};
+
+/*type RemoveUndefined<T> = {
+  [K in keyof T]: Exclude<T[K], undefined>;
+};*/
 
 export type UpdateMemberForm = Pick<
   V_members,
@@ -24,8 +29,10 @@ export type UpdateMemberForm = Pick<
   | "email"
 >;
 
+
+
 export type InsertMemberForm = Pick<
-  Members_uid_join_members,
+  V_members,
   | "name"
   | "surname"
   | "identifier"
@@ -34,20 +41,23 @@ export type InsertMemberForm = Pick<
  
 >;
 
+export type NormalizedUpdateMemberForm = RemoveNull<UpdateMemberForm>;
+export type NormalizedInsertMemberForm = RemoveNull<InsertMemberForm>;
+
 type ManageInsertProps = {
   action: "insert"
-  formState: InsertMemberForm
-  errorState: ErrorState<InsertMemberForm>
-  setField: SetFieldFunction<InsertMemberForm>
-  validateField: ValidateFieldFunction<InsertMemberForm>
+  formState: NormalizedInsertMemberForm
+  errorState: ErrorState<NormalizedInsertMemberForm>
+  setField: SetFieldFunction<NormalizedInsertMemberForm>
+  validateField: ValidateFieldFunction<NormalizedInsertMemberForm>
 }
 
 type ManageUpdateProps = {
   action: "update"
-  formState: UpdateMemberForm
-  errorState: ErrorState<UpdateMemberForm>
-  setField: SetFieldFunction<UpdateMemberForm>
-  validateField: ValidateFieldFunction<UpdateMemberForm>
+  formState: NormalizedUpdateMemberForm
+  errorState: ErrorState<NormalizedUpdateMemberForm>
+  setField: SetFieldFunction<NormalizedUpdateMemberForm>
+  validateField: ValidateFieldFunction<NormalizedUpdateMemberForm>
 }
 
 export type ManageMemberProps = ManageInsertProps | ManageUpdateProps;

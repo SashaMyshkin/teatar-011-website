@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { sr } from "date-fns/locale";
-import { useMembershipStatuses } from "@/components/members/form/useMembershipStatuses";
+import { useMembershipStatuses } from "@/components/members/hooks/useMembershipStatuses";
 import { ManageMemberProps } from "@/components/members/types";
 
 export default function Form({
@@ -15,19 +15,24 @@ export default function Form({
   const { membershipStatuses } = useMembershipStatuses();
   const memberData = manageMemberProps.formState;
   const errorData = manageMemberProps.errorState;
+  const action = manageMemberProps.action;
+
   const setField = manageMemberProps.setField;
   const validateField = manageMemberProps.validateField;
+
   const dateOfJoiningDB = manageMemberProps.formState.date_of_joining;
   const dateOfJoining =
     dateOfJoiningDB != null && dateOfJoiningDB !== ""
       ? new Date(dateOfJoiningDB)
       : new Date();
-  const action = manageMemberProps.action;
 
-  let dateOfBirth = undefined;
+  let dateOfBirth = null;
   if (action === "update") {
     const dateOfBirthDB = manageMemberProps.formState.date_of_birth;
-    dateOfBirth = dateOfBirthDB != null ? new Date(dateOfBirthDB) : null;
+    dateOfBirth =
+      dateOfBirthDB != null && dateOfBirthDB !== ""
+        ? new Date(dateOfBirthDB)
+        : null;
   }
 
   return (

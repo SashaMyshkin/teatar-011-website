@@ -3,7 +3,7 @@ export enum ValidationErrorCodes {
   MissingField = 1100,
   InvalidFormat = 1101,
   JSONExpected = 1102,
-  IdentificatorExists = 1103,
+  IdentifierExists = 1103,
 }
 
 export const ValidationErrorRegistry = {
@@ -22,7 +22,7 @@ export const ValidationErrorRegistry = {
     type: "ValidationError",
     status: 400,
   },
-  [ValidationErrorCodes.IdentificatorExists]: {
+  [ValidationErrorCodes.IdentifierExists]: {
     message: "Member with this identifier already exists.",
     type: "ValidationError",
     status: 400,

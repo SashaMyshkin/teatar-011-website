@@ -9,11 +9,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import Form from "@/components/members/form/form";
-import { useCreateMember } from "@/components/members/form/useCreateMember";
+import { useCreateMember } from "@/components/members/hooks/useCreateMember";
 import { memberValidation } from "@/lib/zod/input/createMember";
 import { useFormReducer } from "@components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@components/custom-hooks/validators";
-import { DialogProps, InsertMemberForm } from "@/components/members/types";
+import { DialogProps, NormalizedInsertMemberForm } from "@/components/members/types";
 import { parse, format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useLanguageContext } from "@/components/context/LanguageContext";
@@ -23,7 +23,7 @@ const defaultAlertProps: AlertProps = {
   message: "",
 };
 
-export const initialFormState:InsertMemberForm = {
+export const initialFormState:NormalizedInsertMemberForm = {
   name: "",
   surname: "",
   identifier: "",
@@ -56,7 +56,7 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
 
   const handleClose = () => {
     resetErrorsState();
-    resetFormState();
+    resetFormState(initialFormState);
     setAlertProps(defaultAlertProps);
     dialogProps.setOpen(false);
   };

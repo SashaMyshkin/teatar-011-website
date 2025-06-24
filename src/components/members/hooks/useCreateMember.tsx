@@ -47,10 +47,10 @@ export function useCreateMember() {
           );
         }
 
-        if (serverResponse.code === ValidationErrorCodes.IdentificatorExists) {
+        if (serverResponse.code === ValidationErrorCodes.IdentifierExists) {
           throw new Error(
             `${
-              ValidationErrorRegistry[ValidationErrorCodes.IdentificatorExists]
+              ValidationErrorRegistry[ValidationErrorCodes.IdentifierExists]
                 .message
             }`
           );

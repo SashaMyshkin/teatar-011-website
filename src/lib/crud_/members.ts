@@ -5,15 +5,14 @@ type MemberUpdate = Database["public"]["Tables"]["members"]["Update"];
 
 
 export async function memberInsert(
-  dataToInsert: MemberInsert
+  dataToInsert: MemberInsert[]
 ) {
   const supabase = await createClient();
 
   const insertedData = await supabase
     .from("members")
     .insert(dataToInsert)
-    .select()
-    .single();
+    .select();
 
   return insertedData;
 }

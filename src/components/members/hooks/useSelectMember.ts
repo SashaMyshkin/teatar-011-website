@@ -2,10 +2,11 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { UpdateMemberForm } from "@/components/members/types";
+import { NormalizedUpdateMemberForm } from "@/components/members/types";
+import { normalizeMemberData } from "@/lib/helpers/members";
 
 export function useSelectMember(identifier: string) {
-  const [memberData, setMemberData] = React.useState<UpdateMemberForm | null>(null);
+  const [memberData, setMemberData] = React.useState<NormalizedUpdateMemberForm | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
@@ -33,7 +34,7 @@ export function useSelectMember(identifier: string) {
           setMemberData(null);
           router.push("/404"); // 👈 redirect to 404
         } else {
-          setMemberData(data);
+          setMemberData(normalizeMemberData(data));
         }
         setLoading(false);
       }

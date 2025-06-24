@@ -28,7 +28,8 @@ export function useFormReducer<T extends Record<string, any>>(initialState: T) {
     dispatch({ type: "SET_FIELD", field, value });
   };
 
-  const resetFormState = () => dispatch({ type: "RESET", initialState });
+  const resetFormState = (newState: T) =>
+    dispatch({ type: "RESET", initialState: newState });
 
   return { formState, setField, resetFormState };
 }

@@ -391,25 +391,25 @@ export type Database = {
           id: number
           member_uid: number
           motto: string | null
-          name: string
+          name: string | null
           script_id: number
-          surname: string
+          surname: string | null
         }
         Insert: {
           id?: number
           member_uid: number
           motto?: string | null
-          name: string
+          name?: string | null
           script_id: number
-          surname: string
+          surname?: string | null
         }
         Update: {
           id?: number
           member_uid?: number
           motto?: string | null
-          name?: string
+          name?: string | null
           script_id?: number
-          surname?: string
+          surname?: string | null
         }
         Relationships: [
           {

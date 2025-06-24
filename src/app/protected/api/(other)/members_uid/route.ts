@@ -2,7 +2,7 @@ import { AuthorizationErrorCodes } from "@/lib/errors/authErrors";
 import { createErrorResponse } from "@/lib/errors/createErrorResponse";
 import { ServerErrorCodes } from "@/lib/errors/serverErrors";
 import { ValidationErrorCodes } from "@/lib/errors/validationErrors";
-import { identifier } from "@/lib/helpers/identifier";
+import { IdentifierCheck } from "@/lib/helpers/identifier";
 import { createClient } from "@/lib/server";
 import {
   members_uid_get,
@@ -134,11 +134,11 @@ export async function POST(request: NextRequest) {
   }
 
   //Checking if identifier is unique
-  const isUnique = await identifier.membersUID.isUnique(valDataRes.data.identifier);
+  const isUnique = await IdentifierCheck.membersUID.CheckIfUnique(valDataRes.data.identifier);
 
-  if (!isUnique) {
+  if (!isUnique.isUnique) {
     const { body, status } = createErrorResponse(
-      ValidationErrorCodes.IdentificatorExists
+      ValidationErrorCodes.IdentifierExists
     );
     return NextResponse.json({ ...body }, { status });
   }

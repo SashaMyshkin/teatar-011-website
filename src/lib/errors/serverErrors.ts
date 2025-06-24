@@ -4,6 +4,7 @@ export enum ServerErrorCodes {
   UpstreamConnectionFailure = 1201,
   UpstreamServerError = 1202,
   UnexpectedUpstreamResponse = 1203,
+  NoActiveScripts = 1204,
 }
 
 export const ServerErrorRegistry = {
@@ -26,5 +27,10 @@ export const ServerErrorRegistry = {
     message: "Upstream service returned an unexpected response.",
     type: "ProxyError",
     status: 502,
+  },
+  [ServerErrorCodes.NoActiveScripts]: {
+    message: "No active scripts found. Cannot proceed with member insertion.",
+    type: "Server error",
+    status: 500,
   },
 } as const;

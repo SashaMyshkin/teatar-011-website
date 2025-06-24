@@ -43,11 +43,13 @@ export const memberValidation = z.object({
   date_of_birth: z
     .string()
     .trim()
-    .nonempty("Datum upisa je obavezan podatak.")
-    .refine((val) => /^\d{2}\.\s*\d{2}\.\s*\d{4}$/.test(val), {
+    .transform((val) => (val === "" ? null : val))
+    .nullable()
+    .refine((val) => val === null || /^\d{2}\.\s*\d{2}\.\s*\d{4}$/.test(val), {
       message: "Datum mora biti u formatu dd. mm. yyyy",
     })
     .transform((val) => {
+      if (!val) return null;
       const match = val.match(/^(\d{2})\.\s*(\d{2})\.\s*(\d{4})$/);
       if (!match) return val;
 
@@ -56,9 +58,9 @@ export const memberValidation = z.object({
     })
     .refine(
       (val) => {
+        if (!val) return true; // skip validation for null
         const [yyyy, mm, dd] = val.split("-").map(Number);
         const date = new Date(val);
-
         return (
           date instanceof Date &&
           !isNaN(date.getTime()) &&
@@ -72,5 +74,5 @@ export const memberValidation = z.object({
       }
     ),
   motto: z.string().trim().min(6, "Minimalan broj karaktera je 6.").optional(),
-  membership_status_uid: z.coerce.number()
+  membership_status_uid: z.coerce.number(),
 });

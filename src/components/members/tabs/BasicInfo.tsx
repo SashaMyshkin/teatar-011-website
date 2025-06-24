@@ -4,8 +4,8 @@ import Form from "@components/members/form/form";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { memberValidation } from "@/lib/zod/input/createMember";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
-import { UpdateMemberForm } from "@components/members/types";
-import { useUpdateMember } from "@/components/members/form/useUpdateMember";
+import { NormalizedUpdateMemberForm } from "@components/members/types";
+import { useUpdateMember } from "@/components/members/hooks/useUpdateMember";
 import { parse } from "date-fns/parse";
 import { format } from "date-fns";
 import { useLanguageContext } from "@/components/context/LanguageContext";
@@ -14,9 +14,9 @@ import { AutoCloseAlert } from "@/components/alert/AutoCloseAlert";
 export default function BasicInfo({
   initialFormState,
 }: {
-  initialFormState: UpdateMemberForm;
+  initialFormState: NormalizedUpdateMemberForm;
 }) {
-  const { setField, formState } = useFormReducer(initialFormState);
+  const { setField, formState, resetFormState } = useFormReducer(initialFormState);
   const { errorState, validateField } = useFieldValidator(
     initialFormState,
     memberValidation
@@ -25,13 +25,15 @@ export default function BasicInfo({
   const languageContext = useLanguageContext();
   const [openAlert, setOpenAlert] = useState(false);
 
-  useEffect(()=>{
-    if(message !== ""){
-setOpenAlert(true)
+  useEffect(() => {
+    if (message !== "") {
+      setOpenAlert(true);
     }
-    
-    
   }, [end, message]);
+
+  useEffect(() => {
+    resetFormState(initialFormState);
+  }, [initialFormState,resetFormState]);
 
   return (
     <React.Fragment>
@@ -71,12 +73,12 @@ setOpenAlert(true)
         <Box sx={{ display: "flex", marginTop: "1rem", gap: "0.5rem" }}>
           <Box sx={{ width: "80%", padding: "0" }}>
             <AutoCloseAlert
-        open={openAlert}
-        onClose={() => setOpenAlert(false)}
-        message={message}
-        severity={severity}
-        autoHideDuration={3000}
-      />
+              open={openAlert}
+              onClose={() => setOpenAlert(false)}
+              message={message}
+              severity={severity}
+              autoHideDuration={3000}
+            />
           </Box>
           <Box
             sx={{
