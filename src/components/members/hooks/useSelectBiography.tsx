@@ -2,15 +2,20 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import React from "react";
 import { ParagraphRow } from "@/components/members/types";
+import { useChangeContext } from "@/components/context/ChangeContext";
 
 export function useSelectBiography(identifier: string) {
   const [paragraphRows, setParagraphRows] = React.useState<ParagraphRow[] | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const languageContext = useLanguageContext();
+  const {scriptId} = useLanguageContext();
+  const {changeCount} = useChangeContext()
+
+  // Use a ref for cancellation flag
+  const isCancelled = React.useRef(false);
 
   React.useEffect(() => {
-    let isCancelled = false;
+    isCancelled.current = false; // Reset on each effect run
 
     async function fetchBiography() {
       setLoading(true);
@@ -22,11 +27,11 @@ export function useSelectBiography(identifier: string) {
           `id, paragraph, order_number, script_id, member_uid, members_uid!inner(id)`
         )
         .eq("members_uid.identifier", identifier)
-        .eq("script_id", languageContext.scriptId);
+        .eq("script_id", scriptId);
 
-      if (!isCancelled) {
+      if (!isCancelled.current) {
         if (error) {
-          setError(error?.message || "Not found");
+          setError(error.message || "Not found");
           setParagraphRows(null);
         } else {
           setParagraphRows(data);
@@ -38,9 +43,9 @@ export function useSelectBiography(identifier: string) {
     fetchBiography();
 
     return () => {
-      isCancelled = true;
+      isCancelled.current = true;
     };
-  }, [identifier, languageContext.scriptId]);
+  }, [identifier, scriptId, changeCount]);
 
   return { paragraphRows, loading, error };
 }

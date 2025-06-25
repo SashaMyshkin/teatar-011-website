@@ -3,7 +3,8 @@
 import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@/components/members/tabs/CustomTabPanel";
-import BasicInfoTab from "./basic-info/BasicInfoTab";
+import BasicInfoTab from "@/components/members/tabs/basic-info/BasicInfoTab";
+import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
 
 function a11yProps(index: number) {
   return {
@@ -33,7 +34,7 @@ export default function MemberTabs() {
         <BasicInfoTab />
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={1}>
-        Biografija
+        <BiographyTab/>
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={2}>
         Fotografija

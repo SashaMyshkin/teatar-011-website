@@ -1,15 +1,14 @@
 import { Box, Button, TextField } from "@mui/material";
 import React from "react";
-import { SubmitResult } from "@components/custom-hooks/useSubmit";
 
-export default function Controls({manageInsert}:{manageInsert:SubmitResult}) {
+export default function Controls() {
   const [paragraph, setParagraph] = React.useState("");
 
-  const {submit} = manageInsert;
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
     const form = new FormData(e.currentTarget)
-    await submit(form)
+    
   }
 
   return (

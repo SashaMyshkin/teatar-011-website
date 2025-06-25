@@ -11,7 +11,7 @@ import {
   dragHandleStyle,
   textFieldInputProps,
   textFieldSx,
-} from "@components/basic-text-editor/styles";
+} from "@/components/members/tabs/biography/editor/styles";
 
 type ParagraphCardProps = {
   id: string | number;

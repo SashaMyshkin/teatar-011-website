@@ -18,12 +18,13 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-import { Paragraph } from "@/components/basic-text-editor/types";
-import ParagraphCard from "@/components/basic-text-editor/ParagraphCard";
+import { Paragraph } from "@/components/members/tabs/biography/editor/types";
+import ParagraphCard from "@/components/members/tabs/biography/editor/ParagraphCard";
+import { ParagraphRow } from "@/components/members/types";
 //import { updateParagraphOrder } from "@/lib/api"; // you'll define this
 
-export default function Content({ paragraphs }: { paragraphs: Paragraph[] }) {
-  const [items, setItems] = useState(paragraphs);
+export default function Content({ paragraphRows }: { paragraphRows: ParagraphRow[] }) {
+  const [items, setItems] = useState(paragraphRows);
 
   const sensors = useSensors(useSensor(PointerSensor));
 
