@@ -1,16 +1,9 @@
 "use client";
 
 import React from "react";
-import { useParams } from "next/navigation";
 import { Box, Tabs, Tab } from "@mui/material";
-
-import BasicInfo from "@components/members/tabs/BasicInfo";
-import BasicTextEditor from "@/components/basic-text-editor/BasicTextEditor";
 import CustomTabPanel from "@/components/members/tabs/CustomTabPanel";
-import Loading from "@/components/loading/Loading";
-
-import { useSelectMember } from "@components/members/hooks/useSelectMember";
-import { useSelectBiography } from "@components/members/hooks/useSelectBiography";
+import BasicInfoTab from "./basic-info/BasicInfoTab";
 
 function a11yProps(index: number) {
   return {
@@ -21,38 +14,9 @@ function a11yProps(index: number) {
 
 export default function MemberTabs() {
   const [tabIndex, setTabIndex] = React.useState(0);
-  const { identifier } = useParams() as { identifier: string };
-
-  const { memberData, loading: memberLoading } = useSelectMember(identifier);
-  const { paragraphRows, loading: biographyLoading } = useSelectBiography(identifier);
-  
-  console.log(paragraphRows)
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
-  };
-
-  const renderBasicInfo = () => {
-    if (memberLoading || !memberData) return <Loading />;
-    return <BasicInfo initialFormState={memberData} />;
-  };
-
-  const renderBiography = () => {
-    if (!paragraphRows) return null;
-    const paragraphs = paragraphRows.map(({ id, paragraph, order_number, script_id }) => ({
-      id,
-      paragraph,
-      order_number,
-      script_id,
-    }));
-    return (
-      <BasicTextEditor
-        basicTextEditorProps={{
-          loading: biographyLoading,
-          paragraphs,
-        }}
-      />
-    );
   };
 
   return (
@@ -66,10 +30,10 @@ export default function MemberTabs() {
       </Box>
 
       <CustomTabPanel value={tabIndex} index={0}>
-        {renderBasicInfo()}
+        <BasicInfoTab />
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={1}>
-        {renderBiography()}
+        Biografija
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={2}>
         Fotografija

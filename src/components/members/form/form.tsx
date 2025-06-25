@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Box, MenuItem, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -14,12 +14,13 @@ export default function Form({
   manageMemberProps: ManageMemberProps;
 }) {
   const { membershipStatuses } = useMembershipStatuses();
-  const memberData = manageMemberProps.formState;
-  const errorData = manageMemberProps.errorState;
-  const action = manageMemberProps.action;
-
-  const setField = manageMemberProps.setField;
-  const validateField = manageMemberProps.validateField;
+  const {
+    formState: memberData,
+    errorState: errorData,
+    action,
+    setField,
+    validateField,
+  } = manageMemberProps;
 
   const dateOfJoiningDB = manageMemberProps.formState.date_of_joining;
   const dateOfJoining =

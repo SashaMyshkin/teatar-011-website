@@ -12,22 +12,35 @@ export function useUpdateMember() {
   const [success, setSuccess] = useState(false);
   const [end, setEnd] = useState(false);
 
+  const setFeedback = (msg: string, type: AlertColor) => {
+    setMessage(msg);
+    setSeverity(type);
+  };
+
+  const handleServerError = async (res: Response) => {
+    try {
+      const data = await res.json();
+      throw new Error(
+        `${NetworkErrorRegistry[NetworkErrorCodes.UnprocessableRequest].message} ${data.details}`
+      );
+    } catch {
+      throw new Error(
+        NetworkErrorRegistry[NetworkErrorCodes.MalformedResponse].message
+      );
+    }
+  };
+
   const submit = async (formData: FormData) => {
     setIsLoading(true);
     setEnd(false);
     setMessage("");
+
     const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-    const handleResponseMessage = (message: string, severity:AlertColor) => {
-      setMessage(message);
-      setSeverity(severity);
-    };
-
-    console.log(Object.fromEntries(formData.entries()))
-
     try {
-      const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL_API_PROTECTED}`);
-      url.pathname += "/update-member";
+      const url = new URL(
+        `${process.env.NEXT_PUBLIC_BASE_URL_API_PROTECTED}/update-member`
+      );
 
       const res = await fetch(url.toString(), {
         method: "POST",
@@ -36,34 +49,20 @@ export function useUpdateMember() {
       });
 
       if (res.status !== 200) {
-        let serverResponse;
-        try {
-          serverResponse = await res.json();
-        } catch {
-          throw new Error(
-            NetworkErrorRegistry[NetworkErrorCodes.MalformedResponse].message
-          );
-        }
-
-        throw new Error(
-          `${
-            NetworkErrorRegistry[NetworkErrorCodes.UnprocessableRequest].message
-          } ${serverResponse.details}`
-        );
+        await handleServerError(res);
       }
+
       setSuccess(true);
-      handleResponseMessage("Podaci su uspešno izmenjeni", "success")
+      setFeedback("Podaci su uspešno izmenjeni", "success");
+
     } catch (err: unknown) {
-      const fallbackMsg =
-        NetworkErrorRegistry[NetworkErrorCodes.ConnectionFailure].message;
-      handleResponseMessage(err instanceof Error ? err.message : fallbackMsg, "error");
+      const fallback = NetworkErrorRegistry[NetworkErrorCodes.ConnectionFailure].message;
+      setFeedback(err instanceof Error ? err.message : fallback, "error");
     } finally {
       setIsLoading(false);
+      setEnd(true);
     }
-
-    setEnd(true)
   };
 
-  
   return { submit, isLoading, message, success, severity, end };
 }

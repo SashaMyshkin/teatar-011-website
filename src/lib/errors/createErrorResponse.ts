@@ -1,4 +1,4 @@
-import { ErrorRegistry, ErrorResponse } from "./errorTypes";
+import { ErrorRegistry, ErrorResponse } from "@lib/errors/errorTypes";
 
 export function createErrorResponse<TCode extends keyof typeof ErrorRegistry>(
   code: TCode
@@ -16,3 +16,13 @@ export function createErrorResponse<TCode extends keyof typeof ErrorRegistry>(
     },
   };
 }
+
+function isKnownErrorCode(code: number): code is keyof typeof ErrorRegistry {
+  return code in ErrorRegistry;
+}
+
+export function getErrorMessage(code: number){
+  return isKnownErrorCode(code) ? ErrorRegistry[code].message : "Unknown error code."
+}
+
+

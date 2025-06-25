@@ -12,7 +12,7 @@ export default function BasicTextEditor({
 }: {
   basicTextEditorProps: BasicTextEditorProps;
 }) {
-  const { paragraphs, loading } = basicTextEditorProps;
+  const { paragraphs, loading, manageInsert } = basicTextEditorProps;
   return (
     <React.Fragment>
       {loading ? (

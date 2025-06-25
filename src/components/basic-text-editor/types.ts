@@ -1,7 +1,11 @@
+import { SubmitResult } from "@/components/custom-hooks/useSubmit"
 
 
 export type BasicTextEditorProps = {
   paragraphs:Paragraph[] | null,
+  manageInsert:SubmitResult
+  manageUpdate:SubmitResult
+  manageDelete:SubmitResult
   loading:boolean
 }
 
