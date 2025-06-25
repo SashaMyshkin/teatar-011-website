@@ -1,80 +1,77 @@
 "use client";
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
-import BasicInfo from "@components/members/tabs/BasicInfo";
-import { useSelectMember } from "@components/members/hooks/useSelectMember";
+
+import React from "react";
 import { useParams } from "next/navigation";
-import Loading from "@/components/loading/Loading";
+import { Box, Tabs, Tab } from "@mui/material";
+
+import BasicInfo from "@components/members/tabs/BasicInfo";
 import BasicTextEditor from "@/components/basic-text-editor/BasicTextEditor";
+import CustomTabPanel from "@/components/members/tabs/CustomTabPanel";
+import Loading from "@/components/loading/Loading";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
+import { useSelectMember } from "@components/members/hooks/useSelectMember";
+import { useSelectBiography } from "@components/members/hooks/useSelectBiography";
 
 function a11yProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `tab-${index}`,
+    "aria-controls": `tabpanel-${index}`,
   };
 }
 
 export default function MemberTabs() {
-  const [value, setValue] = React.useState(0);
-  const params = useParams();
-  const identifier = String(params.identifier);
-  const { memberData } = useSelectMember(identifier);
+  const [tabIndex, setTabIndex] = React.useState(0);
+  const { identifier } = useParams() as { identifier: string };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const { memberData, loading: memberLoading } = useSelectMember(identifier);
+  const { paragraphRows, loading: biographyLoading } = useSelectBiography(identifier);
+  
+  console.log(paragraphRows)
+
+  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+  };
+
+  const renderBasicInfo = () => {
+    if (memberLoading || !memberData) return <Loading />;
+    return <BasicInfo initialFormState={memberData} />;
+  };
+
+  const renderBiography = () => {
+    if (!paragraphRows) return null;
+    const paragraphs = paragraphRows.map(({ id, paragraph, order_number, script_id }) => ({
+      id,
+      paragraph,
+      order_number,
+      script_id,
+    }));
+    return (
+      <BasicTextEditor
+        basicTextEditorProps={{
+          loading: biographyLoading,
+          paragraphs,
+        }}
+      />
+    );
   };
 
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          centered={true}
-        >
+        <Tabs value={tabIndex} onChange={handleChange} centered>
           <Tab label="Osnovni podaci" {...a11yProps(0)} />
           <Tab label="Biografija" {...a11yProps(1)} />
           <Tab label="Fotografija" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        {memberData == null ? (
-          <Loading></Loading>
-        ) : (
-          <BasicInfo
-            initialFormState={memberData}
-          ></BasicInfo>
-        )}
+
+      <CustomTabPanel value={tabIndex} index={0}>
+        {renderBasicInfo()}
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <BasicTextEditor/>
+      <CustomTabPanel value={tabIndex} index={1}>
+        {renderBiography()}
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      <CustomTabPanel value={tabIndex} index={2}>
         Fotografija
       </CustomTabPanel>
     </Box>

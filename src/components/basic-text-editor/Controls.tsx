@@ -1,18 +1,28 @@
 import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 
-export default function Controls(){
-  return(<React.Fragment>
-    <Box sx={{display:"flex", flexDirection:"column", gap:"1rem"}}>
-      <TextField
+export default function Controls() {
+  const [paragraph, setParagraph] = React.useState("");
+
+  return (
+    <React.Fragment>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <TextField
           id="outlined-multiline-static"
           label="Novi paragraf"
           multiline
-          defaultValue="Default Value"
           fullWidth
+          value={paragraph}
+          onChange={(e) => {
+            setParagraph(e.target.value);
+          }}
         />
-        <Button variant="contained">Sačuvaj</Button>
-    </Box>
-    
-  </React.Fragment>)
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button variant="contained" sx={{ minWidth: "6rem" }}>
+            Dodaj
+          </Button>
+        </Box>
+      </Box>
+    </React.Fragment>
+  );
 }

@@ -4,18 +4,29 @@ import { Box } from "@mui/material";
 import React from "react";
 import Controls from "@/components/basic-text-editor/Controls";
 import Content from "@/components/basic-text-editor/Content";
+import { BasicTextEditorProps } from "@/components/basic-text-editor/types";
+import Loading from "@/components/loading/Loading";
 
-export default function BasicTextEditor() {
+export default function BasicTextEditor({
+  basicTextEditorProps
+}: {
+  basicTextEditorProps: BasicTextEditorProps;
+}) {
+  const { paragraphs, loading } = basicTextEditorProps;
   return (
     <React.Fragment>
-      <Box sx={{ display: "flex", gap: "1rem" }}>
-        <Box sx={{ width: "35%" }}>
-          <Controls></Controls>
+      {loading ? (
+        <Loading></Loading>
+      ) : (
+        <Box sx={{ display: "flex", gap: "1rem", flexDirection:"column" }}>
+          <Box sx={{ width: "100%" }}>
+            <Controls></Controls>
+          </Box>
+          <Box sx={{ width: "100%" }}>
+            {paragraphs && <Content paragraphs={paragraphs}></Content>}
+          </Box>
         </Box>
-        <Box sx={{ width: "65%" }}>
-          <Content></Content>
-        </Box>
-      </Box>
+      )}
     </React.Fragment>
   );
 }

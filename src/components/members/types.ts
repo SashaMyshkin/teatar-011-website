@@ -72,3 +72,7 @@ export type SelectMembersProps = {
   formState: SelectMembersForm
   setField: SetFieldFunction<SelectMembersForm>
 }
+
+
+//BIOGRAPHY
+export type ParagraphRow = Database["public"]["Tables"]["members_biographies"]["Row"]
