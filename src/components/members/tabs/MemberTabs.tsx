@@ -7,6 +7,7 @@ import BasicInfo from "@components/members/tabs/BasicInfo";
 import { useSelectMember } from "@components/members/hooks/useSelectMember";
 import { useParams } from "next/navigation";
 import Loading from "@/components/loading/Loading";
+import BasicTextEditor from "@/components/basic-text-editor/BasicTextEditor";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -71,7 +72,7 @@ export default function MemberTabs() {
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Biografija
+        <BasicTextEditor/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Fotografija
