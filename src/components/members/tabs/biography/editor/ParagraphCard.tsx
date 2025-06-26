@@ -12,12 +12,10 @@ import {
   textFieldInputProps,
   textFieldSx,
 } from "@/components/members/tabs/biography/editor/styles";
-
-type ParagraphCardProps = {
-  id: string | number;
-  initialText: string;
-  dragHandle?: React.ReactNode;
-};
+import { ParagraphCardProps } from "@/components/members/tabs/biography/editor/types";
+import { useSubmit } from "@/components/custom-hooks/useSubmit";
+import { useAlert } from "@/components/context/AlertContext";
+import { useChange } from "@/components/context/ChangeContext";
 
 export default function ParagraphCard({
   id,
@@ -25,9 +23,34 @@ export default function ParagraphCard({
   dragHandle,
 }: ParagraphCardProps) {
   const [text, setText] = React.useState(initialText);
+  const {
+    submit: updateSubmit,
+    severity: updateSeverity,
+    message: updateMessage,
+    isLoading: updateLoading,
+    success: updateSuccess,
+  } = useSubmit(
+    `/members-biographies/${id}`,
+    "PUT",
+    "Paragraf je uspešno izmenjen."
+  );
+  const { showAlert } = useAlert();
+  const { notifyChange } = useChange();
 
-  const handleSave = () => {
-    console.log("Save", { id, text });
+  React.useEffect(() => {
+    if (updateMessage !== "") {
+      showAlert(updateMessage, updateSeverity);
+    }
+  }, [updateMessage, updateSeverity]);
+
+  React.useEffect(() => {
+    if (updateSuccess) {
+      notifyChange();
+    }
+  }, [updateSuccess]);
+
+  const handleSave = async () => {
+    await updateSubmit({ paragraph: text });
   };
 
   const handleDelete = () => {
@@ -58,6 +81,7 @@ export default function ParagraphCard({
           color="primary"
           onClick={handleSave}
           disabled={initialText === text}
+          loading={updateLoading}
         >
           Izmeni
         </Button>

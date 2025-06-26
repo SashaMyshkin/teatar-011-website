@@ -4,7 +4,8 @@ export enum ValidationErrorCodes {
   InvalidFormat = 1101,
   JSONExpected = 1102,
   IdentifierExists = 1103,
-  NonExistingIdentifier = 1104
+  NonExistingIdentifier = 1104,
+  InvalidID = 1105,
 }
 
 export const ValidationErrorRegistry = {
@@ -30,6 +31,11 @@ export const ValidationErrorRegistry = {
   },
   [ValidationErrorCodes.NonExistingIdentifier]: {
     message: "Member with this identifier does not exist.",
+    type: "ValidationError",
+    status: 422,
+  },
+  [ValidationErrorCodes.InvalidID]: {
+    message: "ID does not have valid format.",
     type: "ValidationError",
     status: 422,
   },

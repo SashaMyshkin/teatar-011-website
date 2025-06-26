@@ -18,6 +18,19 @@ export const addParagraphValidFormat = z.object({
     .nonempty("You can't insert the record without a paragraph."),
 });
 
+export const idValidation = z.object({
+  id: z.coerce.number().int().positive().min(1),
+});
+
+export const updateParagraphValidFormat = z.object({
+  paragraph: z
+    .string()
+    .trim()
+    .nonempty("You can't set a paragraph to be an empty string.")
+    .optional(),
+  order_number: z.coerce.number().positive().min(0).optional(),
+});
+
 export const members_biographies_get = z.object({
   script_id: z.coerce.number().optional(),
   member_uid: z.coerce.number(),
@@ -25,17 +38,4 @@ export const members_biographies_get = z.object({
   limit: z.coerce.number().min(5).max(30).default(15),
 });
 
-export const members_biographies_get_single = z.object({
-  paragraph_id: z.coerce.number().int().positive(),
-});
 
-export const members_biographies_put = z.object({
-  paragraph: z
-    .string()
-    .trim()
-    .nonempty("You can't update the record without a name.")
-    .optional(),
-  script_id: z.coerce.number().positive().optional(),
-  member_uid: z.coerce.number().positive().optional(),
-  order_number: z.coerce.number().positive(),
-});

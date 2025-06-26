@@ -15,3 +15,9 @@ export type Paragraph = {
   order_number:number | null,
   script_id:number
 }
+
+export type ParagraphCardProps = {
+  id: string | number;
+  initialText: string;
+  dragHandle?: React.ReactNode;
+};

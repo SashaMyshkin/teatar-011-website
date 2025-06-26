@@ -3,6 +3,8 @@ import { Database } from "@/lib/database.t";
 
 type ParagraphToInsert =
   Database["public"]["Tables"]["members_biographies"]["Insert"];
+  type ParagraphToUpdate =
+  Database["public"]["Tables"]["members_biographies"]["Update"];
 
 export async function getMaxOrderNumber(member_uid: number) {
   const supabase = await createClient();
@@ -27,4 +29,14 @@ export async function insertParagraph(data: ParagraphToInsert) {
     .single();
 
   return insertedData;
+}
+
+export async function updateParagraph(data: ParagraphToUpdate, id:number) {
+  const supabase = await createClient();
+  const updatedData = await supabase
+    .from("members_biographies")
+    .update(data)
+    .eq("id", id);
+
+  return updatedData;
 }
