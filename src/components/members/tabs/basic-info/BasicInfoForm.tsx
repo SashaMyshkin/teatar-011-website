@@ -18,16 +18,16 @@ type Props = {
 
 export default function BasicInfoForm({ initialFormState }: Props) {
   const languageContext = useLanguageContext();
-  const alert = useAlert();
+  const {showAlert} = useAlert();
   const formReducer = useFormReducer(initialFormState);
   const formValidator = useFieldValidator(initialFormState, memberValidation);
   const { submit, isLoading, message, severity, end } = useUpdateMember();
 
   React.useEffect(() => {
-    if (message && end) {
-      alert.showAlert(message, severity);
+    if (message !== "") {
+      showAlert(message, severity);
     }
-  }, [message, severity, end, alert]);
+  }, [message, severity]);
 
   function normalizeDateField(form: FormData, fieldName: string) {
     const dateStr = form.get(fieldName);
@@ -54,6 +54,7 @@ export default function BasicInfoForm({ initialFormState }: Props) {
       component="form"
       onSubmit={handleSubmit}
       sx={{ padding: "1rem", width: "50%", margin: "auto" }}
+      elevation={0}
     >
       <Form
         manageMemberProps={{
@@ -65,11 +66,10 @@ export default function BasicInfoForm({ initialFormState }: Props) {
 
       <Box
         sx={{
-          width: "20%",
+          width: "100%",
           padding: 0,
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: "end",
           marginTop: 2,
         }}
       >
@@ -78,7 +78,7 @@ export default function BasicInfoForm({ initialFormState }: Props) {
           variant="contained"
           color="secondary"
           size="small"
-          disabled={isLoading}
+          loading={isLoading}
         >
           Sačuvaj
         </Button>
