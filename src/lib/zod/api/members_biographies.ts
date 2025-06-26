@@ -28,7 +28,7 @@ export const updateParagraphValidFormat = z.object({
     .trim()
     .nonempty("You can't set a paragraph to be an empty string.")
     .optional(),
-  order_number: z.coerce.number().positive().min(0).optional(),
+  order_number: z.coerce.number().optional(),
 });
 
 export const members_biographies_get = z.object({

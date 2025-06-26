@@ -21,12 +21,21 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { Paragraph } from "@/components/members/tabs/biography/editor/types";
 import ParagraphCard from "@/components/members/tabs/biography/editor/ParagraphCard";
 import { ParagraphRow } from "@/components/members/types";
+import { useSubmit } from "@/components/custom-hooks/useSubmit";
 //import { updateParagraphOrder } from "@/lib/api"; // you'll define this
 
 export default function Content({ paragraphRows }: { paragraphRows: ParagraphRow[] }) {
   const [items, setItems] = useState(paragraphRows);
 
   const sensors = useSensors(useSensor(PointerSensor));
+
+  const {
+      submit: updateSubmit,
+    } = useSubmit(
+      `/members-biographies/`,
+      "PUT",
+      "Paragraf je uspešno izmenjen."
+    );
 
   const handleDragEnd = async (event: any) => {
     const { active, over } = event;
@@ -38,8 +47,9 @@ export default function Content({ paragraphRows }: { paragraphRows: ParagraphRow
     const newOrder = arrayMove(items, oldIndex, newIndex);
     setItems(newOrder);
 
-    // Optionally update DB with new order
-    //await updateParagraphOrder(newOrder);
+    newOrder.forEach((elem, index)=>{
+      updateSubmit({order_number:index}, elem.id)
+    });
   };
 
   return (
