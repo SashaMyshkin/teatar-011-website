@@ -8,6 +8,9 @@ export const cardContentSx = {
   "& .mui-bzx8zh-MuiInputBase-root-MuiInput-root": {
     minHeight: "0 !important",
   },
+  ".mui-523boa":{
+    minHeight: "0 !important",
+  },
   padding: "1.3rem",
   paddingBottom: 0,
 };
