@@ -66,48 +66,40 @@ export async function PUT(
   return NextResponse.json({ message:"The paragraph was successfully updated" }, { status: 200 });
 }
 
-/*export async function DELETE(
+export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const supabase = await createClient();
-
   const authResult = await supabase.auth.getUser();
 
+  //Authorization check
   if (!authResult.data.user) {
-    return NextResponse.json(
-      { error: "Unauthorized request" },
-      { status: 401 }
-    );
+    return respondWithError(AuthorizationErrorCodes.UnauthorizedRequest);
   }
 
-  const { id: paragraph_id } = await params;
-
-  const idValidationResult = members_biographies_get_single.safeParse({
-    paragraph_id,
+  const idValidationResult = idValidation.safeParse({
+    id: (await params).id,
   });
 
+  //In case something is wrong with the ID
   if (!idValidationResult.success) {
-    return NextResponse.json(
-      {
-        error: "Invalid parameter",
-        details: idValidationResult.error.flatten(),
-      },
-      { status: 400 }
-    );
+    return respondWithError(ValidationErrorCodes.InvalidID);
   }
+
+  const {id} = idValidationResult.data
 
   const deletedData = await supabase
     .from("members_biographies")
     .delete()
-    .eq("id", idValidationResult.data.paragraph_id);
+    .eq("id", id);
 
   if (deletedData.error) {
-    return NextResponse.json(
-      deletedData.error || { error: "Delete action failed" },
-      { status: 500 }
+    return respondWithError(
+      ServerErrorCodes.SomethingWentWrong,
+      "We could not delete the paragraph"
     );
   }
 
-  return NextResponse.json(null, { status: 200 });
-}*/
+  return NextResponse.json({ message:"The paragraph was successfully deleted" }, { status: 200 });
+}

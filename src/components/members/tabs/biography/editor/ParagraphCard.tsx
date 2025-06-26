@@ -34,6 +34,18 @@ export default function ParagraphCard({
     "PUT",
     "Paragraf je uspešno izmenjen."
   );
+
+   const {
+    submit: deleteSubmit,
+    severity: deleteSeverity,
+    message: deleteMessage,
+    isLoading: deleteLoading,
+    success: deleteSuccess,
+  } = useSubmit(
+    `/members-biographies/${id}`,
+    "DELETE",
+    "Paragraf je uspešno obrisan."
+  );
   const { showAlert } = useAlert();
   const { notifyChange } = useChange();
 
@@ -49,12 +61,24 @@ export default function ParagraphCard({
     }
   }, [updateSuccess]);
 
+  React.useEffect(() => {
+    if (deleteMessage !== "") {
+      showAlert(deleteMessage, deleteSeverity);
+    }
+  }, [deleteMessage, deleteSeverity]);
+
+  React.useEffect(() => {
+    if (deleteSuccess) {
+      notifyChange();
+    }
+  }, [deleteSuccess]);
+
   const handleSave = async () => {
     await updateSubmit({ paragraph: text });
   };
 
-  const handleDelete = () => {
-    console.log("Delete", id);
+  const handleDelete = async () => {
+    await deleteSubmit({});
   };
 
   return (
@@ -85,7 +109,7 @@ export default function ParagraphCard({
         >
           Izmeni
         </Button>
-        <Button size="small" color="error" onClick={handleDelete}>
+        <Button size="small" color="error" onClick={handleDelete} loading={deleteLoading}>
           Obriši
         </Button>
       </CardActions>
