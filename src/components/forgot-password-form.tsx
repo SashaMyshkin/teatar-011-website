@@ -14,7 +14,7 @@ import { Label } from '@components/ui/label'
 import Link from 'next/link'
 import { useState } from 'react'
 
-export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function ForgotPasswordForm({  ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -40,7 +40,7 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
   }
 
   return (
-    <div className={""} {...props}>
+    <div {...props}>
       {success ? (
         <Card>
           <CardHeader>

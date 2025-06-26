@@ -14,7 +14,7 @@ import { Label } from '@components/ui/label'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export function UpdatePasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+export function UpdatePasswordForm({  ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -38,7 +38,7 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
   }
 
   return (
-    <div className={""} {...props}>
+    <div {...props}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Reset Your Password</CardTitle>

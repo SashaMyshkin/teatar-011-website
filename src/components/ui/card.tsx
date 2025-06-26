@@ -1,71 +1,70 @@
 import * as React from "react"
 
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className=""
       {...props}
     />
   )
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+function CardHeader({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-header"
-      className={""}
+      
       {...props}
     />
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+function CardTitle({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
-      className={""}
+      
       {...props}
     />
   )
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+function CardDescription({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={""}
+      
       {...props}
     />
   )
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+function CardAction({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-action"
-      className={""}
+      
       {...props}
     />
   )
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+function CardContent({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={""}
+      
       {...props}
     />
   )
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+function CardFooter({  ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
-      className={""}
+      
       {...props}
     />
   )

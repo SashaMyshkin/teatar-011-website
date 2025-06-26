@@ -21,7 +21,7 @@ export default function BasicInfoForm({ initialFormState }: Props) {
   const {showAlert} = useAlert();
   const formReducer = useFormReducer(initialFormState);
   const formValidator = useFieldValidator(initialFormState, memberValidation);
-  const { submit, isLoading, message, severity, end } = useUpdateMember();
+  const { submit, isLoading, message, severity, } = useUpdateMember();
 
   React.useEffect(() => {
     if (message !== "") {

@@ -37,6 +37,7 @@ export default function Content({ paragraphRows }: { paragraphRows: ParagraphRow
       "Paragraf je uspešno izmenjen."
     );
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleDragEnd = async (event: any) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
