@@ -62,15 +62,16 @@ export function useSubmit<TResponse = unknown>(
         let errData;
         try {
           errData = await res.json();
-          const detailedMessage = `${
-            NetworkErrorRegistry[NetworkErrorCodes.UnprocessableRequest].message
-          } ${getErrorMessage(Number(errData.code))} ${errData.details || ""}`;
-          throw new Error(detailedMessage.trim());
         } catch {
           throw new Error(
             NetworkErrorRegistry[NetworkErrorCodes.MalformedResponse].message
           );
         }
+
+        const detailedMessage = `${
+          NetworkErrorRegistry[NetworkErrorCodes.UnprocessableRequest].message
+        } ${getErrorMessage(Number(errData.code))} ${errData.details || ""}`;
+        throw new Error(detailedMessage.trim());
       }
 
       const contentType = res.headers.get("content-type");

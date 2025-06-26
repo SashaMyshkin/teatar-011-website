@@ -34,3 +34,18 @@ export async function memberUidUpdate(identifier:string,
 
   return updatedData;
 }
+
+export async function getMemberUidByIdentifier(identifier:string
+) {
+  const supabase = await createClient();
+
+  const selected = await supabase
+    .from("members_uid")
+    .select('id')
+    .eq('identifier', identifier)
+    .select()
+    .single();
+
+
+  return selected;
+}

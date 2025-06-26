@@ -23,7 +23,7 @@ export const ChangeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useChangeContext = (): ChangeContextType => {
+export const useChange = (): ChangeContextType => {
   const context = useContext(ChangeContext);
   if (!context) {
     throw new Error("useChangeContext must be used within a ChangeProvider");

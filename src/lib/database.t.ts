@@ -446,21 +446,21 @@ export type Database = {
         Row: {
           id: number
           member_uid: number
-          order_number: number | null
+          order_number: number
           paragraph: string
           script_id: number
         }
         Insert: {
           id?: number
           member_uid: number
-          order_number?: number | null
+          order_number?: number
           paragraph: string
           script_id: number
         }
         Update: {
           id?: number
           member_uid?: number
-          order_number?: number | null
+          order_number?: number
           paragraph?: string
           script_id?: number
         }

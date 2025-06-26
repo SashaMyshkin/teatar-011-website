@@ -1,33 +1,43 @@
-'use client';
-import React from 'react';
-import { Snackbar, Alert, AlertColor } from '@mui/material';
+"use client";
+import React from "react";
+import { Snackbar, Alert, AlertColor } from "@mui/material";
 
 type AutoCloseAlertProps = {
   open: boolean;
-  onClose: () => void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   severity?: AlertColor;
   autoHideDuration?: number;
   position?: {
-    vertical: 'top' | 'bottom';
-    horizontal: 'left' | 'center' | 'right';
+    vertical: "top" | "bottom";
+    horizontal: "left" | "center" | "right";
   };
 };
 
 export function AutoCloseAlert({
   open,
-  onClose,
+  setOpen,
   message,
-  severity = 'info',
-  autoHideDuration = 4000,
-  position = { vertical: 'top', horizontal: 'center' },
+  severity = "info",
+  autoHideDuration = 3000, // Increase to 3 seconds
+  position = { vertical: "top", horizontal: "center" },
 }: AutoCloseAlertProps) {
+  
+  React.useEffect(() => {
+    console.log("Snackbar open state changed:", open);
+  }, [open]);
+
+  React.useEffect(() => {
+    console.log("Snackbar mounted");
+    return () => console.log("Snackbar unmounted");
+  }, []);
+
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    if (reason === 'clickaway') return;
-    onClose();
+    if (reason === "clickaway") return;
+    setOpen(false);
   };
 
   return (
@@ -36,9 +46,9 @@ export function AutoCloseAlert({
       autoHideDuration={autoHideDuration}
       onClose={handleClose}
       anchorOrigin={position}
-      sx={{zIndex:80000}}
+      sx={{ zIndex: 80000 }}
     >
-      <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+      <Alert onClose={handleClose} severity={severity} sx={{ width: "100%" }}>
         {message}
       </Alert>
     </Snackbar>

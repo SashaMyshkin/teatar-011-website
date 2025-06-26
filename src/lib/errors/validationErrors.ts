@@ -4,6 +4,7 @@ export enum ValidationErrorCodes {
   InvalidFormat = 1101,
   JSONExpected = 1102,
   IdentifierExists = 1103,
+  NonExistingIdentifier = 1104
 }
 
 export const ValidationErrorRegistry = {
@@ -25,7 +26,12 @@ export const ValidationErrorRegistry = {
   [ValidationErrorCodes.IdentifierExists]: {
     message: "Member with this identifier already exists.",
     type: "ValidationError",
-    status: 400,
-  }
+    status: 422,
+  },
+  [ValidationErrorCodes.NonExistingIdentifier]: {
+    message: "Member with this identifier does not exist.",
+    type: "ValidationError",
+    status: 422,
+  },
 } as const;
 
