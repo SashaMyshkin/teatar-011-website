@@ -22,7 +22,9 @@ export default function ParagraphCard({
   initialText,
   dragHandle,
 }: ParagraphCardProps) {
-  const [text, setText] = React.useState(initialText);
+  const [paragraph, setParagraph] = React.useState(initialText);
+  const [paragraphChanges, setParagraphChanges] = React.useState(initialText);
+
   const {
     submit: updateSubmit,
     severity: updateSeverity,
@@ -57,7 +59,7 @@ export default function ParagraphCard({
 
   React.useEffect(() => {
     if (updateSuccess) {
-      notifyChange();
+      setParagraph(paragraphChanges)
     }
   }, [updateSuccess]);
 
@@ -74,7 +76,7 @@ export default function ParagraphCard({
   }, [deleteSuccess]);
 
   const handleSave = async () => {
-    await updateSubmit({ paragraph: text });
+    await updateSubmit({ paragraph: paragraphChanges });
   };
 
   const handleDelete = async () => {
@@ -90,9 +92,9 @@ export default function ParagraphCard({
           margin="none"
           fullWidth
           multiline
-          value={text}
+          value={paragraphChanges}
           id={`${id}`}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => setParagraphChanges(e.target.value)}
           variant="standard"
           slotProps={{ input: textFieldInputProps }}
           sx={textFieldSx}
@@ -104,7 +106,7 @@ export default function ParagraphCard({
           size="small"
           color="primary"
           onClick={handleSave}
-          disabled={initialText === text}
+          disabled={paragraphChanges === paragraph}
           loading={updateLoading}
         >
           Izmeni
