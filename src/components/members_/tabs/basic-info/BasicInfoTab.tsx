@@ -1,8 +1,8 @@
 import { useParams } from "next/navigation";
 import React from "react";
-import { useSelectMember } from "@/components/members/hooks/useSelectMember";
+import { useSelectMember } from "@/components/members_/hooks/useSelectMember";
 import Loading from "@/components/loading/Loading";
-import BasicInfoForm from "@/components/members/tabs/basic-info/BasicInfoForm";
+import BasicInfoForm from "@/components/members_/tabs/basic-info/BasicInfoForm";
 import { Alert } from "@mui/material";
 
 export default function BasicInfoTab() {

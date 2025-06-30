@@ -1,11 +1,11 @@
-import { useMediaEntityType } from "@components/members/hooks/useMediaEntityType";
+import { useMediaEntityType } from "@/components/members_/hooks/useMediaEntityType";
 import { useParams } from "next/navigation";
-import { useProfileImage } from "@components/members/hooks/useSelectProfileImage";
+import { useProfileImage } from "@/components/members_/hooks/useSelectProfileImage";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
 import { useEffect, useRef } from "react";
-import { useSelectMember } from "@/components/members/hooks/useSelectMember";
+import { useSelectMember } from "@/components/members_/hooks/useSelectMember";
 import { supabaseBrowserClient } from "@/lib/client";
-import { useSelectMemberByIdentifier } from "@components/members/hooks/useSelectMemberByIdentifier";
+import { useSelectMemberByIdentifier } from "@/components/members_/hooks/useSelectMemberByIdentifier";
 
 const MEDIA_ENTITY_TYPE = "image-profile";
 

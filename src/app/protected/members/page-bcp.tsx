@@ -14,7 +14,7 @@ import { debounce } from "lodash";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
-import NewMember from "@/components/members/NewMember";
+import NewMember from "@/components/members_/NewMember";
 import { useRouter } from "next/navigation";
 
 export default function Members() {

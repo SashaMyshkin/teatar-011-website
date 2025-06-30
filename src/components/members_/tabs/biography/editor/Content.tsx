@@ -18,9 +18,9 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
-import { Paragraph } from "@/components/members/tabs/biography/editor/types";
-import ParagraphCard from "@/components/members/tabs/biography/editor/ParagraphCard";
-import { ParagraphRow } from "@/components/members/types";
+import { Paragraph } from "@/components/members_/tabs/biography/editor/types";
+import ParagraphCard from "@/components/members_/tabs/biography/editor/ParagraphCard";
+import { ParagraphRow } from "@/components/members_/types";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
 //import { updateParagraphOrder } from "@/lib/api"; // you'll define this
 

@@ -11,8 +11,8 @@ import {
   dragHandleStyle,
   textFieldInputProps,
   textFieldSx,
-} from "@/components/members/tabs/biography/editor/styles";
-import { ParagraphCardProps } from "@/components/members/tabs/biography/editor/types";
+} from "@/components/members_/tabs/biography/editor/styles";
+import { ParagraphCardProps } from "@/components/members_/tabs/biography/editor/types";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
 import { useAlert } from "@/components/context/AlertContext";
 import { useChange } from "@/components/context/ChangeContext";

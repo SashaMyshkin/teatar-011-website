@@ -1,12 +1,12 @@
 "use client"
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import React from "react";
-import useSelectMembers from "@/components/members/hooks/useSelectMembers";
+import useSelectMembers from "@/components/members_/hooks/useSelectMembers";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
-import { SelectMembersProps } from "@/components/members/types";
+import { SelectMembersProps } from "@/components/members_/types";
 
 export default function Table({selectMembersProps}:{selectMembersProps:SelectMembersProps}) {
   const router = useRouter();

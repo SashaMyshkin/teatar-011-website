@@ -8,8 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import React from "react";
-import NewMember from "@/components/members/NewMember";
-import { SelectMembersProps } from "@/components/members/types";
+import NewMember from "@/components/members_/NewMember";
+import { SelectMembersProps } from "@/components/members_/types";
 
 export default function SearchBar({selectMembersProps}:{selectMembersProps:SelectMembersProps}) {
   const {formState, setField} = selectMembersProps

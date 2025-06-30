@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import ImageManager from "./ImageManager";
 import { useLanguageContext } from "../context/LanguageContext";
-import { saveImageMetadata, uploadImageToSupabase } from "./imageUpload";
+import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
 
 type ImageManagerParentProps = {
   newPathname: string;

@@ -69,3 +69,7 @@ export async function saveImageMetadata(
 
   return await response.json();
 }
+
+export function onImageDelete(path:string){
+
+}

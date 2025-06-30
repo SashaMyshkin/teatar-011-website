@@ -1,15 +1,13 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import React from "react";
-import { ParagraphRow } from "@/components/members/types";
+import { MembersUid, ParagraphRow } from "@/components/members_/types";
 import { useChange } from "@/components/context/ChangeContext";
 
-export function useSelectBiography(identifier: string) {
-  const [paragraphRows, setParagraphRows] = React.useState<ParagraphRow[] | null>(null);
+export function useSelectMemberByIdentifier(identifier: string) {
+  const [memberUidRow, setMemberUidRow] = React.useState<MembersUid | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const {scriptId} = useLanguageContext();
-  const {changeCount} = useChange()
 
   // Use a ref for cancellation flag
   const isCancelled = React.useRef(false);
@@ -17,36 +15,36 @@ export function useSelectBiography(identifier: string) {
   React.useEffect(() => {
     isCancelled.current = false; // Reset on each effect run
 
-    async function fetchBiography() {
+    async function fetchMemberUid() {
       setLoading(true);
       setError(null);
 
       const { data, error } = await supabaseBrowserClient
-        .from("members_biographies")
+        .from("members_uid")
         .select(
-          `id, paragraph, order_number, script_id, member_uid, members_uid!inner(id)`
+          `*`
         )
-        .eq("members_uid.identifier", identifier)
-        .eq("script_id", scriptId)
-        .order("order_number");
+        .eq("identifier", identifier)
+        .single()
+       
 
       if (!isCancelled.current) {
         if (error) {
           setError(error.message || "Not found");
-          setParagraphRows(null);
+          setMemberUidRow(null);
         } else {
-          setParagraphRows(data);
+          setMemberUidRow(data);
         }
         setLoading(false);
       }
     }
 
-    fetchBiography();
+    fetchMemberUid();
 
     return () => {
       isCancelled.current = true;
     };
-  }, [identifier, scriptId, changeCount]);
+  }, [identifier]);
 
-  return { paragraphRows, loading, error };
+  return { memberUidRow, loading, error };
 }
