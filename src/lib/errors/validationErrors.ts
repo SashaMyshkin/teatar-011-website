@@ -1,4 +1,4 @@
-//1100 - 1199 
+// 1100 - 1199 
 export enum ValidationErrorCodes {
   MissingField = 1100,
   InvalidFormat = 1101,
@@ -6,11 +6,13 @@ export enum ValidationErrorCodes {
   IdentifierExists = 1103,
   NonExistingIdentifier = 1104,
   InvalidID = 1105,
+  MissingParameter = 1106,
+  InvalidParameterFormat = 1107,
 }
 
 export const ValidationErrorRegistry = {
   [ValidationErrorCodes.MissingField]: {
-    message: "Required field is missing.",
+    message: "A required field is missing.",
     type: "ValidationError",
     status: 400,
   },
@@ -20,24 +22,33 @@ export const ValidationErrorRegistry = {
     status: 422,
   },
   [ValidationErrorCodes.JSONExpected]: {
-    message: "JSON is expected in the request body.",
+    message: "A JSON object is expected in the request body.",
     type: "ValidationError",
     status: 400,
   },
   [ValidationErrorCodes.IdentifierExists]: {
-    message: "Member with this identifier already exists.",
+    message: "A member with this identifier already exists.",
     type: "ValidationError",
     status: 422,
   },
   [ValidationErrorCodes.NonExistingIdentifier]: {
-    message: "Member with this identifier does not exist.",
+    message: "A member with this identifier does not exist.",
     type: "ValidationError",
     status: 422,
   },
   [ValidationErrorCodes.InvalidID]: {
-    message: "ID does not have valid format.",
+    message: "The ID has an invalid format.",
     type: "ValidationError",
     status: 422,
   },
+  [ValidationErrorCodes.MissingParameter]: {
+    message: "The URL parameter is missing.",
+    type: "ValidationError",
+    status: 400,
+  },
+  [ValidationErrorCodes.InvalidParameterFormat]: {
+    message: "The URL parameter has an invalid format.",
+    type: "ValidationError",
+    status: 400,
+  },
 } as const;
-

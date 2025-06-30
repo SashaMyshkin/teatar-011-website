@@ -252,48 +252,72 @@ export type Database = {
           },
         ]
       }
-      images: {
+      media_entity_types: {
         Row: {
-          extension: string | null
+          aspect_ratio: number
+          description: string
+          id: number
+          max_width: number
+          type: string
+        }
+        Insert: {
+          aspect_ratio?: number
+          description: string
+          id?: number
+          max_width: number
+          type: string
+        }
+        Update: {
+          aspect_ratio?: number
+          description?: string
+          id?: number
+          max_width?: number
+          type?: string
+        }
+        Relationships: []
+      }
+      media_images: {
+        Row: {
           height: number
           id: number
-          path: string
-          visible: number
+          pathname: string
+          size: number
+          supabase_id: string | null
           width: number
         }
         Insert: {
-          extension?: string | null
           height: number
           id?: number
-          path: string
-          visible: number
+          pathname: string
+          size: number
+          supabase_id?: string | null
           width: number
         }
         Update: {
-          extension?: string | null
           height?: number
           id?: number
-          path?: string
-          visible?: number
+          pathname?: string
+          size?: number
+          supabase_id?: string | null
           width?: number
         }
         Relationships: []
       }
-      images_alt: {
+      media_images_alt: {
         Row: {
-          alt: string
+          alt: string | null
           id: number
           image_id: number
           script_id: number
         }
         Insert: {
-          alt: string
+          alt?: string | null
           id?: number
           image_id: number
           script_id: number
         }
         Update: {
-          alt?: string
+          alt?: string | null
           id?: number
           image_id?: number
           script_id?: number
@@ -303,7 +327,7 @@ export type Database = {
             foreignKeyName: "images_alt_image_id_fkey"
             columns: ["image_id"]
             isOneToOne: false
-            referencedRelation: "images"
+            referencedRelation: "media_images"
             referencedColumns: ["id"]
           },
           {
@@ -329,59 +353,41 @@ export type Database = {
           },
         ]
       }
-      images_entity_types: {
-        Row: {
-          description: string
-          id: number
-          type: string
-        }
-        Insert: {
-          description: string
-          id?: number
-          type: string
-        }
-        Update: {
-          description?: string
-          id?: number
-          type?: string
-        }
-        Relationships: []
-      }
-      images_relations: {
+      media_images_relations: {
         Row: {
           entity_id: number
           entity_type_id: number
           id: number
           image_id: number
-          order: number | null
+          order: number
         }
         Insert: {
           entity_id: number
           entity_type_id: number
           id?: number
           image_id: number
-          order?: number | null
+          order?: number
         }
         Update: {
           entity_id?: number
           entity_type_id?: number
           id?: number
           image_id?: number
-          order?: number | null
+          order?: number
         }
         Relationships: [
           {
             foreignKeyName: "images_relations_entity_type_id_fkey"
             columns: ["entity_type_id"]
             isOneToOne: false
-            referencedRelation: "images_entity_types"
+            referencedRelation: "media_entity_types"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "images_relations_image_id_fkey"
             columns: ["image_id"]
             isOneToOne: false
-            referencedRelation: "images"
+            referencedRelation: "media_images"
             referencedColumns: ["id"]
           },
         ]
@@ -1085,6 +1091,40 @@ export type Database = {
       }
     }
     Views: {
+      v_images: {
+        Row: {
+          alt: string | null
+          entity_id: number | null
+          height: number | null
+          pathname: string | null
+          script_id: number | null
+          type: string | null
+          width: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "images_alt_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "scripts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "images_alt_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_members"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "images_alt_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_membership_statuses"
+            referencedColumns: ["script_id"]
+          },
+        ]
+      }
       v_members: {
         Row: {
           date_of_birth: string | null

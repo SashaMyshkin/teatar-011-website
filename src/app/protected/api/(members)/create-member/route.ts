@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
 
   //Error check
   if (memberInsertion.error) {
-    console.log(memberInsertion)
+    console.log(memberInsertion);
     return respondWithError(
       ServerErrorCodes.SomethingWentWrong,
       "Error happened while inserting a member localized data."

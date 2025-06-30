@@ -8,6 +8,7 @@ export type DialogProps = {
 };
 
 type V_members = Database["public"]["Views"]["v_members"]["Row"];
+export type MembersUid = Database["public"]["Tables"]["members_uid"]["Row"];
 
 type RemoveNull<T> = {
   [K in keyof T]: Exclude<T[K], null>;
