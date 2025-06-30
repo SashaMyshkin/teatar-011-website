@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import ImageManager from "./ImageManager";
-import { supabaseBrowserClient } from "@/lib/client";
 import { useLanguageContext } from "../context/LanguageContext";
-
-const BUCKET = "teatar-011";
+import { saveImageMetadata, uploadImageToSupabase } from "./imageUpload";
 
 type ImageManagerParentProps = {
   newPathname: string;
@@ -24,63 +22,39 @@ export default function ImageManageWrapper({
   entity_id,
   entity_type_id,
 }: ImageManagerParentProps) {
-  const [serverImage, setServerImage] = React.useState<string | null>(
-    serverPathname
-  );
-  const [width, setWidth] = React.useState<null | number>(null);
-  const [height, setHeight] = React.useState<null | number>(null);
+  const [serverImage, setServerImage] = useState<string | null>(serverPathname);
+  const [width, setWidth] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
   const { scriptId } = useLanguageContext();
 
-  const handleImageUpload = async (croppedBlob: Blob): Promise<void> => {
-    const imageUrl = URL.createObjectURL(croppedBlob);
-    setServerImage(imageUrl);
+  const handleImageUpload = useCallback(
+    async (croppedBlob: Blob): Promise<void> => {
+      const tempUrl = URL.createObjectURL(croppedBlob);
+      setServerImage(tempUrl);
 
-    try {
-      const { data: uploadedInfo, error } = await supabaseBrowserClient.storage
-        .from(BUCKET)
-        .upload(`${newPathname}-${Date.now()}`, croppedBlob);
-
-      if (error) {
-        throw Error("Upload failed");
+      try {
+        const savedImageInfo = await uploadImageToSupabase(croppedBlob, newPathname);
+        await saveImageMetadata(savedImageInfo, {
+          width,
+          height,
+          size: croppedBlob.size,
+          alt: altText ?? "Default alt text",
+          entity_id,
+          script_id: scriptId,
+          entity_type_id,
+        });
+        console.log("Image saved successfully.");
+      } catch (error) {
+        console.error("Error during image upload:", error);
       }
-      const { data: publicInfo } = supabaseBrowserClient.storage
-        .from(BUCKET)
-        .getPublicUrl(uploadedInfo.path);
+    },
+    [newPathname, width, height, entity_id, entity_type_id, scriptId, altText]
+  );
 
-      const json = JSON.stringify({
-        pathname: publicInfo.publicUrl,
-        width,
-        height,
-        size: croppedBlob.size,
-        alt: "Hello world",
-        supabase_id: uploadedInfo.id,
-        entity_id,
-        script_id: scriptId,
-        entity_type_id,
-      });
-
-      const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL_API_PROTECTED}`);
-      url.pathname += "/save-image";
-
-      const result = await fetch(url.toString(), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: json,
-      });
-
-      const responseBody = await result.json();
-      console.log(responseBody);
-    } catch (err) {
-      console.log(err);
-    }
-
-    //const { fullPath } = data;
-    const c = croppedBlob;
-  };
-
-  const handleImageDelete = async (): Promise<void> => {
+  const handleImageDelete = useCallback(async (): Promise<void> => {
     setServerImage(null);
-  };
+    // Here, also implement deletion from Supabase if needed
+  }, []);
 
   return (
     <ImageManager
