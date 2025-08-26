@@ -154,14 +154,14 @@ const ImageManager: React.FC<ImageManagerProps> = ({
   };
 
   return (
-    <Box sx={{ maxWidth: 500, m: "auto" }}>
+    <Box sx={{ maxWidth: 350, m: "auto" }}>
       {serverImage ? (
         <Card>
           <CardMedia
             component="img"
             image={serverImage}
             alt="Server content"
-            sx={{ maxHeight: 400 }}
+            
           />
           <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
             <Button
