@@ -1,9 +1,10 @@
-import { useParams } from "next/navigation";
+
 import React, { ReactNode } from "react";
 import { MemberContextProps } from "@components/members/types";
 import { useSelectMemberByIdentifier } from "@components/members/hooks/useSelectMemberByIdentifier";
 import Loading from "@components/loading/Loading";
 import { Typography } from "@mui/material";
+import { useParams } from "next/navigation";
 
 const MemberContext = React.createContext<MemberContextProps | undefined>(
   undefined
