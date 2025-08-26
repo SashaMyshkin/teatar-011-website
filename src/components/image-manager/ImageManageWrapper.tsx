@@ -4,7 +4,9 @@ import { useLanguageContext } from "../context/LanguageContext";
 import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
 
 type ImageManagerParentProps = {
-  newPathname: string;
+  identifier: string;
+  entity_type: string;
+  folder: string;
   aspectRatio: number;
   maxWidth: number;
   serverPathname: string | null;
@@ -14,13 +16,15 @@ type ImageManagerParentProps = {
 };
 
 export default function ImageManageWrapper({
-  newPathname,
   aspectRatio,
   maxWidth,
   serverPathname,
   altText,
   entity_id,
   entity_type_id,
+  entity_type,
+  identifier,
+  folder,
 }: ImageManagerParentProps) {
   const [serverImage, setServerImage] = useState<string | null>(serverPathname);
   const [width, setWidth] = useState<number | null>(null);
@@ -33,7 +37,11 @@ export default function ImageManageWrapper({
       setServerImage(tempUrl);
 
       try {
-        const savedImageInfo = await uploadImageToSupabase(croppedBlob, newPathname);
+        const savedImageInfo = await uploadImageToSupabase(
+          croppedBlob,
+          `${folder}/${identifier}/${entity_type}`
+        );
+        
         await saveImageMetadata(savedImageInfo, {
           width,
           height,
@@ -48,7 +56,7 @@ export default function ImageManageWrapper({
         console.error("Error during image upload:", error);
       }
     },
-    [newPathname, width, height, entity_id, entity_type_id, scriptId, altText]
+    [width, height, entity_id, entity_type_id, scriptId, altText]
   );
 
   const handleImageDelete = useCallback(async (): Promise<void> => {

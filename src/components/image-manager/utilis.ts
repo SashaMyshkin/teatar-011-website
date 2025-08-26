@@ -6,8 +6,8 @@ type UploadResult = {
 };
 const BUCKET = "teatar-011";
 
-export async function uploadImageToSupabase(blob: Blob, newPathname: string): Promise<UploadResult> {
-  const filename = `${newPathname}-${Date.now()}`;
+export async function uploadImageToSupabase(blob: Blob, pathname: string): Promise<UploadResult> {
+  const filename = `${pathname}-${Date.now()}`;
   const { data, error } = await supabaseBrowserClient.storage
     .from(BUCKET)
     .upload(filename, blob);
@@ -45,8 +45,9 @@ export async function saveImageMetadata(
   options: SaveMetadataOptions
 ) {
   const url = `${process.env.NEXT_PUBLIC_BASE_URL_API_PROTECTED}/save-image`;
+
   const payload = JSON.stringify({
-    pathname: uploadResult.publicUrl,
+    public_url: uploadResult.publicUrl,
     width: options.width,
     height: options.height,
     size: options.size,
@@ -64,6 +65,7 @@ export async function saveImageMetadata(
   });
 
   if (!response.ok) {
+    console.log(await response.json())
     throw new Error(`Failed to save image metadata: ${response.statusText}`);
   }
 

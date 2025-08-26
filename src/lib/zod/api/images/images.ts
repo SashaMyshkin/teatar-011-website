@@ -13,7 +13,6 @@ export const addImageValidator = z.object({
   height: z.coerce.number().positive("Height must be a positive number"),
   width: z.coerce.number().positive("Width must be a positive number"),
   size: z.coerce.number().positive("Size must be a positive number"),
-  pathname: z.string().trim().url("Pathname is not a valid URL"),
-  supabase_id: z.string().trim().min(1, "Supabase id is required"),
+  public_url: z.string().trim().url("Pathname is not a valid URL"),
   alt: z.string().trim().min(1, "Alt text is required"),
 });

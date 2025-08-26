@@ -43,16 +43,18 @@ export async function POST(request: NextRequest) {
   //Check if data are well-formed
   const validFormatRes = addImageValidator.safeParse(jsonFromBody);
   if (!validFormatRes.success) {
+    console.log(validFormatRes.error)
     return respondWithError(
       ValidationErrorCodes.InvalidFormat,
       validFormatRes.error.issues[0].message
     );
   }
 
-  const { pathname, width, size, height, supabase_id } = validFormatRes.data;
+  const { public_url, width, size, height } = validFormatRes.data;
 
   const { data: imageInsertionData, error: imageInsertionError } =
-    await insertImage({ pathname, width, size, height, supabase_id });
+    await insertImage({ public_url, width, size, height });
+
   if (imageInsertionError) {
     console.log(imageInsertionError)
     return respondWithError(
