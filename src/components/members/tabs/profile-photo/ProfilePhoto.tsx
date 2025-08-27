@@ -30,15 +30,12 @@ export default function ProfilePhoto() {
       entity_type_id: mediaEntityType.id,
     };
 
-    
-
     return (
       <ImageManageWrapper
         serverData={serverData}
         defaults={defaults}
         futurePath={`members/${identifier}/${mediaEntityType.type}`}
         entityId={member_uid}
-       
       />
     );
   } else {
