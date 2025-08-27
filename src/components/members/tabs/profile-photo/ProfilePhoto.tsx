@@ -1,10 +1,8 @@
 import { useMediaEntityType } from "@/components/members_/hooks/useMediaEntityType";
-import { useParams } from "next/navigation";
 import { useProfileImage } from "@/components/members_/hooks/useSelectProfileImage";
 import { useMemberContext } from "../../MembersContext";
 import Loading from "@/components/loading/Loading";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
-import { useState } from "react";
 
 const MEDIA_ENTITY_TYPE = "image-profile";
 
@@ -12,40 +10,32 @@ export default function ProfilePhoto() {
   const { member_uid, identifier } = useMemberContext();
   const { profileImageData } = useProfileImage(member_uid, MEDIA_ENTITY_TYPE);
   const { mediaEntityType } = useMediaEntityType(MEDIA_ENTITY_TYPE);
-  const [count, setCount] = useState(0);
 
   if (member_uid && mediaEntityType) {
-    const {
-      aspect_ratio,
-      max_width,
-      id: entity_type_id,
-      type: entity_type,
-    } = mediaEntityType;
+    const serverData = profileImageData
+      ? {
+          publicUrl: profileImageData.public_url,
+          alt: profileImageData.alt,
+          imageId: profileImageData.image_id,
+          path: profileImageData.path,
+          width: profileImageData.width,
+          height: profileImageData.height,
+          size: profileImageData.size,
+          entityId: member_uid,
+        }
+      : null;
 
-    const publicUrl = profileImageData?.public_url ?? null;
-    const alt = profileImageData?.alt ?? null;
-    const imageId = profileImageData?.image_id ?? null;
-    const path = profileImageData?.path ?? null;
-    const width = profileImageData?.width ?? null;
-    const height = profileImageData?.height ?? null;
-    const size = profileImageData?.size ?? null;
+    const defaults = {
+      maxWidth: mediaEntityType.max_width,
+      aspectRatio: mediaEntityType.aspect_ratio,
+      entity_type_id: mediaEntityType.id,
+    };
 
     return (
       <ImageManageWrapper
-        aspectRatio={aspect_ratio}
-        maxWidth={max_width}
-        publicUrl={publicUrl}
-        altText={alt}
-        entity_type_id={entity_type_id}
-        identifier={identifier}
-        entity_type={entity_type}
-        folder={"/members/"}
-        entity_id={member_uid}
-        image_id={imageId}
-        path={path}
-        imgWidth={width}
-        imgHeight={height}
-        imgSize={size}
+        serverData={serverData}
+        defaults={defaults}
+        futurePath={`members/${identifier}/${mediaEntityType.type}`}
       />
     );
   } else {

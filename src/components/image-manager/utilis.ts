@@ -38,7 +38,7 @@ type SaveMetadataOptions = {
   height: number | null;
   size: number;
   alt: string;
-  entity_id: number;
+  entity_id: number | null;
   script_id: number;
   entity_type_id: number;
 };
