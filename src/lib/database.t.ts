@@ -1119,6 +1119,7 @@ export type Database = {
           path: string | null
           public_url: string | null
           script_id: number | null
+          size: number | null
           type: string | null
           width: number | null
         }

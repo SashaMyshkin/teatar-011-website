@@ -13,6 +13,12 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckIcon from "@mui/icons-material/Check";
+import {
+  compressAndResizeImage,
+  getImageDimensions,
+  toBlob,
+  toFile,
+} from "@/lib/helpers/imageCompression";
 
 // Constants
 const MIN_ZOOM = 1;
@@ -82,8 +88,6 @@ interface ImageManagerProps {
   maxWidth: number;
   serverImage: string | null;
   altText: string | null;
-  setWidth: React.Dispatch<React.SetStateAction<null|number>>;
-  setHeight: React.Dispatch<React.SetStateAction<null|number>>;
 }
 
 const ImageManager: React.FC<ImageManagerProps> = ({
@@ -91,11 +95,10 @@ const ImageManager: React.FC<ImageManagerProps> = ({
   altText,
   onImageUpload,
   onImageDelete,
-  setHeight,
-  setWidth,
+ 
   aspectRatio,
   maxWidth,
-
+ 
 }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -108,6 +111,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
       const file = e.target.files[0];
       const imageDataUrl = await readFile(file);
       setImageSrc(imageDataUrl);
+      
     }
   };
 
@@ -119,8 +123,6 @@ const ImageManager: React.FC<ImageManagerProps> = ({
     });
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
-    setWidth(croppedAreaPixels.width)
-    setHeight(croppedAreaPixels.height)
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -132,7 +134,18 @@ const ImageManager: React.FC<ImageManagerProps> = ({
         imageSrc,
         croppedAreaPixels as PixelCrop
       );
-      onImageUpload(croppedImage);
+
+      const compressedData = await compressAndResizeImage(
+        toFile(croppedImage, "filename"),
+        maxWidth
+      );
+
+      if (compressedData) {
+        const imageFile = compressedData.file
+        const resizedBlob = toBlob(imageFile);
+        onImageUpload(resizedBlob);
+      }
+
       resetState();
     } catch (e) {
       console.error("Error cropping image", e);
@@ -154,115 +167,117 @@ const ImageManager: React.FC<ImageManagerProps> = ({
   };
 
   return (
-    <Box sx={{ maxWidth: 350, m: "auto" }}>
-      {serverImage ? (
-        <Card>
-          <CardMedia
-            component="img"
-            image={serverImage}
-            alt="Server content"
-            
-          />
-          <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={onImageDelete}
+    <>
+      <Box sx={{ maxWidth: 250, m: "auto" }}>
+        {serverImage ? (
+          <Card>
+            <CardMedia
+              component="img"
+              image={serverImage}
+              alt="Server content"
+            />
+            <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+              <Button
+                variant="contained"
+                size="small"
+                color="error"
+                startIcon={<DeleteIcon />}
+                onClick={onImageDelete}
+              >
+                Delete Image
+              </Button>
+            </Box>
+          </Card>
+        ) : imageSrc ? (
+          <Box>
+            <Box
+              sx={{
+                position: "relative",
+                height: 400,
+                width: "100%",
+                bgcolor: "grey.200",
+                mb: 2,
+              }}
             >
-              Delete Image
-            </Button>
+              <Cropper
+                image={imageSrc}
+                crop={crop}
+                zoom={zoom}
+                aspect={aspectRatio}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+                minZoom={MIN_ZOOM}
+                maxZoom={MAX_ZOOM}
+              />
+            </Box>
+
+            <Box sx={{ mb: 2, px: 2 }}>
+              <Typography variant="body2" gutterBottom>
+                Zoom: {zoom.toFixed(1)}
+              </Typography>
+              <Slider
+                value={zoom}
+                min={MIN_ZOOM}
+                max={MAX_ZOOM}
+                step={ZOOM_STEP}
+                onChange={(_: Event, value: number | number[]) =>
+                  setZoom(Array.isArray(value) ? value[0] : value)
+                }
+                aria-labelledby="Zoom"
+              />
+            </Box>
+
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+              <Button
+                variant="outlined"
+                color="error"
+                startIcon={<CancelIcon />}
+                onClick={handleCancelCrop}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<CheckIcon />}
+                onClick={handleCropComplete}
+              >
+                Apply Crop
+              </Button>
+            </Box>
           </Box>
-        </Card>
-      ) : imageSrc ? (
-        <Box>
+        ) : (
           <Box
             sx={{
-              position: "relative",
-              height: 400,
-              width: "100%",
-              bgcolor: "grey.200",
-              mb: 2,
+              textAlign: "center",
+              p: 4,
+              border: "1px dashed grey",
+              borderRadius: 1,
             }}
           >
-            <Cropper
-              image={imageSrc}
-              crop={crop}
-              zoom={zoom}
-              aspect={aspectRatio}
-              onCropChange={setCrop}
-              onZoomChange={setZoom}
-              onCropComplete={onCropComplete}
-              minZoom={MIN_ZOOM}
-              maxZoom={MAX_ZOOM}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              style={{ display: "none" }}
             />
-          </Box>
-
-          <Box sx={{ mb: 2, px: 2 }}>
-            <Typography variant="body2" gutterBottom>
-              Zoom: {zoom.toFixed(1)}
-            </Typography>
-            <Slider
-              value={zoom}
-              min={MIN_ZOOM}
-              max={MAX_ZOOM}
-              step={ZOOM_STEP}
-              onChange={(_: Event, value: number | number[]) =>
-                setZoom(Array.isArray(value) ? value[0] : value)
-              }
-              aria-labelledby="Zoom"
-            />
-          </Box>
-
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<CancelIcon />}
-              onClick={handleCancelCrop}
-            >
-              Cancel
-            </Button>
             <Button
               variant="contained"
-              color="success"
-              startIcon={<CheckIcon />}
-              onClick={handleCropComplete}
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              onClick={() => fileInputRef.current?.click()}
             >
-              Apply Crop
+              Select Image
             </Button>
+            <Typography variant="body2" sx={{ mt: 2, color: "text.secondary" }}>
+              Select an image to upload
+            </Typography>
           </Box>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            textAlign: "center",
-            p: 4,
-            border: "1px dashed grey",
-            borderRadius: 1,
-          }}
-        >
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            style={{ display: "none" }}
-          />
-          <Button
-            variant="contained"
-            component="label"
-            startIcon={<CloudUploadIcon />}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            Select Image
-          </Button>
-          <Typography variant="body2" sx={{ mt: 2, color: "text.secondary" }}>
-            Select an image to upload
-          </Typography>
-        </Box>
-      )}
-    </Box>
+        )}
+      </Box>
+    </>
   );
 };
 

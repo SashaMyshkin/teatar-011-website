@@ -4,6 +4,7 @@ import { useProfileImage } from "@/components/members_/hooks/useSelectProfileIma
 import { useMemberContext } from "../../MembersContext";
 import Loading from "@/components/loading/Loading";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
+import { useState } from "react";
 
 const MEDIA_ENTITY_TYPE = "image-profile";
 
@@ -11,6 +12,7 @@ export default function ProfilePhoto() {
   const { member_uid, identifier } = useMemberContext();
   const { profileImageData } = useProfileImage(member_uid, MEDIA_ENTITY_TYPE);
   const { mediaEntityType } = useMediaEntityType(MEDIA_ENTITY_TYPE);
+  const [count, setCount] = useState(0);
 
   if (member_uid && mediaEntityType) {
     const {
@@ -22,8 +24,11 @@ export default function ProfilePhoto() {
 
     const publicUrl = profileImageData?.public_url ?? null;
     const alt = profileImageData?.alt ?? null;
-    const imageId = profileImageData?.image_id ?? null
-    const path = profileImageData?.path ?? null
+    const imageId = profileImageData?.image_id ?? null;
+    const path = profileImageData?.path ?? null;
+    const width = profileImageData?.width ?? null;
+    const height = profileImageData?.height ?? null;
+    const size = profileImageData?.size ?? null;
 
     return (
       <ImageManageWrapper
@@ -38,6 +43,9 @@ export default function ProfilePhoto() {
         entity_id={member_uid}
         image_id={imageId}
         path={path}
+        imgWidth={width}
+        imgHeight={height}
+        imgSize={size}
       />
     );
   } else {

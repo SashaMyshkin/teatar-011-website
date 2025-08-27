@@ -3,6 +3,8 @@ import ImageManager from "./ImageManager";
 import { useLanguageContext } from "../context/LanguageContext";
 import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
 import { supabaseBrowserClient } from "@/lib/client";
+import { Box } from "@mui/material";
+import { getBlobDimensions } from "@/lib/helpers/imageCompression";
 
 type ImageManagerParentProps = {
   identifier: string;
@@ -16,6 +18,9 @@ type ImageManagerParentProps = {
   entity_type_id: number;
   path: string | null;
   image_id: number | null;
+  imgWidth: number | null;
+  imgHeight: number | null;
+  imgSize: number | null;
 };
 
 export default function ImageManageWrapper({
@@ -30,16 +35,20 @@ export default function ImageManageWrapper({
   folder,
   image_id,
   path,
+  imgHeight,
+  imgWidth,
+  imgSize,
 }: ImageManagerParentProps) {
   const [serverImage, setServerImage] = useState<string | null>(publicUrl);
-  const [width, setWidth] = useState<number | null>(null);
-  const [height, setHeight] = useState<number | null>(null);
+  const [width, setWidth] = useState<number | null>(imgWidth);
+  const [height, setHeight] = useState<number | null>(imgHeight);
+  const [size, setSize] = useState<number | null>(imgSize);
   const { scriptId } = useLanguageContext();
 
   const handleImageUpload = useCallback(
     async (croppedBlob: Blob): Promise<void> => {
-      const tempUrl = URL.createObjectURL(croppedBlob);
-      setServerImage(tempUrl);
+
+      setServerImage(URL.createObjectURL(croppedBlob));
 
       try {
         const savedImageInfo = await uploadImageToSupabase(
@@ -47,15 +56,23 @@ export default function ImageManageWrapper({
           `${folder}/${identifier}/${entity_type}`
         );
 
+        const { width: blobWidth, height: blobHeight } =
+          await getBlobDimensions(croppedBlob);
+
         await saveImageMetadata(savedImageInfo, {
-          width,
-          height,
+          width: blobWidth,
+          height: blobHeight,
           size: croppedBlob.size,
           alt: altText ?? "Default alt text",
           entity_id,
           script_id: scriptId,
           entity_type_id,
         });
+
+        setWidth(blobWidth);
+        setHeight(blobHeight);
+        setSize(croppedBlob.size);
+
         console.log("Image saved successfully.");
       } catch (error) {
         console.error("Error during image upload:", error);
@@ -77,15 +94,20 @@ export default function ImageManageWrapper({
   };
 
   return (
-    <ImageManager
-      serverImage={serverImage}
-      altText={altText}
-      onImageUpload={handleImageUpload}
-      onImageDelete={handleImageDelete}
-      aspectRatio={aspectRatio}
-      maxWidth={maxWidth}
-      setWidth={setWidth}
-      setHeight={setHeight}
-    />
+    <>
+      <ImageManager
+        serverImage={serverImage}
+        altText={altText}
+        onImageUpload={handleImageUpload}
+        onImageDelete={handleImageDelete}
+        aspectRatio={aspectRatio}
+        maxWidth={maxWidth}
+      />
+      <Box>
+        <div>Širina: {width}px</div>
+        <div>Visina: {height}px</div>
+        {size && <div>Veličina: {(size / 1024).toFixed(2)}KB</div>}
+      </Box>
+    </>
   );
 }
