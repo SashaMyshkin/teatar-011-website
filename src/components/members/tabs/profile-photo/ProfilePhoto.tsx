@@ -46,7 +46,7 @@ export default function ProfilePhoto() {
         </Box>
         {
           alt_id && <Box sx={{ width:"350px"}}>
-          <AltManager id={alt_id} altDefault={profileImageData.alt??""}></AltManager>
+          <AltManager id={alt_id} altText={profileImageData.alt??""}></AltManager>
         </Box>
         }
         
