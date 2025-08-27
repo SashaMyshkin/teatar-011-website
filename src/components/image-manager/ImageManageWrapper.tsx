@@ -103,11 +103,6 @@ export default function ImageManageWrapper({
         aspectRatio={aspectRatio}
         maxWidth={maxWidth}
       />
-      <Box>
-        <div>Širina: {width}px</div>
-        <div>Visina: {height}px</div>
-        {size && <div>Veličina: {(size / 1024).toFixed(2)}KB</div>}
-      </Box>
     </>
   );
 }

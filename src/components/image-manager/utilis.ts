@@ -2,11 +2,14 @@ import { supabaseBrowserClient } from "@/lib/client";
 
 type UploadResult = {
   publicUrl: string;
-  path:string;
+  path: string;
 };
 const BUCKET = "teatar-011";
 
-export async function uploadImageToSupabase(blob: Blob, pathname: string): Promise<UploadResult> {
+export async function uploadImageToSupabase(
+  blob: Blob,
+  pathname: string
+): Promise<UploadResult> {
   const filename = `${pathname}-${Date.now()}`;
   const { data, error } = await supabaseBrowserClient.storage
     .from(BUCKET)
@@ -26,7 +29,7 @@ export async function uploadImageToSupabase(blob: Blob, pathname: string): Promi
 
   return {
     publicUrl: publicInfo.publicUrl,
-    path:data.path,
+    path: data.path,
   };
 }
 
@@ -55,7 +58,7 @@ export async function saveImageMetadata(
     entity_id: options.entity_id,
     script_id: options.script_id,
     entity_type_id: options.entity_type_id,
-    path:uploadResult.path,
+    path: uploadResult.path,
   });
 
   const response = await fetch(url, {
@@ -71,6 +74,51 @@ export async function saveImageMetadata(
   return await response.json();
 }
 
-export function onImageDelete(path:string){
+export function onImageDelete(path: string) {}
 
-}
+// Helper function to generate cropped image
+export const createImage = (url: string): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("error", (error) => reject(error));
+    image.src = url;
+  });
+
+export const getCroppedImg = async (
+  imageSrc: string,
+  pixelCrop: PixelCrop
+): Promise<Blob> => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Canvas context is null");
+  }
+
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
+
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  );
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        throw new Error("Canvas to Blob conversion failed");
+      }
+    }, "image/webp");
+  });
+};

@@ -1,104 +1,24 @@
 import React, { useState, useCallback, useRef, ChangeEvent } from "react";
-import Cropper, { Area } from "react-easy-crop"; // Import Area type from react-easy-crop
+import { Area } from "react-easy-crop"; // Import Area type from react-easy-crop
 import {
   Box,
-  Button,
-  Card,
-  CardMedia,
-  IconButton,
-  Slider,
-  Typography,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckIcon from "@mui/icons-material/Check";
 import {
   compressAndResizeImage,
-  getImageDimensions,
   toBlob,
   toFile,
 } from "@/lib/helpers/imageCompression";
-
-// Constants
-const MIN_ZOOM = 1;
-const MAX_ZOOM = 3;
-const ZOOM_STEP = 0.1;
-
-// Helper function to generate cropped image
-const createImage = (url: string): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const image = new Image();
-    image.addEventListener("load", () => resolve(image));
-    image.addEventListener("error", (error) => reject(error));
-    image.src = url;
-  });
-
-// Define PixelCrop type for cropping coordinates
-type PixelCrop = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
-
-const getCroppedImg = async (
-  imageSrc: string,
-  pixelCrop: PixelCrop
-): Promise<Blob> => {
-  const image = await createImage(imageSrc);
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
-  if (!ctx) {
-    throw new Error("Canvas context is null");
-  }
-
-  canvas.width = pixelCrop.width;
-  canvas.height = pixelCrop.height;
-
-  ctx.drawImage(
-    image,
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height,
-    0,
-    0,
-    pixelCrop.width,
-    pixelCrop.height
-  );
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
-        resolve(blob);
-      } else {
-        throw new Error("Canvas to Blob conversion failed");
-      }
-    }, "image/webp");
-  });
-};
-
-// Define component props
-interface ImageManagerProps {
-  onImageUpload: (image: Blob) => void;
-  onImageDelete: () => void;
-  aspectRatio: number | undefined;
-  maxWidth: number;
-  serverImage: string | null;
-  altText: string | null;
-}
+import ServerImagePreview from "./ServerImagePreview";
+import CropperArea from "./CropperArea";
+import ChooseImage from "./ChooseImage";
+import { getCroppedImg } from "./utilis";
 
 const ImageManager: React.FC<ImageManagerProps> = ({
   serverImage,
-  altText,
   onImageUpload,
   onImageDelete,
- 
   aspectRatio,
   maxWidth,
- 
 }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -111,7 +31,6 @@ const ImageManager: React.FC<ImageManagerProps> = ({
       const file = e.target.files[0];
       const imageDataUrl = await readFile(file);
       setImageSrc(imageDataUrl);
-      
     }
   };
 
@@ -141,7 +60,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
       );
 
       if (compressedData) {
-        const imageFile = compressedData.file
+        const imageFile = compressedData.file;
         const resizedBlob = toBlob(imageFile);
         onImageUpload(resizedBlob);
       }
@@ -170,111 +89,27 @@ const ImageManager: React.FC<ImageManagerProps> = ({
     <>
       <Box sx={{ maxWidth: 250, m: "auto" }}>
         {serverImage ? (
-          <Card>
-            <CardMedia
-              component="img"
-              image={serverImage}
-              alt="Server content"
-            />
-            <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
-              <Button
-                variant="contained"
-                size="small"
-                color="error"
-                startIcon={<DeleteIcon />}
-                onClick={onImageDelete}
-              >
-                Delete Image
-              </Button>
-            </Box>
-          </Card>
+          <ServerImagePreview
+            onImageDelete={onImageDelete}
+            serverImage={serverImage}
+          ></ServerImagePreview>
         ) : imageSrc ? (
-          <Box>
-            <Box
-              sx={{
-                position: "relative",
-                height: 400,
-                width: "100%",
-                bgcolor: "grey.200",
-                mb: 2,
-              }}
-            >
-              <Cropper
-                image={imageSrc}
-                crop={crop}
-                zoom={zoom}
-                aspect={aspectRatio}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-                minZoom={MIN_ZOOM}
-                maxZoom={MAX_ZOOM}
-              />
-            </Box>
-
-            <Box sx={{ mb: 2, px: 2 }}>
-              <Typography variant="body2" gutterBottom>
-                Zoom: {zoom.toFixed(1)}
-              </Typography>
-              <Slider
-                value={zoom}
-                min={MIN_ZOOM}
-                max={MAX_ZOOM}
-                step={ZOOM_STEP}
-                onChange={(_: Event, value: number | number[]) =>
-                  setZoom(Array.isArray(value) ? value[0] : value)
-                }
-                aria-labelledby="Zoom"
-              />
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<CancelIcon />}
-                onClick={handleCancelCrop}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<CheckIcon />}
-                onClick={handleCropComplete}
-              >
-                Apply Crop
-              </Button>
-            </Box>
-          </Box>
+          <CropperArea
+            imageSrc={imageSrc}
+            crop={crop}
+            zoom={zoom}
+            aspectRatio={aspectRatio}
+            setCrop={setCrop}
+            setZoom={setZoom}
+            onCropComplete={onCropComplete}
+            handleCancelCrop={handleCancelCrop}
+            handleCropComplete={handleCropComplete}
+          />
         ) : (
-          <Box
-            sx={{
-              textAlign: "center",
-              p: 4,
-              border: "1px dashed grey",
-              borderRadius: 1,
-            }}
-          >
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/*"
-              style={{ display: "none" }}
-            />
-            <Button
-              variant="contained"
-              component="label"
-              startIcon={<CloudUploadIcon />}
-              onClick={() => fileInputRef.current?.click()}
-            >
-              Select Image
-            </Button>
-            <Typography variant="body2" sx={{ mt: 2, color: "text.secondary" }}>
-              Select an image to upload
-            </Typography>
-          </Box>
+          <ChooseImage
+            fileInputRef={fileInputRef}
+            handleFileChange={handleFileChange}
+          ></ChooseImage>
         )}
       </Box>
     </>
