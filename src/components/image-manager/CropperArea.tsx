@@ -13,6 +13,7 @@ interface CropperAreaProps {
   onCropComplete: (_: Area, croppedAreaPixels: Area) => void;
   handleCancelCrop: () => void;
   handleCropComplete: () => void;
+  loading:boolean
 }
 
 const MIN_ZOOM = 1;
@@ -28,7 +29,8 @@ export default function CropperArea({
   setZoom,
   onCropComplete,
   handleCancelCrop,
-  handleCropComplete
+  handleCropComplete,
+  loading
 }: CropperAreaProps) {
   return (
     <Box>
@@ -77,15 +79,16 @@ export default function CropperArea({
           startIcon={<CancelIcon />}
           onClick={handleCancelCrop}
         >
-          Cancel
+          Otkaži
         </Button>
         <Button
           variant="contained"
           color="success"
           startIcon={<CheckIcon />}
           onClick={handleCropComplete}
+          loading={loading}
         >
-          Apply Crop
+          Sačuvaj
         </Button>
       </Box>
     </Box>

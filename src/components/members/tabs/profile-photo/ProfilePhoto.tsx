@@ -21,7 +21,6 @@ export default function ProfilePhoto() {
           width: profileImageData.width,
           height: profileImageData.height,
           size: profileImageData.size,
-          entityId: member_uid,
         }
       : null;
 
@@ -31,11 +30,15 @@ export default function ProfilePhoto() {
       entity_type_id: mediaEntityType.id,
     };
 
+    
+
     return (
       <ImageManageWrapper
         serverData={serverData}
         defaults={defaults}
         futurePath={`members/${identifier}/${mediaEntityType.type}`}
+        entityId={member_uid}
+       
       />
     );
   } else {

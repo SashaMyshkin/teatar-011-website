@@ -8,7 +8,7 @@ type PixelCrop = {
 
 // Define component props
 interface ImageManagerProps {
-  onImageUpload: (image: Blob) => void;
+  onImageUpload: (image: Blob) => Promise<void>;
   onImageDelete: () => void;
   aspectRatio: number | undefined;
   maxWidth: number;
@@ -19,7 +19,6 @@ type ImageManagerParentProps = {
   serverData: {
     publicUrl: string | null;
     alt: string  | null;
-    entityId: number  | null;
     imageId: number  | null;
     path: string  | null;
     width: number  | null;
@@ -33,6 +32,8 @@ type ImageManagerParentProps = {
     entity_type_id: number;
   };
 
-  futurePath:string
+  futurePath:string;
+
+  entityId: number  | null;
 
 };

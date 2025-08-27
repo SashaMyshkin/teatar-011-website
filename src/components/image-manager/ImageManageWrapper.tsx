@@ -9,21 +9,15 @@ export default function ImageManageWrapper({
   serverData,
   defaults,
   futurePath,
+  entityId,
 }: ImageManagerParentProps) {
   const [serverImage, setServerImage] = useState<string | null>(
     serverData?.publicUrl ?? null
   );
-  const [width, setWidth] = useState<number | null>(serverData?.width ?? null);
-  const [height, setHeight] = useState<number | null>(
-    serverData?.height ?? null
-  );
-  const [size, setSize] = useState<number | null>(serverData?.size ?? null);
   const { scriptId } = useLanguageContext();
 
   const handleImageUpload = useCallback(
     async (croppedBlob: Blob): Promise<void> => {
-      setServerImage(URL.createObjectURL(croppedBlob));
-
       try {
         const savedImageInfo = await uploadImageToSupabase(
           croppedBlob,
@@ -38,18 +32,20 @@ export default function ImageManageWrapper({
           height: blobHeight,
           size: croppedBlob.size,
           alt: "Default alt text",
-          entity_id: serverData?.entityId ?? null,
+          entity_id: entityId,
           script_id: scriptId,
           entity_type_id: defaults.entity_type_id,
         });
 
-        setWidth(blobWidth);
-        setHeight(blobHeight);
-        setSize(croppedBlob.size);
+        
+        //setServerImage(URL.createObjectURL(croppedBlob));
+        
 
-        console.log("Image saved successfully.");
+        console.log("Image saved successfully. <3");
       } catch (error) {
         console.error("Error during image upload:", error);
+      } finally {
+        
       }
     },
     []
@@ -57,15 +53,15 @@ export default function ImageManageWrapper({
 
   const handleImageDelete = async (): Promise<void> => {
     if (serverData) {
-      await supabaseBrowserClient.storage
-        .from("teatar-011")
-        .remove([serverData.path ?? ""]);
+        await supabaseBrowserClient.storage
+          .from("teatar-011")
+          .remove([serverData.path ?? ""]);
 
-      await supabaseBrowserClient
-        .from("media_images")
-        .delete()
-        .eq("id", serverData.imageId ?? 0);
-      setServerImage(null);
+        await supabaseBrowserClient
+          .from("media_images")
+          .delete()
+          .eq("id", serverData.imageId ?? 0);
+      //setServerImage(null);
     }
   };
 

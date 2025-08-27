@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useRef, ChangeEvent } from "react";
 import { Area } from "react-easy-crop"; // Import Area type from react-easy-crop
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import {
   compressAndResizeImage,
   toBlob,
@@ -25,6 +23,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
   const [zoom, setZoom] = useState<number>(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -49,6 +48,8 @@ const ImageManager: React.FC<ImageManagerProps> = ({
     try {
       if (!imageSrc || !croppedAreaPixels) return;
 
+      setLoading(true);
+
       const croppedImage = await getCroppedImg(
         imageSrc,
         croppedAreaPixels as PixelCrop
@@ -62,12 +63,14 @@ const ImageManager: React.FC<ImageManagerProps> = ({
       if (compressedData) {
         const imageFile = compressedData.file;
         const resizedBlob = toBlob(imageFile);
-        onImageUpload(resizedBlob);
+        await onImageUpload(resizedBlob);
       }
 
       resetState();
     } catch (e) {
       console.error("Error cropping image", e);
+    } finally {
+      setLoading(false);
     }
   }, [croppedAreaPixels, imageSrc, onImageUpload]);
 
@@ -104,6 +107,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
             onCropComplete={onCropComplete}
             handleCancelCrop={handleCancelCrop}
             handleCropComplete={handleCropComplete}
+            loading={loading}
           />
         ) : (
           <ChooseImage
