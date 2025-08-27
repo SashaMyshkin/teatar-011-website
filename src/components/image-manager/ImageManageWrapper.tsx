@@ -66,10 +66,9 @@ export default function ImageManageWrapper({
 
   const handleImageDelete = async (): Promise<void> => {
     if (serverImage && image_id && path) {
-      const deleteBucketResult = await supabaseBrowserClient.storage
-        .from(`teatar-011`)
-        .remove([path]);
-      const deleteRecordResult = await supabaseBrowserClient
+      await supabaseBrowserClient.storage.from("teatar-011").remove([path]);
+
+      await supabaseBrowserClient
         .from("media_images")
         .delete()
         .eq("id", image_id);
