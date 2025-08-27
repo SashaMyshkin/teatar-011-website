@@ -13,6 +13,7 @@ interface ImageManagerProps {
   aspectRatio: number | undefined;
   maxWidth: number;
   serverImage: string | null;
+  deleteLoading:boolean
 }
 
 type ImageManagerParentProps = {

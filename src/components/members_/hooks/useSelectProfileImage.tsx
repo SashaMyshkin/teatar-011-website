@@ -1,4 +1,5 @@
 // useUser.ts
+import { useChange } from "@/components/context/ChangeContext";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { Database } from "@/lib/database.t";
@@ -12,6 +13,7 @@ export function useProfileImage(member_uid: number, type: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { scriptId } = useLanguageContext();
+  const {changeCount} = useChange()
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,7 +49,7 @@ export function useProfileImage(member_uid: number, type: string) {
     return () => {
       controller.abort();
     };
-  }, [scriptId]);
+  }, [scriptId,changeCount]);
 
   return { profileImageData, loading, error };
 }

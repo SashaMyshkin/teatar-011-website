@@ -6,6 +6,7 @@ import CustomTabPanel from "@/components/members/tabs/CustomTabPanel";
 import BasicInfoTab from "@/components/members/tabs/basic-info/BasicInfoTab";
 import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
 import ProfilePhoto from "@/components/members/tabs/profile-photo/ProfilePhoto";
+import { ChangeProvider } from "@/components/context/ChangeContext";
 
 function a11yProps(index: number) {
   return {
@@ -38,7 +39,8 @@ export default function MemberTabs() {
         <BiographyTab/>
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={2}>
-        <ProfilePhoto/>
+        <ChangeProvider><ProfilePhoto/></ChangeProvider>
+        
       </CustomTabPanel>
     </Box>
   );

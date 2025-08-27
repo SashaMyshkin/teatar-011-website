@@ -17,6 +17,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
   onImageDelete,
   aspectRatio,
   maxWidth,
+  deleteLoading,
 }) => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -90,11 +91,12 @@ const ImageManager: React.FC<ImageManagerProps> = ({
 
   return (
     <>
-      <Box sx={{ maxWidth: 250, m: "auto" }}>
+      <Box sx={{ maxWidth: 400, m: "auto" }}>
         {serverImage ? (
           <ServerImagePreview
             onImageDelete={onImageDelete}
             serverImage={serverImage}
+            deleteLoading={deleteLoading}
           ></ServerImagePreview>
         ) : imageSrc ? (
           <CropperArea

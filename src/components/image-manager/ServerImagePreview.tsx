@@ -4,11 +4,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 interface ServerImagePreview {
   onImageDelete: () => void;
   serverImage: string;
+  deleteLoading: boolean;
 }
 
 export default function ServerImagePreview({
   onImageDelete,
   serverImage,
+  deleteLoading,
 }: ServerImagePreview) {
   return (
     <Card>
@@ -20,6 +22,7 @@ export default function ServerImagePreview({
           color="error"
           startIcon={<DeleteIcon />}
           onClick={onImageDelete}
+          loading={deleteLoading}
         >
           Obriši
         </Button>

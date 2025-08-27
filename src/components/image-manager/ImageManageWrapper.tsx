@@ -4,6 +4,7 @@ import { useLanguageContext } from "../context/LanguageContext";
 import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
 import { supabaseBrowserClient } from "@/lib/client";
 import { getBlobDimensions } from "@/lib/helpers/imageCompression";
+import { useChange } from "../context/ChangeContext";
 
 export default function ImageManageWrapper({
   serverData,
@@ -14,7 +15,9 @@ export default function ImageManageWrapper({
   const [serverImage, setServerImage] = useState<string | null>(
     serverData?.publicUrl ?? null
   );
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { scriptId } = useLanguageContext();
+  const { notifyChange } = useChange();
 
   const handleImageUpload = useCallback(
     async (croppedBlob: Blob): Promise<void> => {
@@ -37,15 +40,12 @@ export default function ImageManageWrapper({
           entity_type_id: defaults.entity_type_id,
         });
 
-        
-        //setServerImage(URL.createObjectURL(croppedBlob));
-        
+        setServerImage(URL.createObjectURL(croppedBlob));
+        notifyChange();
 
         console.log("Image saved successfully. <3");
       } catch (error) {
         console.error("Error during image upload:", error);
-      } finally {
-        
       }
     },
     []
@@ -53,15 +53,18 @@ export default function ImageManageWrapper({
 
   const handleImageDelete = async (): Promise<void> => {
     if (serverData) {
-        await supabaseBrowserClient.storage
-          .from("teatar-011")
-          .remove([serverData.path ?? ""]);
+      setDeleteLoading(true)
+      await supabaseBrowserClient.storage
+        .from("teatar-011")
+        .remove([serverData.path ?? ""]);
 
-        await supabaseBrowserClient
-          .from("media_images")
-          .delete()
-          .eq("id", serverData.imageId ?? 0);
-      //setServerImage(null);
+      await supabaseBrowserClient
+        .from("media_images")
+        .delete()
+        .eq("id", serverData.imageId ?? 0);
+      setServerImage(null);
+      setDeleteLoading(false);
+      notifyChange();
     }
   };
 
@@ -73,6 +76,7 @@ export default function ImageManageWrapper({
         onImageDelete={handleImageDelete}
         aspectRatio={defaults.aspectRatio}
         maxWidth={defaults.maxWidth}
+        deleteLoading={deleteLoading}
       />
     </>
   );
