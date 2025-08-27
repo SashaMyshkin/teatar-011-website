@@ -1113,6 +1113,7 @@ export type Database = {
       v_images: {
         Row: {
           alt: string | null
+          alt_id: number | null
           entity_id: number | null
           height: number | null
           image_id: number | null

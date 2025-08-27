@@ -91,7 +91,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
 
   return (
     <>
-      <Box sx={{ maxWidth: 400, m: "auto" }}>
+      <Box sx={{ maxWidth: 350, m: "auto" }}>
         {serverImage ? (
           <ServerImagePreview
             onImageDelete={onImageDelete}

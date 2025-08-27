@@ -3,6 +3,8 @@ import { useProfileImage } from "@/components/members_/hooks/useSelectProfileIma
 import { useMemberContext } from "../../MembersContext";
 import Loading from "@/components/loading/Loading";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
+import { Box, TextField } from "@mui/material";
+import AltManager from "@/components/image-manager/AltManager";
 
 const MEDIA_ENTITY_TYPE = "image-profile";
 
@@ -30,13 +32,26 @@ export default function ProfilePhoto() {
       entity_type_id: mediaEntityType.id,
     };
 
+    const alt_id =profileImageData?.alt_id
+
     return (
-      <ImageManageWrapper
-        serverData={serverData}
-        defaults={defaults}
-        futurePath={`members/${identifier}/${mediaEntityType.type}`}
-        entityId={member_uid}
-      />
+      <Box sx={{display:"flex", justifyContent:"center", gap:"2rem", width:"90%", margin:"auto"}}>
+        <Box>
+          <ImageManageWrapper
+          serverData={serverData}
+          defaults={defaults}
+          futurePath={`members/${identifier}/${mediaEntityType.type}`}
+          entityId={member_uid}
+        />
+        </Box>
+        {
+          alt_id && <Box sx={{ width:"350px"}}>
+          <AltManager id={alt_id} altDefault={profileImageData.alt??""}></AltManager>
+        </Box>
+        }
+        
+        
+      </Box>
     );
   } else {
     return <Loading></Loading>;
