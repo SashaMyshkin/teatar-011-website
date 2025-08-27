@@ -36,21 +36,3 @@ type ImageManagerParentProps = {
   futurePath:string
 
 };
-
-type ImageManagerParentPropsss = {
-  publicUrl: string | null;
-  altText: string | null;
-  entity_id: number;
-  image_id: number | null;
-  path: string | null;
-  imgWidth: number | null;
-  imgHeight: number | null;
-  imgSize: number | null;
-  maxWidth: number;
-  aspectRatio: number;
-  entity_type_id: number;
-
-  identifier: string;
-  entity_type: string;
-  folder: string;
-};
