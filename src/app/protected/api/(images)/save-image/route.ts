@@ -36,27 +36,24 @@ export async function POST(request: NextRequest) {
   try {
     jsonFromBody = await request.json();
   } catch (error) {
-    console.error(error);
     return respondWithError(ValidationErrorCodes.JSONExpected);
   }
 
   //Check if data are well-formed
   const validFormatRes = addImageValidator.safeParse(jsonFromBody);
   if (!validFormatRes.success) {
-    console.log(validFormatRes.error)
     return respondWithError(
       ValidationErrorCodes.InvalidFormat,
       validFormatRes.error.issues[0].message
     );
   }
 
-  const { public_url, width, size, height } = validFormatRes.data;
+  const { public_url, width, size, height, path } = validFormatRes.data;
 
   const { data: imageInsertionData, error: imageInsertionError } =
-    await insertImage({ public_url, width, size, height });
+    await insertImage({ public_url, width, size, height, path });
 
   if (imageInsertionError) {
-    console.log(imageInsertionError)
     return respondWithError(
       ServerErrorCodes.SomethingWentWrong,
       "We could not retrieve the id of an image"
@@ -76,7 +73,6 @@ export async function POST(request: NextRequest) {
   );
 
   if (altInsertionError) {
-    console.log(altInsertionError)
     await deleteImage(image_id);
     return respondWithError(
       ServerErrorCodes.SomethingWentWrong,

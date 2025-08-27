@@ -12,10 +12,6 @@ export default function ProfilePhoto() {
   const { profileImageData } = useProfileImage(member_uid, MEDIA_ENTITY_TYPE);
   const { mediaEntityType } = useMediaEntityType(MEDIA_ENTITY_TYPE);
 
-  console.log("member_uid: ", member_uid);
-  console.log("mediaEntityType: ", mediaEntityType);
-  console.log("profileImageData: ", profileImageData);
-
   if (member_uid && mediaEntityType) {
     const {
       aspect_ratio,
@@ -24,20 +20,24 @@ export default function ProfilePhoto() {
       type: entity_type,
     } = mediaEntityType;
 
-    const pathname = profileImageData?.pathname ?? null;
+    const publicUrl = profileImageData?.public_url ?? null;
     const alt = profileImageData?.alt ?? null;
+    const imageId = profileImageData?.image_id ?? null
+    const path = profileImageData?.path ?? null
 
     return (
       <ImageManageWrapper
         aspectRatio={aspect_ratio}
         maxWidth={max_width}
-        serverPathname={pathname}
+        publicUrl={publicUrl}
         altText={alt}
         entity_type_id={entity_type_id}
         identifier={identifier}
         entity_type={entity_type}
         folder={"/members/"}
         entity_id={member_uid}
+        image_id={imageId}
+        path={path}
       />
     );
   } else {

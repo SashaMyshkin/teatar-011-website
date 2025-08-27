@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import ImageManager from "./ImageManager";
 import { useLanguageContext } from "../context/LanguageContext";
 import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
+import { supabaseBrowserClient } from "@/lib/client";
 
 type ImageManagerParentProps = {
   identifier: string;
@@ -9,24 +10,28 @@ type ImageManagerParentProps = {
   folder: string;
   aspectRatio: number;
   maxWidth: number;
-  serverPathname: string | null;
+  publicUrl: string | null;
   altText: string | null;
   entity_id: number;
   entity_type_id: number;
+  path: string | null;
+  image_id: number | null;
 };
 
 export default function ImageManageWrapper({
   aspectRatio,
   maxWidth,
-  serverPathname,
+  publicUrl,
   altText,
   entity_id,
   entity_type_id,
   entity_type,
   identifier,
   folder,
+  image_id,
+  path,
 }: ImageManagerParentProps) {
-  const [serverImage, setServerImage] = useState<string | null>(serverPathname);
+  const [serverImage, setServerImage] = useState<string | null>(publicUrl);
   const [width, setWidth] = useState<number | null>(null);
   const [height, setHeight] = useState<number | null>(null);
   const { scriptId } = useLanguageContext();
@@ -41,7 +46,7 @@ export default function ImageManageWrapper({
           croppedBlob,
           `${folder}/${identifier}/${entity_type}`
         );
-        
+
         await saveImageMetadata(savedImageInfo, {
           width,
           height,
@@ -59,10 +64,18 @@ export default function ImageManageWrapper({
     [width, height, entity_id, entity_type_id, scriptId, altText]
   );
 
-  const handleImageDelete = useCallback(async (): Promise<void> => {
-    setServerImage(null);
-    // Here, also implement deletion from Supabase if needed
-  }, []);
+  const handleImageDelete = async (): Promise<void> => {
+    if (serverImage && image_id && path) {
+      const deleteBucketResult = await supabaseBrowserClient.storage
+        .from(`teatar-011`)
+        .remove([path]);
+      const deleteRecordResult = await supabaseBrowserClient
+        .from("media_images")
+        .delete()
+        .eq("id", image_id);
+      setServerImage(null);
+    }
+  };
 
   return (
     <ImageManager

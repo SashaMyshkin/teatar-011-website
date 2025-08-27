@@ -285,6 +285,7 @@ export type Database = {
         Row: {
           height: number
           id: number
+          path: string
           public_url: string
           size: number
           width: number
@@ -292,6 +293,7 @@ export type Database = {
         Insert: {
           height: number
           id?: number
+          path: string
           public_url: string
           size: number
           width: number
@@ -299,6 +301,7 @@ export type Database = {
         Update: {
           height?: number
           id?: number
+          path?: string
           public_url?: string
           size?: number
           width?: number
@@ -326,13 +329,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "images_alt_image_id_fkey"
-            columns: ["image_id"]
-            isOneToOne: false
-            referencedRelation: "media_images"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "images_alt_script_id_fkey"
             columns: ["script_id"]
             isOneToOne: false
@@ -352,6 +348,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "v_membership_statuses"
             referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "media_images_alt_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: false
+            referencedRelation: "media_images"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "media_images_alt_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: false
+            referencedRelation: "v_images"
+            referencedColumns: ["image_id"]
           },
         ]
       }
@@ -386,11 +396,18 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "images_relations_image_id_fkey"
+            foreignKeyName: "media_images_relations_image_id_fkey"
             columns: ["image_id"]
             isOneToOne: false
             referencedRelation: "media_images"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "media_images_relations_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: false
+            referencedRelation: "v_images"
+            referencedColumns: ["image_id"]
           },
         ]
       }
@@ -1098,7 +1115,9 @@ export type Database = {
           alt: string | null
           entity_id: number | null
           height: number | null
-          pathname: string | null
+          image_id: number | null
+          path: string | null
+          public_url: string | null
           script_id: number | null
           type: string | null
           width: number | null

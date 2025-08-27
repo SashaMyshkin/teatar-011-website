@@ -2,7 +2,7 @@ import { supabaseBrowserClient } from "@/lib/client";
 
 type UploadResult = {
   publicUrl: string;
-  supabaseId: string;
+  path:string;
 };
 const BUCKET = "teatar-011";
 
@@ -26,7 +26,7 @@ export async function uploadImageToSupabase(blob: Blob, pathname: string): Promi
 
   return {
     publicUrl: publicInfo.publicUrl,
-    supabaseId: data.id,
+    path:data.path,
   };
 }
 
@@ -52,10 +52,10 @@ export async function saveImageMetadata(
     height: options.height,
     size: options.size,
     alt: options.alt,
-    supabase_id: uploadResult.supabaseId,
     entity_id: options.entity_id,
     script_id: options.script_id,
     entity_type_id: options.entity_type_id,
+    path:uploadResult.path,
   });
 
   const response = await fetch(url, {
@@ -65,7 +65,6 @@ export async function saveImageMetadata(
   });
 
   if (!response.ok) {
-    console.log(await response.json())
     throw new Error(`Failed to save image metadata: ${response.statusText}`);
   }
 
