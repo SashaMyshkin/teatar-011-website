@@ -1,4 +1,3 @@
-
 import React, { ReactNode } from "react";
 import { MemberContextProps } from "@components/members/types";
 import { useSelectMemberByIdentifier } from "@components/members/hooks/useSelectMemberByIdentifier";
@@ -26,10 +25,19 @@ export function MemberProvider({ children }: { children: ReactNode }) {
   }
 
   return memberUidRow ? (
-    <MemberContext.Provider value={{ member_uid: memberUidRow.id, identifier }}>
+    <MemberContext.Provider
+      value={{
+        member_uid: memberUidRow.id,
+        identifier,
+        isPublic: Boolean(memberUidRow.is_public),
+        isActive: Boolean(memberUidRow.is_active),
+      }}
+    >
       {children}
     </MemberContext.Provider>
   ) : (
-    <Typography color="error">Could not provide Member context. The member might not exist.</Typography>
+    <Typography color="error">
+      Could not provide Member context. The member might not exist.
+    </Typography>
   );
 }

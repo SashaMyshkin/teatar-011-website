@@ -81,4 +81,6 @@ export type ParagraphRow = Database["public"]["Tables"]["members_biographies"]["
 export type MemberContextProps = {
   member_uid: number;
   identifier: string;
+  isPublic:boolean;
+  isActive:boolean;
 };
