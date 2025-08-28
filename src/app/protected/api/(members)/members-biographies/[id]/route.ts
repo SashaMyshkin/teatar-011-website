@@ -7,7 +7,7 @@ import { createClient } from "@/lib/server";
 import {
   idValidation,
   updateParagraphValidFormat,
-} from "@/lib/zod/api/members_biographies";
+} from "@/lib/zod/api/members/biography";
 import { NextRequest, NextResponse } from "next/server";
 
 //GET handler not needed

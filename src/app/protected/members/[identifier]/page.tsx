@@ -1,10 +1,12 @@
+"use client"
+import { MemberProvider } from "@/components/members/MembersContext";
 import MemberTabs from "@/components/members/tabs/MemberTabs";
 import React from "react";
 
-export default async function Home() {
+export default function Home() {
   return (
-    <React.Fragment>
+    <MemberProvider>
       <MemberTabs></MemberTabs>
-    </React.Fragment>
+    </MemberProvider>
   );
 }

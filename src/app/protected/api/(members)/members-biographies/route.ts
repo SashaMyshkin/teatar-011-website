@@ -11,7 +11,7 @@ import { createClient } from "@/lib/server";
 import {
   addParagraphRequiredFields,
   addParagraphValidFormat,
-} from "@/lib/zod/api/members_biographies";
+} from "@/lib/zod/api/members/biography";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

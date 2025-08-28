@@ -2,10 +2,10 @@
 
 import { Box, Alert } from "@mui/material";
 import React from "react";
-import Content from "@/components/members_/tabs/biography/editor/Content";
-import Controls from "@/components/members_/tabs/biography/editor/Controls";
+import Content from "@/components/members/tabs/biography/editor/Content";
+import Controls from "@/components/members/tabs/biography/editor/Controls";
 import { useParams } from "next/navigation";
-import { useSelectBiography } from "@/components/members_/hooks/useSelectBiography";
+import { useSelectBiography } from "@/components/members/hooks/useSelectBiography";
 import Loading from "@/components/loading/Loading";
 
 export default function BiographyEditor() {

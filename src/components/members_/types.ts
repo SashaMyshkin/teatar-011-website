@@ -77,8 +77,3 @@ export type SelectMembersProps = {
 
 //BIOGRAPHY
 export type ParagraphRow = Database["public"]["Tables"]["members_biographies"]["Row"]
-
-export type MemberContextProps = {
-  member_uid: number;
-  identifier: string;
-};
