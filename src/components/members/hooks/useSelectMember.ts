@@ -2,7 +2,7 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { NormalizedUpdateMemberForm } from "@/components/members_/types";
+import { NormalizedUpdateMemberForm } from "@/components/members/types";
 import { normalizeMemberData } from "@/lib/helpers/members";
 
 export function useSelectMember(identifier: string) {

@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import React from "react";
-import { SelectMembersForm } from "../types";
+import { SelectMembersForm } from "@components/members/types";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 
 export default function useSelectMembers() {

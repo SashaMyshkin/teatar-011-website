@@ -3,7 +3,6 @@ import { useChange } from "@/components/context/ChangeContext";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { Database } from "@/lib/database.t";
-import { result } from "lodash";
 import { useEffect, useState } from "react";
 
 type Image = Database["public"]["Views"]["v_images"]["Row"];
@@ -49,7 +48,7 @@ export function useProfileImage(member_uid: number, type: string) {
     return () => {
       controller.abort();
     };
-  }, [scriptId,changeCount]);
+  }, [scriptId,changeCount, member_uid, type]);
 
   return { profileImageData, loading, error };
 }

@@ -11,8 +11,8 @@ import {
   dragHandleStyle,
   textFieldInputProps,
   textFieldSx,
-} from "@/components/members_/tabs/biography/editor/styles";
-import { ParagraphCardProps } from "@/components/members_/tabs/biography/editor/types";
+} from "@/components/members/tabs/biography/editor/styles";
+import { ParagraphCardProps } from "@/components/members/tabs/biography/editor/types";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
 import { useAlert } from "@/components/context/AlertContext";
 import { useChange } from "@/components/context/ChangeContext";
@@ -55,25 +55,25 @@ export default function ParagraphCard({
     if (updateMessage !== "") {
       showAlert(updateMessage, updateSeverity);
     }
-  }, [updateMessage, updateSeverity]);
+  }, [updateMessage, updateSeverity, showAlert]);
 
   React.useEffect(() => {
     if (updateSuccess) {
       setParagraph(paragraphChanges)
     }
-  }, [updateSuccess]);
+  }, [updateSuccess, setParagraph, paragraphChanges]);
 
   React.useEffect(() => {
     if (deleteMessage !== "") {
       showAlert(deleteMessage, deleteSeverity);
     }
-  }, [deleteMessage, deleteSeverity]);
+  }, [deleteMessage, deleteSeverity,showAlert]);
 
   React.useEffect(() => {
     if (deleteSuccess) {
       notifyChange();
     }
-  }, [deleteSuccess]);
+  }, [deleteSuccess,notifyChange]);
 
   const handleSave = async () => {
     await updateSubmit({ paragraph: paragraphChanges });

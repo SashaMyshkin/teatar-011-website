@@ -6,10 +6,11 @@ import {
   toBlob,
   toFile,
 } from "@/lib/helpers/imageCompression";
-import ServerImagePreview from "./ServerImagePreview";
-import CropperArea from "./CropperArea";
-import ChooseImage from "./ChooseImage";
-import { getCroppedImg } from "./utilis";
+import ServerImagePreview from "@components/image-manager/ServerImagePreview";
+import CropperArea from "@components/image-manager/CropperArea";
+import ChooseImage from "@components/image-manager/ChooseImage";
+import { getCroppedImg } from "@components/image-manager/utilis";
+import { ImageManagerProps, PixelCrop } from "@components/image-manager/types";
 
 const ImageManager: React.FC<ImageManagerProps> = ({
   serverImage,
@@ -73,7 +74,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [croppedAreaPixels, imageSrc, onImageUpload]);
+  }, [croppedAreaPixels, imageSrc, onImageUpload,maxWidth]);
 
   const resetState = () => {
     setImageSrc(null);

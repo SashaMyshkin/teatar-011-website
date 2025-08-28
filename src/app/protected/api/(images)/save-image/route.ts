@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
   try {
     jsonFromBody = await request.json();
   } catch (error) {
+    console.log(error)
     return respondWithError(ValidationErrorCodes.JSONExpected);
   }
 

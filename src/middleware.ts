@@ -1,6 +1,6 @@
 import { updateSession } from "@/lib/middleware";
 import { NextResponse, type NextRequest } from "next/server";
-import { defaultScript } from "./lib/variables";
+import { defaultScript } from "@lib/variables";
 
 const locales = ["sr-cyrl", "sr-latn", "en"]; // add more as needed
 

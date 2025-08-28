@@ -27,7 +27,7 @@ export default function BasicInfoForm({ initialFormState }: Props) {
     if (message !== "") {
       showAlert(message, severity);
     }
-  }, [message, severity]);
+  }, [message, severity, showAlert]);
 
   function normalizeDateField(form: FormData, fieldName: string) {
     const dateStr = form.get(fieldName);

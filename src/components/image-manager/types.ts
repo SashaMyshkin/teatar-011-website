@@ -1,5 +1,5 @@
 // Define PixelCrop type for cropping coordinates
-type PixelCrop = {
+export type PixelCrop = {
   x: number;
   y: number;
   width: number;
@@ -7,7 +7,7 @@ type PixelCrop = {
 };
 
 // Define component props
-interface ImageManagerProps {
+export interface ImageManagerProps {
   onImageUpload: (image: Blob) => Promise<void>;
   onImageDelete: () => void;
   aspectRatio: number | undefined;
@@ -16,7 +16,7 @@ interface ImageManagerProps {
   deleteLoading:boolean
 }
 
-type ImageManagerParentProps = {
+export type ImageManagerParentProps = {
   serverData: {
     publicUrl: string | null;
     alt: string  | null;

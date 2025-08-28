@@ -1,4 +1,5 @@
 import { supabaseBrowserClient } from "@/lib/client";
+import { PixelCrop } from "@components/image-manager/types";
 
 type UploadResult = {
   publicUrl: string;
@@ -73,8 +74,6 @@ export async function saveImageMetadata(
 
   return await response.json();
 }
-
-export function onImageDelete(path: string) {}
 
 // Helper function to generate cropped image
 export const createImage = (url: string): Promise<HTMLImageElement> =>

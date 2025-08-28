@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from "react";
-import ImageManager from "./ImageManager";
-import { useLanguageContext } from "../context/LanguageContext";
-import { saveImageMetadata, uploadImageToSupabase } from "./utilis";
+import ImageManager from "@components/image-manager/ImageManager";
+import { useLanguageContext } from "@components/context/LanguageContext";
+import { saveImageMetadata, uploadImageToSupabase } from "@components/image-manager/utilis";
 import { supabaseBrowserClient } from "@/lib/client";
 import { getBlobDimensions } from "@/lib/helpers/imageCompression";
-import { useChange } from "../context/ChangeContext";
+import { useChange } from "@components/context/ChangeContext";
+import { ImageManagerParentProps } from "@components/image-manager/types";
 
 export default function ImageManageWrapper({
   serverData,
@@ -48,7 +49,7 @@ export default function ImageManageWrapper({
         console.error("Error during image upload:", error);
       }
     },
-    []
+    [defaults.entity_type_id, entityId, futurePath, notifyChange, scriptId]
   );
 
   const handleImageDelete = async (): Promise<void> => {

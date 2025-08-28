@@ -1,9 +1,9 @@
-import { useMediaEntityType } from "@/components/members_/hooks/useMediaEntityType";
-import { useProfileImage } from "@/components/members_/hooks/useSelectProfileImage";
-import { useMemberContext } from "../../MembersContext";
+import { useMediaEntityType } from "@components/members/hooks/useMediaEntityType";
+import { useProfileImage } from "@components/members/hooks/useSelectProfileImage";
+import { useMemberContext } from "@components/members/MembersContext";
 import Loading from "@/components/loading/Loading";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import AltManager from "@/components/image-manager/AltManager";
 
 const MEDIA_ENTITY_TYPE = "image-profile";

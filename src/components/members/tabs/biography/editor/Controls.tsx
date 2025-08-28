@@ -19,7 +19,7 @@ export default function Controls() {
     if (message !== "") {
       showAlert(message, severity);
     }
-  }, [message, severity]);
+  }, [message, severity, showAlert]);
 
   React.useEffect(() => {
     if (success) {
@@ -27,7 +27,7 @@ export default function Controls() {
       notifyChange();
       console.log("Change notified")
     }
-  }, [success]);
+  }, [success, notifyChange]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
