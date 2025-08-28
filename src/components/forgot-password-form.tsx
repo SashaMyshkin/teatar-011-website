@@ -1,5 +1,5 @@
 'use client'
-
+/*
 import { supabaseBrowserClient } from '@/lib/client'
 import { Button } from '@components/ui/button'
 import {
@@ -93,4 +93,4 @@ export function ForgotPasswordForm({  ...props }: React.ComponentPropsWithoutRef
       )}
     </div>
   )
-}
+}*/
