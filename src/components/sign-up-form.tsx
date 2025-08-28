@@ -1,6 +1,6 @@
 'use client'
 
-import { supabaseBrowserClient } from '@/lib/client'
+/*import { supabaseBrowserClient } from '@/lib/client'
 import { Button } from '@components/ui/button'
 import {
   Card,
@@ -112,4 +112,4 @@ export function SignUpForm({  ...props }: React.ComponentPropsWithoutRef<'div'>)
       </Card>
     </div>
   )
-}
+}*/

@@ -1,4 +1,4 @@
-'use client'
+/*'use client'
 
 import { supabaseBrowserClient } from '@/lib/client'
 import { Button } from '@components/ui/button'
@@ -68,4 +68,4 @@ export function UpdatePasswordForm({  ...props }: React.ComponentPropsWithoutRef
       </Card>
     </div>
   )
-}
+}*/
