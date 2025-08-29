@@ -19,7 +19,7 @@ export default function BasicInfoForm({formState, errorState,setField, validateF
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        width: "20rem",
+        width: "25rem",
       }}
     >
       <Box>
