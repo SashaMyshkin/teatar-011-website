@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/
 import React from "react";
 import { SelectPerformancesProps } from "@components/performances/types";
 import { useSelectTypes } from "@components/performances/hooks/useSelectTypes";
+import NewPerformance from "@components/performances/general-ui/NewPerformance";
 
 
 export default function SearchBarPerformances({formState, setField}:SelectPerformancesProps){
@@ -79,7 +80,7 @@ export default function SearchBarPerformances({formState, setField}:SelectPerfor
           
         </Box>
         <Box sx={{ alignSelf: "center" }}>
-          N
+          <NewPerformance/>
         </Box>
       </Box>
     </React.Fragment>)
