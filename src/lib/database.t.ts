@@ -1188,6 +1188,55 @@ export type Database = {
         }
         Relationships: []
       }
+      v_performances: {
+        Row: {
+          date_of_premiere: string | null
+          identifier: string | null
+          is_public: number | null
+          performance_type_uid: number | null
+          performance_uid: number | null
+          script_id: number | null
+          title: string | null
+          type_name: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "performances_performance_uid_fkey"
+            columns: ["performance_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_uid"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "scripts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_members"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_membership_statuses"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_uid_performance_type_uid_fkey"
+            columns: ["performance_type_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_types_uid"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

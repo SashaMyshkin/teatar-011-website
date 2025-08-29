@@ -1,5 +1,24 @@
-export default function Home() {
+"use client"
+
+import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
+import SearchBarPerformances from "@/components/performances/data-grid/SearchBarPerformances";
+import TablePerformances from "@/components/performances/data-grid/TablePerformances";
+import { SelectPerformancesForm } from "@/components/performances/types";
+import React from "react";
+
+const initialState:SelectPerformancesForm = {
+  title: "",
+  is_public: 1,
+  performance_type_uid: 1
+}
+
+export default function Performances() {
+  const {formState,setField} = useFormReducer(initialState);
+
   return (
-    <>Performances</>
+    <React.Fragment>
+      <SearchBarPerformances formState={formState} setField={setField}></SearchBarPerformances>
+      <TablePerformances {...formState} ></TablePerformances>
+    </React.Fragment>
   );
 }
