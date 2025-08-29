@@ -51,6 +51,7 @@ export async function validatePublishing({
       .select("id")
       .eq("image_id", image.data.image_id)
       .eq("script_id", scriptId)
+      .neq("alt", null)
       .maybeSingle();
 
     if (!alt.data) {

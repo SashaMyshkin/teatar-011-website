@@ -10,7 +10,7 @@ export function generateLocalizedAltRecords(
   return scripts.map((script) => {
     return {
       image_id:data.image_id,
-      alt: script.id === data.script_id?data.alt:null,
+      alt: null,
       script_id: script.id,
     };
   });

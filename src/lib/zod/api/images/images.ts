@@ -15,5 +15,4 @@ export const addImageValidator = z.object({
   size: z.coerce.number().positive("Size must be a positive number"),
   public_url: z.string().trim().url("Pathname is not a valid URL"),
   path: z.string().trim().nonempty("Path cannot be empty"),
-  alt: z.string().trim().min(1, "Alt text is required"),
 });

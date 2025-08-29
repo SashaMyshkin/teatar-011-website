@@ -35,7 +35,7 @@ export default function ImageManageWrapper({
           width: blobWidth,
           height: blobHeight,
           size: croppedBlob.size,
-          alt: "Default alt text",
+          alt: "",
           entity_id: entityId,
           script_id: scriptId,
           entity_type_id: defaults.entity_type_id,
