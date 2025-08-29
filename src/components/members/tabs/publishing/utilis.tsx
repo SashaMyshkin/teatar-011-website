@@ -1,6 +1,5 @@
 import { supabaseBrowserClient } from "@/lib/client";
 import { Dispatch, SetStateAction } from "react";
-import { validatePublishing } from "@components/members/tabs/publishing/validation";
 
 interface toogleActivationProps {
   member_uid: number;
@@ -30,7 +29,7 @@ export async function toogleActivation({
 
     setIsActive(!isActive);
   } catch (err) {
-    console.error("Članu se nije izmenio status Aktivacije.");
+    console.error("Članu se nije izmenio status Aktivacije.", err);
   }
 
   return;
@@ -52,7 +51,7 @@ export async function tooglePublishing({
 
     setIsPublic(!isPublic);
   } catch (err) {
-    console.error("Član nije objavljen na sajtu");
+    console.error("Član nije objavljen na sajtu", err);
   }
 
   return;
