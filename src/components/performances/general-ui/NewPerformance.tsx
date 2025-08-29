@@ -2,7 +2,7 @@
 import { Fab } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
-import Dialog from "./Dialog";
+import Dialog from "@components/performances/general-ui/Dialog";
 
 export default function NewPerformance() {
   const [open, setOpen] = React.useState(false);
