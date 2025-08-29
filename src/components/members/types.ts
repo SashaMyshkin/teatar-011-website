@@ -1,6 +1,7 @@
 import { ErrorState, ValidateFieldFunction } from "@components/custom-hooks/validators";
 import { SetFieldFunction } from "@components/custom-hooks/useFormReducer";
 import { Database } from "@/lib/database.t";
+import { Dispatch, SetStateAction } from "react";
 
 export type DialogProps = {
   open: boolean;
@@ -81,4 +82,8 @@ export type ParagraphRow = Database["public"]["Tables"]["members_biographies"]["
 export type MemberContextProps = {
   member_uid: number;
   identifier: string;
+  setIsPublic: Dispatch<SetStateAction<boolean>>;
+  setIsActive: Dispatch<SetStateAction<boolean>>;
+  isPublic:boolean;
+  isActive:boolean;
 };

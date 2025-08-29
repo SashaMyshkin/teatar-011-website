@@ -570,6 +570,7 @@ export type Database = {
           email: string | null
           id: number
           identifier: string
+          is_active: number
           is_public: number
           membership_status_uid: number
         }
@@ -580,6 +581,7 @@ export type Database = {
           email?: string | null
           id?: number
           identifier: string
+          is_active?: number
           is_public?: number
           membership_status_uid: number
         }
@@ -590,6 +592,7 @@ export type Database = {
           email?: string | null
           id?: number
           identifier?: string
+          is_active?: number
           is_public?: number
           membership_status_uid?: number
         }

@@ -7,6 +7,7 @@ import BasicInfoTab from "@/components/members/tabs/basic-info/BasicInfoTab";
 import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
 import ProfilePhoto from "@/components/members/tabs/profile-photo/ProfilePhoto";
 import { ChangeProvider } from "@/components/context/ChangeContext";
+import Publishing from "@/components/members/tabs/publishing/Publishing";
 
 function a11yProps(index: number) {
   return {
@@ -29,6 +30,7 @@ export default function MemberTabs() {
           <Tab label="Osnovni podaci" {...a11yProps(0)} />
           <Tab label="Biografija" {...a11yProps(1)} />
           <Tab label="Fotografija" {...a11yProps(2)} />
+          <Tab label="Objavljivanje" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
@@ -36,11 +38,15 @@ export default function MemberTabs() {
         <BasicInfoTab />
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={1}>
-        <BiographyTab/>
+        <BiographyTab />
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={2}>
-        <ChangeProvider><ProfilePhoto/></ChangeProvider>
-        
+        <ChangeProvider>
+          <ProfilePhoto />
+        </ChangeProvider>
+      </CustomTabPanel>
+      <CustomTabPanel value={tabIndex} index={3}>
+        <Publishing/>
       </CustomTabPanel>
     </Box>
   );
