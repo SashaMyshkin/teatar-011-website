@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const order_number = dataOrderNumber.order_number + 1;
+  const order_number = dataOrderNumber ? dataOrderNumber.order_number + 1 : 0;
 
   //Now we are ready to insert the paragraph
   const { error: insertionError } =

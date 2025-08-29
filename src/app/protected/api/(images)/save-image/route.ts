@@ -62,10 +62,10 @@ export async function POST(request: NextRequest) {
   }
 
   const { id: image_id } = imageInsertionData;
-  const { script_id, alt } = validFormatRes.data;
+  const { script_id } = validFormatRes.data;
 
   const localizedAltRecords = generateLocalizedAltRecords(
-    { image_id, script_id, alt },
+    { image_id, script_id },
     scripts
   );
 

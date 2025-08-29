@@ -14,7 +14,6 @@ import {
 } from "@/components/members/tabs/biography/editor/styles";
 import { ParagraphCardProps } from "@/components/members/tabs/biography/editor/types";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
-import { useAlert } from "@/components/context/AlertContext";
 import { useChange } from "@/components/context/ChangeContext";
 
 export default function ParagraphCard({
@@ -27,8 +26,6 @@ export default function ParagraphCard({
 
   const {
     submit: updateSubmit,
-    severity: updateSeverity,
-    message: updateMessage,
     isLoading: updateLoading,
     success: updateSuccess,
   } = useSubmit(
@@ -39,8 +36,6 @@ export default function ParagraphCard({
 
    const {
     submit: deleteSubmit,
-    severity: deleteSeverity,
-    message: deleteMessage,
     isLoading: deleteLoading,
     success: deleteSuccess,
   } = useSubmit(
@@ -48,14 +43,10 @@ export default function ParagraphCard({
     "DELETE",
     "Paragraf je uspešno obrisan."
   );
-  const { showAlert } = useAlert();
+ 
   const { notifyChange } = useChange();
 
-  React.useEffect(() => {
-    if (updateMessage !== "") {
-      showAlert(updateMessage, updateSeverity);
-    }
-  }, [updateMessage, updateSeverity, showAlert]);
+
 
   React.useEffect(() => {
     if (updateSuccess) {
@@ -63,11 +54,6 @@ export default function ParagraphCard({
     }
   }, [updateSuccess, setParagraph, paragraphChanges]);
 
-  React.useEffect(() => {
-    if (deleteMessage !== "") {
-      showAlert(deleteMessage, deleteSeverity);
-    }
-  }, [deleteMessage, deleteSeverity,showAlert]);
 
   React.useEffect(() => {
     if (deleteSuccess) {

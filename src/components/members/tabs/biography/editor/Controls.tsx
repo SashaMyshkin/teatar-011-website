@@ -1,4 +1,3 @@
-import { useAlert } from "@/components/context/AlertContext";
 import { useChange } from "@/components/context/ChangeContext";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
@@ -9,23 +8,19 @@ import React from "react";
 export default function Controls() {
   const { identifier } = useParams() as { identifier: string };
   const [paragraph, setParagraph] = React.useState("");
-  const { submit, severity, message, isLoading, success } =
-    useSubmit("/members-biographies", "POST", "Paragraf je uspešno dodat.");
-  const { showAlert } = useAlert();
+  const { submit, isLoading, success } = useSubmit(
+    "/members-biographies",
+    "POST",
+    "Paragraf je uspešno dodat."
+  );
+
   const { notifyChange } = useChange();
   const { scriptId } = useLanguageContext();
-
-  React.useEffect(() => {
-    if (message !== "") {
-      showAlert(message, severity);
-    }
-  }, [message, severity, showAlert]);
 
   React.useEffect(() => {
     if (success) {
       setParagraph("");
       notifyChange();
-      console.log("Change notified")
     }
   }, [success, notifyChange]);
 
