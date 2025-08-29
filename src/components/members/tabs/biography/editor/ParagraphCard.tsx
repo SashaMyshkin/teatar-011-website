@@ -14,7 +14,6 @@ import {
 } from "@/components/members/tabs/biography/editor/styles";
 import { ParagraphCardProps } from "@/components/members/tabs/biography/editor/types";
 import { useSubmit } from "@/components/custom-hooks/useSubmit";
-import { useAlert } from "@/components/context/AlertContext";
 import { useChange } from "@/components/context/ChangeContext";
 
 export default function ParagraphCard({
@@ -44,7 +43,7 @@ export default function ParagraphCard({
     "DELETE",
     "Paragraf je uspešno obrisan."
   );
-  const { showAlert } = useAlert();
+ 
   const { notifyChange } = useChange();
 
 
