@@ -15,7 +15,7 @@ export async function getMaxOrderNumber(member_uid: number) {
     .eq("member_uid", member_uid)
     .order("order_number", {ascending:false})
     .limit(1)
-    .single();
+    .maybeSingle();
 
   return selected;
 }
