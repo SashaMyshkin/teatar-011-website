@@ -1,6 +1,7 @@
 "use client"
 
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
+import { PerformanceProvider } from "@/components/performances/context/PerformanceContext";
 import SearchBarPerformances from "@/components/performances/data-grid/SearchBarPerformances";
 import TablePerformances from "@/components/performances/data-grid/TablePerformances";
 import { SelectPerformancesForm } from "@/components/performances/types";
@@ -16,9 +17,9 @@ export default function Performances() {
   const {formState,setField} = useFormReducer(initialState);
 
   return (
-    <React.Fragment>
+    <PerformanceProvider>
       <SearchBarPerformances formState={formState} setField={setField}></SearchBarPerformances>
       <TablePerformances {...formState} ></TablePerformances>
-    </React.Fragment>
+    </PerformanceProvider>
   );
 }

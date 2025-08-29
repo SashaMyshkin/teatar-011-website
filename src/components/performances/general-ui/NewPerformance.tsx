@@ -2,6 +2,7 @@
 import { Fab } from "@mui/material";
 import React from "react";
 import AddIcon from '@mui/icons-material/Add';
+import Dialog from "./Dialog";
 
 export default function NewPerformance() {
   const [open, setOpen] = React.useState(false);
@@ -23,6 +24,7 @@ export default function NewPerformance() {
       >
         <AddIcon />
       </Fab>
+      <Dialog open={open} setOpen={setOpen} />
       
     </React.Fragment>
   );
