@@ -10,19 +10,26 @@ import {
 import {
   PerformanceType,
   TablePerformances,
+  TablePerformancesAbout,
   TablePerformancesUID,
 } from "@components/performances/types";
 import { useSelectTypes } from "@components/performances/hooks/useSelectTypes";
 import Loading from "@/components/loading/Loading";
 import useSelectPerformanceUid from "@components/performances/hooks/useSelectPerformanceUid";
 import useSelectPerformance from "@components/performances/hooks/useSelectPerformance";
+import useSelectParagraphs from "../hooks/useSelectParagraphs";
 
 type PerformanceContextType = {
   performanceTypes: PerformanceType[];
-  performanceUid?:TablePerformancesUID | null;
-  performance?:TablePerformances | null;
+
+  performanceUid?: TablePerformancesUID | null;
   setPerformanceUid: Dispatch<SetStateAction<TablePerformancesUID | null>>;
+
+  performance?: TablePerformances | null;
   setPerformance: Dispatch<SetStateAction<TablePerformances | null>>;
+
+  paragraphs?:TablePerformancesAbout[] | null, 
+  setParagraphs:Dispatch<SetStateAction<TablePerformancesAbout[] | null>>;
 };
 
 interface PerformanceProviderProps {
@@ -52,14 +59,21 @@ export function PerformanceProvider({
     PerformanceType[] | null
   >(null);
 
-  const { performanceUidData } =
-    useSelectPerformanceUid({ identifier });
+  const { performanceUidData } = useSelectPerformanceUid({ identifier });
   const [performanceUid, setPerformanceUid] =
     useState<TablePerformancesUID | null>(null);
 
-  const { performanceData } =
-    useSelectPerformance({ performanceUid: performanceUid?.id });
+  const { performanceData } = useSelectPerformance({
+    performanceUid: performanceUid?.id,
+  });
   const [performance, setPerformance] = useState<TablePerformances | null>(
+    null
+  );
+
+  const { paragraphsData } = useSelectParagraphs({
+    performanceUid: performanceUid?.id,
+  });
+  const [paragraphs, setParagraphs] = useState<TablePerformancesAbout[] | null>(
     null
   );
 
@@ -71,6 +85,12 @@ export function PerformanceProvider({
     if (performanceUidData) setPerformanceUid(performanceUidData);
   }, [performanceUidData]);
 
+   useEffect(() => {
+    if (paragraphsData) setParagraphs(paragraphsData);
+  }, [paragraphsData]);
+
+
+
   useEffect(() => {
     if (performanceData) setPerformance(performanceData);
   }, [performanceData]);
@@ -78,7 +98,18 @@ export function PerformanceProvider({
   if (!performanceTypes) return <Loading />;
 
   return (
-    <PerformanceContext.Provider value={{ performanceTypes, performance, performanceUid,setPerformance, setPerformanceUid }}>
+    <PerformanceContext.Provider
+      value={{
+        performanceTypes,
+        setPerformanceUid,
+        performanceUid,
+        setPerformance,
+        performance,
+        paragraphs,
+        setParagraphs
+        
+      }}
+    >
       {children}
     </PerformanceContext.Provider>
   );

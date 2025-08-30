@@ -4,6 +4,7 @@ import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@/components/performances/tabs/CustomTabPanel";
 import BasicDataTab from "@/components/performances/tabs/basic-data/BasicDataTab";
+import AboutPerformance from "./about-performance/AboutPerformance";
 
 function a11yProps(index: number) {
   return {
@@ -25,6 +26,7 @@ export default function PerformanceTabs() {
         <Tabs value={tabIndex} onChange={handleChange} centered>
           <Tab label="Osnovni podaci" {...a11yProps(0)} />
           <Tab label="Detalji" {...a11yProps(1)} />
+          <Tab label="O predstavi" {...a11yProps(2)} />
         </Tabs>
       </Box>
 
@@ -33,6 +35,9 @@ export default function PerformanceTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={1}>
         Detalji
+      </CustomTabPanel>
+      <CustomTabPanel value={tabIndex} index={2}>
+        <AboutPerformance/>
       </CustomTabPanel>
     </Box>
   );

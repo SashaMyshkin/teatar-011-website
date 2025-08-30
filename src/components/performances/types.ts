@@ -58,3 +58,10 @@ export interface TabPanelProps {
   index: number;
   value: number;
 }
+
+export interface UseSelectParagraphsProps {
+  performanceUid?: number;
+}
+
+export type TablePerformancesAbout =
+  Database["public"]["Tables"]["performances_about"]["Row"];
