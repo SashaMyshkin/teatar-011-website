@@ -45,7 +45,6 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
   );
   const [identifier, setIdentifier] = useState("");
   const { language } = useLanguageContext();
-    const {id:scriptId} = language;
 
   React.useEffect(() => {
     if (message.open) setAlertProps(message);

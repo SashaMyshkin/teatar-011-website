@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Language } from "../types";
+import { Language } from "@components/languages/types";
 import { supabaseBrowserClient } from "@/lib/client";
 
 export default function useSelectLanguages() {
@@ -17,6 +17,7 @@ export default function useSelectLanguages() {
 
         setLoading(false);
       } catch (err) {
+        console.log(err)
         setError(true);
       } finally {
         setLoading(false);

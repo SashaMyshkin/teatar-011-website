@@ -15,7 +15,7 @@ import { useFieldValidator } from "@/components/custom-hooks/validators";
 import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
 import { format } from "date-fns";
 import { FormEvent, useState } from "react";
-import { useInsertBasicInfo } from "../hooks/useInsertBasicInfo";
+import { useInsertBasicInfo } from "@components/performances/hooks/useInsertBasicInfo";
 import { useRouter } from "next/navigation";
 
 const initialFormState: BasicInfoFormProps = {

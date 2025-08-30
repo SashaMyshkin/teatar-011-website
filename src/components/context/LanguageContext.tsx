@@ -9,9 +9,9 @@ import React, {
   SetStateAction,
   useEffect,
 } from "react";
-import useSelectLanguages from "../languages/hooks/useSelectLanguages";
-import Loading from "../loading/Loading";
-import { Language } from "../languages/types";
+import useSelectLanguages from "@components/languages/hooks/useSelectLanguages";
+import Loading from "@components/loading/Loading";
+import { Language } from "@components/languages/types";
 
 export type LanguageContextType = {
   languages: Language[];

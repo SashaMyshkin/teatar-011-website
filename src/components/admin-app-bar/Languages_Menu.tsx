@@ -9,7 +9,7 @@ import Check from "@mui/icons-material/Check";
 import { Button, Menu } from "@mui/material";
 
 import { useLanguageContext } from "@components/context/LanguageContext";
-import { Language } from "../languages/types";
+import { Language } from "@components/languages/types";
 
 export default function LanguagesMenu() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
