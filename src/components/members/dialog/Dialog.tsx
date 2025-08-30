@@ -44,7 +44,8 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
     memberValidation
   );
   const [identifier, setIdentifier] = useState("");
-  const languageContext = useLanguageContext();
+  const { language } = useLanguageContext();
+    const {id:scriptId} = language;
 
   React.useEffect(() => {
     if (message.open) setAlertProps(message);
@@ -83,7 +84,7 @@ export default function Dialog({ dialogProps }: { dialogProps: DialogProps }) {
               form.set("date_of_joining", format(parsed, "yyyy-MM-dd"));
             }
 
-            form.set("script_id", String(languageContext.scriptId));
+            form.set("script_id", String(language.id));
 
             await submit(form);
           },

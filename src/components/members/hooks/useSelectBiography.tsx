@@ -8,7 +8,8 @@ export function useSelectBiography(identifier: string) {
   const [paragraphRows, setParagraphRows] = React.useState<ParagraphRow[] | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const {scriptId} = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
   const {changeCount} = useChange()
 
   // Use a ref for cancellation flag

@@ -17,11 +17,12 @@ type Props = {
 };
 
 export default function BasicInfoForm({ initialFormState }: Props) {
-  const languageContext = useLanguageContext();
   const {showAlert} = useAlert();
   const formReducer = useFormReducer(initialFormState);
   const formValidator = useFieldValidator(initialFormState, memberValidation);
   const { submit, isLoading, message, severity, } = useUpdateMember();
+  const {language} = useLanguageContext();
+  
 
   React.useEffect(() => {
     if (message !== "") {
@@ -44,7 +45,7 @@ export default function BasicInfoForm({ initialFormState }: Props) {
     normalizeDateField(form, "date_of_joining");
     normalizeDateField(form, "date_of_birth");
 
-    form.set("script_id", String(languageContext.scriptId));
+    form.set("script_id", String(language.id));
 
     await submit(form);
   }

@@ -11,7 +11,8 @@ export default function useSelectPerformances() {
   const [rows, setRows] = React.useState<ViewPerformances[]>([]);
   const [rowCount, setRowCount] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
-  const { scriptId } = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
 
   const debouncedFetch = React.useMemo(
     () =>

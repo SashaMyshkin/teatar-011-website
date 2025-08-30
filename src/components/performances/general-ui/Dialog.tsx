@@ -14,6 +14,7 @@ import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
 import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
 import { format } from "date-fns";
+import { FormEvent } from "react";
 
 const initialFormState: BasicInfoFormProps = {
   title: "",
@@ -35,8 +36,16 @@ export default function Dialog({ open, setOpen }: DialogProps) {
     resetFormState(initialFormState);
     setOpen(false);
   };
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) =>{
+    e.preventDefault();
+  }
   return (
-    <DialogOriginal open={open} disableRestoreFocus>
+    <DialogOriginal open={open} disableRestoreFocus slotProps={{
+      paper:{
+        component:"form",
+        onSubmit:handleSubmit
+      }
+    }}>
       <DialogTitle>Osnovni podaci</DialogTitle>
       <DialogContent>
         <BasicInfoForm
