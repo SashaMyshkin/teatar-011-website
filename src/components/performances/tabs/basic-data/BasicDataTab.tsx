@@ -2,10 +2,10 @@ import { format } from "date-fns";
 import { BasicInfoForm as BasicInfoFormType } from "@components/performances/types";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
-import { usePerformanceContext } from "../../context/PerformanceContext";
-import BasicInfoForm from "../../forms/BasicInfoForm";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
+import BasicInfoForm from "@components/performances/forms/BasicInfoForm";
 import { Box, Button } from "@mui/material";
 
 const initialFormState: BasicInfoFormType = {
@@ -19,11 +19,11 @@ const initialFormState: BasicInfoFormType = {
 export default function BasicDataTab() {
   const { setField, resetFormState, formState } =
     useFormReducer(initialFormState);
-  const { errorState, validateField, resetErrorsState } = useFieldValidator(
+  const { errorState, validateField } = useFieldValidator(
     initialFormState,
     basicInfoFormValidation
   );
-  const [submitting, setSubmitting] = useState(false);
+  //const [submitting, setSubmitting] = useState(false);
   const { performanceUid, performance } = usePerformanceContext();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function BasicDataTab() {
         slogan: performance.slogan,
       });
     }
-  }, [performanceUid, performance]);
+  }, [performanceUid, performance, resetFormState]);
 
   return (
     <Box sx={{ display: "flex",flexDirection:"column", justifyContent: "center", gap:"1rem", width:"25rem", margin:"auto" }} component="form">

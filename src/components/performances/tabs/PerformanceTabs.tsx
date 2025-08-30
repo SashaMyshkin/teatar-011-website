@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@/components/performances/tabs/CustomTabPanel";
-import BasicDataTab from "./basic-data/BasicDataTab";
+import BasicDataTab from "@/components/performances/tabs/basic-data/BasicDataTab";
 
 function a11yProps(index: number) {
   return {

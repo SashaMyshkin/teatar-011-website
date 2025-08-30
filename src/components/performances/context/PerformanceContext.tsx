@@ -12,8 +12,8 @@ import {
 } from "@components/performances/types";
 import { useSelectTypes } from "@components/performances/hooks/useSelectTypes";
 import Loading from "@/components/loading/Loading";
-import useSelectPerformanceUid from "../hooks/useSelectPerformanceUid";
-import useSelectPerformance from "../hooks/useSelectPerformance";
+import useSelectPerformanceUid from "@components/performances/hooks/useSelectPerformanceUid";
+import useSelectPerformance from "@components/performances/hooks/useSelectPerformance";
 
 type PerformanceContextType = {
   performanceTypes: PerformanceType[];
@@ -49,12 +49,12 @@ export function PerformanceProvider({
     PerformanceType[] | null
   >(null);
 
-  const { performanceUidData, errorPerformanceUid, loadingPerformanceUid } =
+  const { performanceUidData } =
     useSelectPerformanceUid({ identifier });
   const [performanceUid, setPerformanceUid] =
     useState<TablePerformancesUID | null>(null);
 
-  const { performanceData, errorPerformance, loadingPerformance } =
+  const { performanceData } =
     useSelectPerformance({ performanceUid: performanceUid?.id });
   const [performance, setPerformance] = useState<TablePerformances | null>(
     null

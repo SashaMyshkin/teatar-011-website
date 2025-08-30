@@ -3,9 +3,7 @@ import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 import {
   TablePerformances,
-  TablePerformancesUID,
   UseSelectPerformanceProps,
-  UseSelectPerformanceUidProps,
 } from "@components/performances/types";
 import { useEffect, useState } from "react";
 
@@ -41,7 +39,7 @@ export default function useSelectPerformance({
     }
 
     fetchPerformance();
-  }, [performanceUid]);
+  }, [performanceUid, language.id]);
 
   return { loadingPerformance, errorPerformance, performanceData };
 }
