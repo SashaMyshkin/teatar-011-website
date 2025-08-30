@@ -14,7 +14,9 @@ import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
 import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
 import { format } from "date-fns";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { useInsertBasicInfo } from "../hooks/useInsertBasicInfo";
+import { useRouter } from "next/navigation";
 
 const initialFormState: BasicInfoFormProps = {
   title: "",
@@ -31,21 +33,34 @@ export default function Dialog({ open, setOpen }: DialogProps) {
     initialFormState,
     basicInfoFormValidation
   );
+  const [submitting, setSubmitting] = useState(false);
+  const submitForm = useInsertBasicInfo();
+  const router = useRouter();
+
   const handleClose = () => {
     resetErrorsState();
     resetFormState(initialFormState);
     setOpen(false);
   };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) =>{
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }
+    setSubmitting(true);
+    await submitForm(formState) 
+    router.push(`/protected/performances/${formState.identifier}`);
+  };
+
   return (
-    <DialogOriginal open={open} disableRestoreFocus slotProps={{
-      paper:{
-        component:"form",
-        onSubmit:handleSubmit
-      }
-    }}>
+    <DialogOriginal
+      open={open}
+      disableRestoreFocus
+      slotProps={{
+        paper: {
+          component: "form",
+          onSubmit: handleSubmit,
+        },
+      }}
+    >
       <DialogTitle>Osnovni podaci</DialogTitle>
       <DialogContent>
         <BasicInfoForm
@@ -57,7 +72,7 @@ export default function Dialog({ open, setOpen }: DialogProps) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Zatvori</Button>
-        <Button type="submit" variant="contained" loading={false}>
+        <Button type="submit" variant="contained" loading={submitting}>
           Unesi
         </Button>
       </DialogActions>

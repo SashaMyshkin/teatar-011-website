@@ -736,22 +736,22 @@ export type Database = {
           id: number
           performance_uid: number
           script_id: number
-          slogan: string
-          title: string
+          slogan: string | null
+          title: string | null
         }
         Insert: {
           id?: number
           performance_uid: number
           script_id: number
-          slogan: string
-          title: string
+          slogan?: string | null
+          title?: string | null
         }
         Update: {
           id?: number
           performance_uid?: number
           script_id?: number
-          slogan?: string
-          title?: string
+          slogan?: string | null
+          title?: string | null
         }
         Relationships: [
           {
