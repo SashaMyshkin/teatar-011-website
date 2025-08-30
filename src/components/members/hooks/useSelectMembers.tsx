@@ -7,7 +7,8 @@ export default function useSelectMembers() {
   const [rows, setRows] = React.useState([]);
   const [rowCount, setRowCount] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
-  const languageContext = useLanguageContext()
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
 
   const debouncedFetch = React.useMemo(
     () =>
@@ -17,7 +18,7 @@ export default function useSelectMembers() {
           `${process.env.NEXT_PUBLIC_BASE_URL_API_PROTECTED}`
         );
         url.pathname += "views/members/";
-        url.searchParams.set("script_id", String(languageContext.scriptId));
+        url.searchParams.set("script_id", String(scriptId));
         url.searchParams.set("page", String(paginationModel.page));
         url.searchParams.set("pageSize", String(paginationModel.pageSize));
         if (name.length > 0) url.searchParams.set("name", name);
@@ -40,7 +41,7 @@ export default function useSelectMembers() {
 
         setIsLoading(true);
       }, 400),
-    [languageContext.scriptId] // only create once
+    [scriptId] // only create once
   );
 
   return {debouncedFetch, isLoading, rows, rowCount}

@@ -7,15 +7,16 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Check from "@mui/icons-material/Check";
 import { Button, Menu } from "@mui/material";
-import { useScripts } from "@components/admin-app-bar/useScripts";
+
 import { useLanguageContext } from "@components/context/LanguageContext";
+import { Language } from "@components/languages/types";
 
 export default function LanguagesMenu() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const { scripts } = useScripts();
-  const languageContext = useLanguageContext();
+  
+  const {language, languages, setLanguage} = useLanguageContext();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -25,15 +26,15 @@ export default function LanguagesMenu() {
     setAnchorElUser(null);
   };
 
-  const handleSelectScript = (scriptId: number, scriptDescription: string) => {
-    languageContext.setLanguage({ scriptId, scriptDescription });
+  const handleSelectScript = (lang:Language) => {
+    setLanguage(lang);
     setAnchorElUser(null);
   };
 
   return (
     <React.Fragment>
       <Button onClick={handleOpenMenu} variant="outlined">
-        {languageContext.scriptDescription}
+        {language.description}
       </Button>
       <Menu
         id="menu-appbar"
@@ -52,20 +53,20 @@ export default function LanguagesMenu() {
       >
         <Paper sx={{ width: 320 }}>
           <MenuList dense>
-            {scripts?.map((script) => {
+            {languages.map((script) => {
               return (
                 <MenuItem
                   key={script.name}
                   onClick={() => {
-                    handleSelectScript(script.id, script.description);
+                    handleSelectScript(script);
                   }}
                 >
-                  {script.id === languageContext.scriptId && (
+                  {script.id === language.id && (
                     <ListItemIcon>
                       <Check />
                     </ListItemIcon>
                   )}
-                  <ListItemText inset={script.id !== languageContext.scriptId}>
+                  <ListItemText inset={script.id !== language.id}>
                     {script.description}
                   </ListItemText>
                 </MenuItem>

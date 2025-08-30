@@ -6,7 +6,8 @@ import { PerformanceType } from "@components/performances/types";
 export function useSelectTypes() {
   const [loading, setLoading] = useState(false);
   const [types, setTypes] = useState<PerformanceType[] | null>(null);
-  const { scriptId } = useLanguageContext();
+  const { language } = useLanguageContext();
+
 
   useEffect(() => {
     async function fetchTypes() {
@@ -14,7 +15,7 @@ export function useSelectTypes() {
       const result = await supabaseBrowserClient
         .from("performances_types")
         .select("*")
-        .eq("script_id", scriptId);
+        .eq("script_id", language.id);
 
       if (result.data) {
         setTypes(result.data);
@@ -23,7 +24,7 @@ export function useSelectTypes() {
     }
 
     fetchTypes();
-  }, [scriptId]);
+  }, [language.id]);
 
  return {loading, types}
 }

@@ -1,13 +1,24 @@
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React from "react";
 import { SelectPerformancesProps } from "@components/performances/types";
-import { useSelectTypes } from "@components/performances/hooks/useSelectTypes";
+import NewPerformance from "@components/performances/general-ui/NewPerformance";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
 
+export default function SearchBarPerformances({
+  formState,
+  setField,
+}: SelectPerformancesProps) {
+  const { performanceTypes } = usePerformanceContext();
 
-export default function SearchBarPerformances({formState, setField}:SelectPerformancesProps){
-  const {loading, types} = useSelectTypes();
-
-  return(<React.Fragment>
+  return (
+    <React.Fragment>
       <Box
         sx={{ display: "flex", justifyContent: "space-between", width: "95%" }}
       >
@@ -24,7 +35,7 @@ export default function SearchBarPerformances({formState, setField}:SelectPerfor
             size="small"
             value={formState.title}
             onChange={(e) => {
-              setField("title", e.target.value)
+              setField("title", e.target.value);
             }}
           />
 
@@ -61,26 +72,24 @@ export default function SearchBarPerformances({formState, setField}:SelectPerfor
               onChange={(e) => {
                 setField("performance_type_uid", e.target.value);
               }}
-
-              
             >
-              {
-                loading && (<MenuItem value="1">Učitava se...</MenuItem>)
-              }
-              {
-                types && types.map((elem)=>{
-                  return(<MenuItem key={elem.type_name} value={elem.performance_type_uid}>{elem.type_name}</MenuItem>)
-                })
-              }
-              
+              {performanceTypes.map((elem) => {
+                return (
+                  <MenuItem
+                    key={elem.type_name}
+                    value={elem.performance_type_uid}
+                  >
+                    {elem.type_name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
-          
-          
         </Box>
         <Box sx={{ alignSelf: "center" }}>
-          N
+          <NewPerformance />
         </Box>
       </Box>
-    </React.Fragment>)
+    </React.Fragment>
+  );
 }

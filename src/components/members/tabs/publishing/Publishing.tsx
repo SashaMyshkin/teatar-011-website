@@ -24,12 +24,13 @@ import { useRouter } from "next/navigation";
 export default function Publishing() {
   const { isActive, isPublic, setIsActive, member_uid, setIsPublic } =
     useMemberContext();
-  const { scriptId } = useLanguageContext();
   const [loadingActivation, setLoadingActivation] = useState(false);
   const [loadingPublishing, setLoadingPublishing] = useState(false);
   const [loadingDeletion, setLoadingDeletion] = useState(false);
   const [validationResult, setValidationResult] = useState<string[]>([]);
   const router = useRouter();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
 
   const handleActivation = async () => {
     setLoadingActivation(true);

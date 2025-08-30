@@ -10,7 +10,8 @@ export function useSelectMember(identifier: string) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
-  const languageContext = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
 
   React.useEffect(() => {
     let isCancelled = false;
@@ -25,7 +26,7 @@ export function useSelectMember(identifier: string) {
           `name, surname, identifier, date_of_joining, date_of_birth, membership_status_uid, motto, email`
         )
         .eq("identifier", identifier)
-        .eq("script_id", languageContext.scriptId)
+        .eq("script_id", scriptId)
         .single();
 
       if (!isCancelled) {
@@ -45,7 +46,7 @@ export function useSelectMember(identifier: string) {
     return () => {
       isCancelled = true;
     };
-  }, [identifier, languageContext.scriptId, router]);
+  }, [identifier, scriptId, router]);
 
   return { memberData, loading, error };
 }

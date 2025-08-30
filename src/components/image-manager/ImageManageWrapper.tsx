@@ -17,8 +17,10 @@ export default function ImageManageWrapper({
     serverData?.publicUrl ?? null
   );
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const { scriptId } = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
   const { notifyChange } = useChange();
+ 
 
   const handleImageUpload = useCallback(
     async (croppedBlob: Blob): Promise<void> => {

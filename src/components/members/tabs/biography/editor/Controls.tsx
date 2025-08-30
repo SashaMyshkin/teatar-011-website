@@ -15,7 +15,8 @@ export default function Controls() {
   );
 
   const { notifyChange } = useChange();
-  const { scriptId } = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
 
   React.useEffect(() => {
     if (success) {

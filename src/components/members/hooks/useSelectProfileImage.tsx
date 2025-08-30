@@ -11,7 +11,8 @@ export function useProfileImage(member_uid: number, type: string) {
   const [profileImageData, setProfileImage] = useState<Image | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { scriptId } = useLanguageContext();
+  const { language } = useLanguageContext();
+  const {id:scriptId} = language;
   const {changeCount} = useChange()
 
   useEffect(() => {
