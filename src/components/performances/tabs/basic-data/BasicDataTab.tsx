@@ -2,12 +2,13 @@ import { format } from "date-fns";
 import { BasicInfoForm as BasicInfoFormType } from "@components/performances/types";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
 import BasicInfoForm from "@components/performances/forms/BasicInfoForm";
 import { Box, Button } from "@mui/material";
 import _ from "lodash";
+import { useUpdateBasicInfo } from "@components/performances/hooks/useUpdateBasicInfo";
 
 const initialFormState: BasicInfoFormType = {
   title: "",
@@ -25,8 +26,11 @@ export default function BasicDataTab() {
     basicInfoFormValidation
   );
   const [dbState, setDbState] = useState<BasicInfoFormType>(initialFormState);
-  //const [submitting, setSubmitting] = useState(false);
-  const { performanceUid, performance } = usePerformanceContext();
+  const [submitting, setSubmitting] = useState(false);
+  const { performanceUid, performance, setPerformanceUid, setPerformance } =
+    usePerformanceContext();
+
+  const submitForm = useUpdateBasicInfo();
 
   useEffect(() => {
     if (performanceUid && performance) {
@@ -44,6 +48,34 @@ export default function BasicDataTab() {
 
   const handleCancel = () => resetFormState(dbState);
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (performanceUid) {
+      setSubmitting(true);
+      await submitForm(performanceUid.id, formState);
+      setPerformance((elem) => {
+        if (!elem) return null;
+        return {
+          ...elem,
+          slogan: formState.slogan,
+          title: formState.title,
+        };
+      });
+      setPerformanceUid((elem) => {
+        if (!elem) return null;
+        return {
+          ...elem,
+          identifier: formState.identifier,
+          date_of_premiere: formState.date_of_premiere,
+          performance_type_uid: formState.performance_type_uid,
+        };
+      });
+      //setDbState(formState);
+      setSubmitting(false);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -55,6 +87,7 @@ export default function BasicDataTab() {
         margin: "auto",
       }}
       component="form"
+      onSubmit={handleSubmit}
     >
       <BasicInfoForm
         formState={formState}
@@ -63,29 +96,29 @@ export default function BasicDataTab() {
         validateField={validateField}
       />
       {performanceUid && performance && (
-        <Box sx={{display:"flex", gap:"0.9rem"}}>
+        <Box sx={{ display: "flex", gap: "0.9rem" }}>
           <Button
-          variant="contained"
-          fullWidth
-          disabled={_.isEqual(dbState, formState)}
-          color="primary"
-          type="submit"
-          sx={{flexGrow:1}}
-        >
-          Sačuvaj
-        </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          type="button"
-          color="secondary"
-          sx={{flexGrow:1}}
-          onClick={handleCancel}
-        >
-          Otkaži
-        </Button>
+            variant="contained"
+            fullWidth
+            disabled={_.isEqual(dbState, formState)}
+            color="primary"
+            type="submit"
+            sx={{ flexGrow: 1 }}
+            loading={submitting}
+          >
+            Sačuvaj
+          </Button>
+          <Button
+            variant="contained"
+            fullWidth
+            type="button"
+            color="secondary"
+            sx={{ flexGrow: 1 }}
+            onClick={handleCancel}
+          >
+            Otkaži
+          </Button>
         </Box>
-        
       )}
     </Box>
   );

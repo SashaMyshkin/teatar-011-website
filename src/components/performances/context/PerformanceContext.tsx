@@ -1,6 +1,8 @@
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -19,7 +21,8 @@ type PerformanceContextType = {
   performanceTypes: PerformanceType[];
   performanceUid?:TablePerformancesUID | null;
   performance?:TablePerformances | null;
-  /*setPerformanceTypes: Dispatch<SetStateAction<PerformanceType[] | null>>;*/
+  setPerformanceUid: Dispatch<SetStateAction<TablePerformancesUID | null>>;
+  setPerformance: Dispatch<SetStateAction<TablePerformances | null>>;
 };
 
 interface PerformanceProviderProps {
@@ -75,7 +78,7 @@ export function PerformanceProvider({
   if (!performanceTypes) return <Loading />;
 
   return (
-    <PerformanceContext.Provider value={{ performanceTypes, performance, performanceUid }}>
+    <PerformanceContext.Provider value={{ performanceTypes, performance, performanceUid,setPerformance, setPerformanceUid }}>
       {children}
     </PerformanceContext.Provider>
   );
