@@ -32,12 +32,11 @@ export type TablePerformancesUID =
 export type TablePerformances =
   Database["public"]["Tables"]["performances"]["Row"];
 
-export type BasicInfoForm =
-  Pick<
-      TablePerformancesUID,
-      "identifier" | "date_of_premiere" | "performance_type_uid"
-    >
-  & Pick<TablePerformances, "title" | "slogan">;
+export type BasicInfoForm = Pick<
+  TablePerformancesUID,
+  "identifier" | "date_of_premiere" | "performance_type_uid"
+> &
+  Pick<TablePerformances, "title" | "slogan">;
 
 export type BasicInfoProps = {
   formState: BasicInfoForm;
@@ -45,3 +44,17 @@ export type BasicInfoProps = {
   setField: SetFieldFunction<BasicInfoForm>;
   validateField: ValidateFieldFunction<BasicInfoForm>;
 };
+
+export interface UseSelectPerformanceUidProps {
+  identifier?: string;
+  id?: number;
+}
+export interface UseSelectPerformanceProps {
+  performanceUid?: number;
+}
+
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
