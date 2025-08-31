@@ -1,3 +1,5 @@
+import { Database } from "@/lib/database.t";
+
 // Define PixelCrop type for cropping coordinates
 export type PixelCrop = {
   x: number;
@@ -38,3 +40,10 @@ export type ImageManagerParentProps = {
   entityId: number  | null;
 
 };
+
+export type Image = Database["public"]["Views"]["v_images"]["Row"];
+export interface UseProfileImageProps {
+  entity_id?: number;
+  image_id?: number;
+  type?: string;
+}

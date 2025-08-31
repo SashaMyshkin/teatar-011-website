@@ -5,6 +5,8 @@ import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@/components/performances/tabs/CustomTabPanel";
 import BasicDataTab from "@/components/performances/tabs/basic-data/BasicDataTab";
 import AboutPerformance from "@/components/performances/tabs/about-performance/AboutPerformance";
+import Poster from "@components/performances/tabs/poster/Poster";
+import { ChangeProvider } from "@/components/context/ChangeContext";
 
 function a11yProps(index: number) {
   return {
@@ -27,6 +29,7 @@ export default function PerformanceTabs() {
           <Tab label="Osnovni podaci" {...a11yProps(0)} />
           <Tab label="Detalji" {...a11yProps(1)} />
           <Tab label="O predstavi" {...a11yProps(2)} />
+          <Tab label="Poster" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
@@ -38,6 +41,12 @@ export default function PerformanceTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={2}>
         <AboutPerformance/>
+      </CustomTabPanel>
+      <CustomTabPanel value={tabIndex} index={3}>
+        <ChangeProvider>
+          <Poster/>
+        </ChangeProvider>
+        
       </CustomTabPanel>
     </Box>
   );
