@@ -9,6 +9,7 @@ interface UpdateParagraphProps {
 
 export default function useUpdateParagraph() {
   return async ({ id, paragraph, order_number }: UpdateParagraphProps) => {
+    console.log("order_number",order_number)
     if (!(paragraph || order_number))
       throw new Error(
         "Potrebno je proslediti bar jedan parametar: paragraph ili order_number"

@@ -20,6 +20,7 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { TablePerformancesAbout } from "@components/performances/types";
 import ParagraphCard from "./ParagraphCard";
 import { usePerformanceContext } from "../../context/PerformanceContext";
+import useUpdateParagraph from "../../hooks/useUpdateParagraph";
 
 interface ContentProps {
   paragraphs: TablePerformancesAbout[];
@@ -28,6 +29,7 @@ interface ContentProps {
 export default function Content() {
   const { paragraphs, setParagraphs } = usePerformanceContext();
   const sensors = useSensors(useSensor(PointerSensor));
+  const update = useUpdateParagraph();
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleDragEnd = async (event: any) => {
@@ -39,11 +41,16 @@ export default function Content() {
       const newIndex = paragraphs.findIndex((p) => p.id === over.id);
 
       const newOrder = arrayMove(paragraphs, oldIndex, newIndex);
-      setParagraphs(newOrder);
+
+      const newStatePromises:Promise<TablePerformancesAbout>[] = [];
 
       newOrder.forEach((elem, index) => {
-        //updateSubmit({order_number:index}, elem.id)
+        newStatePromises.push(update({id:elem.id, order_number:index+1, }))
       });
+
+      const newState = await Promise.all(newStatePromises);
+
+      setParagraphs(newState);
     }
   };
 

@@ -10,6 +10,17 @@ export default function useInsertParagraph() {
   return async (newParagraph: string) => {
     if (paragraphs && performanceUid) {
       try {
+        const selectResult = await supabaseBrowserClient
+          .from("performances_about")
+          .select("order_number")
+          .eq("performance_uid", performanceUid.id)
+          .eq("script_id", language.id)
+          .order("order_number", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        const max = unwrap(selectResult);
+
         const result = await supabaseBrowserClient
           .from("performances_about")
           .insert([
@@ -17,7 +28,7 @@ export default function useInsertParagraph() {
               paragraph: newParagraph,
               performance_uid: performanceUid.id,
               script_id: language.id,
-              order_number: paragraphs.length + 1,
+              order_number: max ? max.order_number + 1 : 1,
             },
           ])
           .select("*")
