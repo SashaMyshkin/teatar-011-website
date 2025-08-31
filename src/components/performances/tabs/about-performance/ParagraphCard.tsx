@@ -5,22 +5,60 @@ import {
   CardContent,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { TablePerformancesAbout } from "../../types";
-import { cardContentSx, dragHandleStyle, textFieldInputProps, textFieldSx } from "./styles";
+import {
+  cardContentSx,
+  dragHandleStyle,
+  textFieldInputProps,
+  textFieldSx,
+} from "./styles";
 import _ from "lodash";
+import useUpdateParagraph from "../../hooks/useUpdateParagraph";
+import { usePerformanceContext } from "../../context/PerformanceContext";
 
 interface ParagraphCardProps {
-  paragraphObject: TablePerformancesAbout;
+  index: number;
   dragHandle: React.ReactNode;
 }
 
 export default function ParagraphCard({
-  paragraphObject,
+  index,
   dragHandle,
 }: ParagraphCardProps) {
-  const [paragraph, setParagraph] = React.useState<TablePerformancesAbout>(paragraphObject);
-  const [paragraphChanges, setParagraphChanges] = React.useState<TablePerformancesAbout>(paragraphObject);
+  const { paragraphs, setParagraphs } = usePerformanceContext();
+
+  const [paragraphChanges, setParagraphChanges] =
+    React.useState<TablePerformancesAbout | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (paragraphs) {
+      setParagraphChanges(paragraphs[index]);
+    }
+  }, [paragraphs]);
+
+  const submit = useUpdateParagraph();
+
+  const handleSave = async () => {
+    setLoading(true);
+
+    if (paragraphs && paragraphChanges) {
+      const data = await submit({
+        id: paragraphs[index].id,
+        paragraph: paragraphChanges.paragraph,
+      });
+
+      const newState = [...paragraphs];
+      newState[index].paragraph = data.paragraph;
+
+      setParagraphs(newState);
+    }
+
+    setLoading(false);
+  };
+
+  if (!(paragraphChanges && paragraphs)) return <></>;
 
   return (
     <Card variant="outlined" sx={{ position: "relative" }}>
@@ -32,8 +70,13 @@ export default function ParagraphCard({
           fullWidth
           multiline
           value={paragraphChanges.paragraph}
-          id={`${paragraph.id}`}
-          onChange={(e) => setParagraphChanges((elem)=>{return {...elem, paragraph:e.target.value}})}
+          id={`${paragraphChanges.id}`}
+          onChange={(e) =>
+            setParagraphChanges((elem) => {
+              if (!elem) return null;
+              return { ...elem, paragraph: e.target.value };
+            })
+          }
           variant="standard"
           slotProps={{ input: textFieldInputProps }}
           sx={textFieldSx}
@@ -44,16 +87,24 @@ export default function ParagraphCard({
         <Button
           size="small"
           color="primary"
-          /*onClick={handleSave}*/
-          disabled={_.isEqual(paragraph, paragraphChanges)}
-          /*loading={updateLoading}*/
+          onClick={handleSave}
+          disabled={_.isEqual(paragraphs[index], paragraphChanges)}
+          loading={loading}
         >
           Izmeni
         </Button>
         <Button
           size="small"
+          color="warning"
+          onClick={()=>setParagraphChanges(paragraphs[index])}
+          disabled={_.isEqual(paragraphs[index], paragraphChanges)}
+        >
+          Otkaži
+        </Button>
+        <Button
+          size="small"
           color="error"
-         /* onClick={handleDelete}
+          /* onClick={handleDelete}
           loading={deleteLoading}*/
         >
           Obriši

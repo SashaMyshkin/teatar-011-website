@@ -17,12 +17,9 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import { ParagraphRow } from "@/components/members/types";
-
 import { TablePerformancesAbout } from "@components/performances/types";
 import ParagraphCard from "./ParagraphCard";
 import { usePerformanceContext } from "../../context/PerformanceContext";
-//import { updateParagraphOrder } from "@/lib/api"; // you'll define this
 
 interface ContentProps {
   paragraphs: TablePerformancesAbout[];
@@ -61,21 +58,29 @@ export default function Content() {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      {items && <SortableContext
-        items={items.map((item) => item.id)}
-        strategy={verticalListSortingStrategy}
-      >
-        <Stack spacing={2}>
-          {items.map((p) => (
-            <SortableItem key={p.id} paragraph={p} />
-          ))}
-        </Stack>
-      </SortableContext>}
+      {items && (
+        <SortableContext
+          items={items.map((item) => item.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <Stack spacing={2}>
+            {items.map((p, i) => (
+              <SortableItem key={p.id} paragraph={p} index={i} />
+            ))}
+          </Stack>
+        </SortableContext>
+      )}
     </DndContext>
   );
 }
 
-function SortableItem({ paragraph }: { paragraph: TablePerformancesAbout }) {
+function SortableItem({
+  paragraph,
+  index,
+}: {
+  paragraph: TablePerformancesAbout;
+  index: number;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: paragraph.id });
 
@@ -87,7 +92,6 @@ function SortableItem({ paragraph }: { paragraph: TablePerformancesAbout }) {
   return (
     <div ref={setNodeRef} style={style}>
       <ParagraphCard
-        paragraphObject={paragraph}
         dragHandle={
           <div
             {...attributes}
@@ -97,6 +101,7 @@ function SortableItem({ paragraph }: { paragraph: TablePerformancesAbout }) {
             <DragIndicatorIcon />
           </div>
         }
+        index={index}
       />
     </div>
   );

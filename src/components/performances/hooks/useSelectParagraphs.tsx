@@ -28,7 +28,7 @@ export default function useSelectParagraphs({
             .select("*");
           query.eq("performance_uid", performanceUid);
           query.eq("script_id", language.id);
-          query.order("order_number", { ascending: false, nullsFirst: false });
+          query.order("order_number", { ascending: true, nullsFirst: false });
           const resultSet = await query;
           const data = unwrap(resultSet);
           setParagraphsData(data);
