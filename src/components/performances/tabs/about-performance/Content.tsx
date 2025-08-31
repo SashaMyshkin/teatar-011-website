@@ -26,25 +26,20 @@ interface ContentProps {
 }
 
 export default function Content() {
-  const { paragraphs } = usePerformanceContext();
-  const [items, setItems] = useState<TablePerformancesAbout[] | null>(null);
+  const { paragraphs, setParagraphs } = usePerformanceContext();
   const sensors = useSensors(useSensor(PointerSensor));
-
-  useEffect(() => {
-    if (paragraphs) setItems(paragraphs);
-  }, [paragraphs]);
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const handleDragEnd = async (event: any) => {
-    if (items) {
+    if (paragraphs) {
       const { active, over } = event;
       if (!over || active.id === over.id) return;
 
-      const oldIndex = items.findIndex((p) => p.id === active.id);
-      const newIndex = items.findIndex((p) => p.id === over.id);
+      const oldIndex = paragraphs.findIndex((p) => p.id === active.id);
+      const newIndex = paragraphs.findIndex((p) => p.id === over.id);
 
-      const newOrder = arrayMove(items, oldIndex, newIndex);
-      setItems(newOrder);
+      const newOrder = arrayMove(paragraphs, oldIndex, newIndex);
+      setParagraphs(newOrder);
 
       newOrder.forEach((elem, index) => {
         //updateSubmit({order_number:index}, elem.id)
@@ -58,13 +53,13 @@ export default function Content() {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      {items && (
+      {paragraphs && (
         <SortableContext
-          items={items.map((item) => item.id)}
+          items={paragraphs.map((item) => item.id)}
           strategy={verticalListSortingStrategy}
         >
           <Stack spacing={2}>
-            {items.map((p, i) => (
+            {paragraphs.map((p, i) => (
               <SortableItem key={p.id} paragraph={p} index={i} />
             ))}
           </Stack>
