@@ -787,21 +787,21 @@ export type Database = {
       performances_about: {
         Row: {
           id: number
-          order_number: number | null
+          order_number: number
           paragraph: string
           performance_uid: number
           script_id: number
         }
         Insert: {
           id?: number
-          order_number?: number | null
+          order_number?: number
           paragraph: string
           performance_uid: number
           script_id: number
         }
         Update: {
           id?: number
-          order_number?: number | null
+          order_number?: number
           paragraph?: string
           performance_uid?: number
           script_id?: number
