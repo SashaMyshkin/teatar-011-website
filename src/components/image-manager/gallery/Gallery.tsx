@@ -1,71 +1,85 @@
-import * as React from 'react';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Box } from "@mui/material";
+import ImageManageWrapper from "@components/image-manager/ImageManageWrapper";
+import { Image, ServerData } from "@components/image-manager/types";
+import ListOfImages from "@components/image-manager/gallery/ImageList";
+import { useMediaEntityType } from "@components/image-manager/hooks/useMediaEntityType";
+import Loading from "@/components/loading/Loading";
+import AltManager from "@components/image-manager/AltManager";
 
-export default function StandardImageList() {
-  return (
-    <ImageList sx={{ width: 600, height: "auto", margin:"auto" }} cols={3} rowHeight={200}>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
-          <img
-            srcSet={`${item.img}?w=200&h=200&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item.img}?w=200&h=200&fit=crop&auto=format`}
-            alt={item.title}
-            loading="lazy"
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
-  );
+interface GalleryProps {
+  images: Image[];
+  futurePath: string;
+  entityId: number;
 }
 
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-  },
-];
+const MEDIA_ENTITY_TYPE = "image-gallery";
+
+export default function Gallery({
+  images,
+  futurePath,
+  entityId,
+}: GalleryProps) {
+  const [open, setOpen] = React.useState(false);
+  const { mediaEntityType } = useMediaEntityType(MEDIA_ENTITY_TYPE);
+  const [serverData, setServerData] = React.useState<ServerData | null>(null);
+  const [altData, setAltData] = React.useState<{alt:string | null, id:number | null} | null>(null)
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setServerData(null);
+    setAltData(null)
+  };
+
+  if (!mediaEntityType) return <Loading></Loading>;
+
+  const defaults = {
+    maxWidth: mediaEntityType.max_width,
+    aspectRatio: mediaEntityType.aspect_ratio,
+    entity_type_id: mediaEntityType.id,
+  };
+
+  return (
+    <React.Fragment>
+      <Box sx={{ width: "fit-content", margin: "auto" }}>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          Dodaj sliku
+        </Button>
+      </Box>
+
+      <Dialog open={open} onClose={handleClose} sx={{zIndex:2000000}}>
+        <DialogTitle></DialogTitle>
+        <DialogContent sx={{width:"30rem"}}>
+          <ImageManageWrapper
+            serverData={serverData}
+            defaults={defaults}
+            futurePath={futurePath}
+            entityId={entityId}
+          />
+          {altData && altData.id && <AltManager
+            id={altData.id}
+            altText={altData.alt ?? ""}
+          ></AltManager>}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Zatvori</Button>
+        </DialogActions>
+      </Dialog>
+      <ListOfImages
+        itemData={images}
+        setServerData={setServerData}
+        setOpen={setOpen}
+        setAltData={setAltData}
+      />
+    </React.Fragment>
+  );
+}
