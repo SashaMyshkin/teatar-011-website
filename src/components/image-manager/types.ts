@@ -18,8 +18,8 @@ export interface ImageManagerProps {
   deleteLoading:boolean
 }
 
-export type ImageManagerParentProps = {
-  serverData: {
+export type ServerData = {
+  
     publicUrl: string | null;
     alt: string  | null;
     imageId: number  | null;
@@ -27,11 +27,15 @@ export type ImageManagerParentProps = {
     width: number  | null;
     height: number  | null;
     size: number  | null;
-  } | null;
+   
+}
+
+export type ImageManagerParentProps = {
+  serverData: ServerData | null;
 
   defaults: {
     maxWidth: number;
-    aspectRatio: number;
+    aspectRatio?: number;
     entity_type_id: number;
   };
 
