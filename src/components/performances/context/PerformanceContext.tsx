@@ -17,7 +17,7 @@ import { useSelectTypes } from "@components/performances/hooks/useSelectTypes";
 import Loading from "@/components/loading/Loading";
 import useSelectPerformanceUid from "@components/performances/hooks/useSelectPerformanceUid";
 import useSelectPerformance from "@components/performances/hooks/useSelectPerformance";
-import useSelectParagraphs from "../hooks/useSelectParagraphs";
+import useSelectParagraphs from "@components/performances/hooks/useSelectParagraphs";
 
 type PerformanceContextType = {
   performanceTypes: PerformanceType[];

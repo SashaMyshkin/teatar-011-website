@@ -65,3 +65,8 @@ export interface UseSelectParagraphsProps {
 
 export type TablePerformancesAbout =
   Database["public"]["Tables"]["performances_about"]["Row"];
+
+export interface ParagraphCardProps {
+  index: number;
+  dragHandle: React.ReactNode;
+}

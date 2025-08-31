@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Controls from "@components/performances/tabs/about-performance/Controls";
-import Content from "./Content";
+import Content from "@components/performances/tabs/about-performance/Content";
 
 export default function AboutPerformance(){
   

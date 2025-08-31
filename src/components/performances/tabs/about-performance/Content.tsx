@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Stack } from "@mui/material";
 import {
   DndContext,
@@ -18,13 +18,9 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { TablePerformancesAbout } from "@components/performances/types";
-import ParagraphCard from "./ParagraphCard";
-import { usePerformanceContext } from "../../context/PerformanceContext";
-import useUpdateParagraph from "../../hooks/useUpdateParagraph";
-
-interface ContentProps {
-  paragraphs: TablePerformancesAbout[];
-}
+import ParagraphCard from "@components/performances/tabs/about-performance/ParagraphCard";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
+import useUpdateParagraph from "@components/performances/hooks/useUpdateParagraph";
 
 export default function Content() {
   const { paragraphs, setParagraphs } = usePerformanceContext();

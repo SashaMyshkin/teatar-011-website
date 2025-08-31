@@ -5,23 +5,20 @@ import {
   CardContent,
   TextField,
 } from "@mui/material";
-import React, { FormEvent, useEffect, useState } from "react";
-import { TablePerformancesAbout } from "../../types";
+import React, {  useEffect, useState } from "react";
+import { ParagraphCardProps, TablePerformancesAbout } from "@components/performances/types";
 import {
   cardContentSx,
   dragHandleStyle,
   textFieldInputProps,
   textFieldSx,
-} from "./styles";
+} from "@components/performances/tabs/about-performance/styles";
 import _ from "lodash";
-import useUpdateParagraph from "../../hooks/useUpdateParagraph";
-import { usePerformanceContext } from "../../context/PerformanceContext";
-import useDeleteParagraph from "../../hooks/useDeleteParagraph";
+import useUpdateParagraph from "@components/performances/hooks/useUpdateParagraph";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
+import useDeleteParagraph from "@components/performances/hooks/useDeleteParagraph";
 
-interface ParagraphCardProps {
-  index: number;
-  dragHandle: React.ReactNode;
-}
+
 
 export default function ParagraphCard({
   index,
@@ -36,7 +33,7 @@ export default function ParagraphCard({
     if (paragraphs) {
       setParagraphChanges(paragraphs[index]);
     }
-  }, [paragraphs]);
+  }, [paragraphs,index]);
 
   const submit = useUpdateParagraph();
   const submitDelete = useDeleteParagraph();

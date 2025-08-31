@@ -4,7 +4,7 @@ import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@/components/performances/tabs/CustomTabPanel";
 import BasicDataTab from "@/components/performances/tabs/basic-data/BasicDataTab";
-import AboutPerformance from "./about-performance/AboutPerformance";
+import AboutPerformance from "@/components/performances/tabs/about-performance/AboutPerformance";
 
 function a11yProps(index: number) {
   return {

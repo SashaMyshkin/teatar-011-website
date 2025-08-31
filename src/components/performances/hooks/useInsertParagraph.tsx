@@ -1,5 +1,5 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
-import { usePerformanceContext } from "../context/PerformanceContext";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 

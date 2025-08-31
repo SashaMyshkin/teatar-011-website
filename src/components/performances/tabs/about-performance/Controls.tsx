@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
-import useInsertParagraph from "../../hooks/useInsertParagraph";
+import useInsertParagraph from "@components/performances/hooks/useInsertParagraph";
 
 export default function Controls(){
   const [newParagraph, setNewParagraph] = useState("");
