@@ -22,14 +22,14 @@ import useSelectParagraphs from "@components/performances/hooks/useSelectParagra
 type PerformanceContextType = {
   performanceTypes: PerformanceType[];
 
-  performanceUid?: TablePerformancesUID | null;
+  performanceUid: TablePerformancesUID | null;
   setPerformanceUid: Dispatch<SetStateAction<TablePerformancesUID | null>>;
 
-  performance?: TablePerformances | null;
+  performance: TablePerformances | null;
   setPerformance: Dispatch<SetStateAction<TablePerformances | null>>;
 
-  paragraphs?:TablePerformancesAbout[] | null, 
-  setParagraphs:Dispatch<SetStateAction<TablePerformancesAbout[] | null>>;
+  paragraphs: TablePerformancesAbout[] | null;
+  setParagraphs: Dispatch<SetStateAction<TablePerformancesAbout[] | null>>;
 };
 
 interface PerformanceProviderProps {
@@ -85,11 +85,9 @@ export function PerformanceProvider({
     if (performanceUidData) setPerformanceUid(performanceUidData);
   }, [performanceUidData]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (paragraphsData) setParagraphs(paragraphsData);
   }, [paragraphsData]);
-
-
 
   useEffect(() => {
     if (performanceData) setPerformance(performanceData);
@@ -106,7 +104,7 @@ export function PerformanceProvider({
         setPerformance,
         performance,
         paragraphs,
-        setParagraphs
+        setParagraphs,
         
       }}
     >

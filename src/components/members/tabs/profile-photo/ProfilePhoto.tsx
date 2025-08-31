@@ -1,4 +1,4 @@
-import { useMediaEntityType } from "@components/members/hooks/useMediaEntityType";
+import { useMediaEntityType } from "@/components/image-manager/hooks/useMediaEntityType";
 import { useProfileImage } from "@components/members/hooks/useSelectProfileImage";
 import { useMemberContext } from "@components/members/MembersContext";
 import Loading from "@/components/loading/Loading";

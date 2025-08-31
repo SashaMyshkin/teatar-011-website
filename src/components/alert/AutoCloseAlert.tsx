@@ -22,15 +22,6 @@ export function AutoCloseAlert({
   autoHideDuration = 3000, // Increase to 3 seconds
   position = { vertical: "top", horizontal: "center" },
 }: AutoCloseAlertProps) {
-  
-  React.useEffect(() => {
-    console.log("Snackbar open state changed:", open);
-  }, [open]);
-
-  React.useEffect(() => {
-    console.log("Snackbar mounted");
-    return () => console.log("Snackbar unmounted");
-  }, []);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
