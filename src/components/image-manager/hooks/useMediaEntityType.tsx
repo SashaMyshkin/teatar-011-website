@@ -1,12 +1,10 @@
 import React from "react";
 
 import { supabaseBrowserClient } from "@/lib/client";
-import { Database } from "@/lib/database.t";
-
-type MediaEntityType = Database["public"]["Tables"]["media_entity_types"]["Row"];
+import { MediaEntityTypeRow } from "../types";
 
 export function useMediaEntityType(type: string) {
-  const [mediaEntityType, setMediaEntityType] = React.useState<MediaEntityType | null>(null);
+  const [mediaEntityType, setMediaEntityType] = React.useState<MediaEntityTypeRow | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 

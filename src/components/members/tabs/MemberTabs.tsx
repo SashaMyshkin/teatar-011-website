@@ -5,9 +5,9 @@ import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@components/members/tabs/CustomTabPanel";
 import BasicInfoTab from "@/components/members/tabs/basic-info/BasicDataTab";
 import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
-import ProfilePhoto from "@/components/members_/tabs/profile-photo/ProfilePhoto";
+import ProfilePhoto from "@/components/members/tabs/profile-photo/ProfilePhoto";
 import { ChangeProvider } from "@/components/context/ChangeContext";
-import Publishing from "@/components/members_/tabs/publishing/Publishing";
+import Publishing from "@/components/members/tabs/publishing/Publishing";
 
 function a11yProps(index: number) {
   return {
@@ -40,14 +40,14 @@ export default function MemberTabs() {
       <CustomTabPanel value={tabIndex} index={1}>
         <BiographyTab />
       </CustomTabPanel>
-      {/*<CustomTabPanel value={tabIndex} index={2}>
+      <CustomTabPanel value={tabIndex} index={2}>
         <ChangeProvider>
           <ProfilePhoto />
         </ChangeProvider>
       </CustomTabPanel>
       <CustomTabPanel value={tabIndex} index={3}>
         <Publishing/>
-      </CustomTabPanel>*/}
+      </CustomTabPanel>
     </Box>
   );
 }
