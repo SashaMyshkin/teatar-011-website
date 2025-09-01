@@ -1,77 +1,87 @@
+import React, { FormEvent, useEffect, useState } from "react";
+import BasicInfoForm from "@components/members/forms/BasicInfoForm";
+import { useMemberContext } from "../../context/MemberContext";
+import { BasicInfoFormFields } from "../../types";
 import { format } from "date-fns";
-import { BasicInfoForm as BasicInfoFormType } from "@components/performances/types";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
-import { FormEvent, useEffect, useState } from "react";
-import { basicInfoFormValidation } from "@/lib/zod/performances/basic-info-form";
-import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import BasicInfoForm from "@components/performances/forms/BasicInfoForm";
+import { memberValidation } from "@/lib/zod/input/createMember";
 import { Box, Button } from "@mui/material";
 import _ from "lodash";
-import { useUpdateBasicInfo } from "@components/performances/hooks/useUpdateBasicInfo";
+import { useUpdateBasicInfo } from "../../hooks/useUpdateBasicInfo";
 
-const initialFormState: BasicInfoFormType = {
-  title: "",
+const initialFormState: BasicInfoFormFields = {
+  name: "",
+  surname: "",
+  motto: "",
   identifier: "",
-  date_of_premiere: format(new Date(), "yyyy-MM-dd"),
-  performance_type_uid: 1,
-  slogan: "",
+  date_of_joining: format(new Date(), "yyyy-MM-dd"),
+  date_of_birth: format(new Date(), "yyyy-MM-dd"),
+  membership_status_uid: 5,
+  email: "",
 };
 
 export default function BasicDataTab() {
+  const { memberUid, member, setMember, setMemberUid } = useMemberContext();
   const { setField, resetFormState, formState } =
     useFormReducer(initialFormState);
   const { errorState, validateField } = useFieldValidator(
     initialFormState,
-    basicInfoFormValidation
+    memberValidation
   );
-  const [dbState, setDbState] = useState<BasicInfoFormType>(initialFormState);
+  const [dbState, setDbState] = useState<BasicInfoFormFields>(initialFormState);
   const [submitting, setSubmitting] = useState(false);
-  const { performanceUid, performance, setPerformanceUid, setPerformance } =
-    usePerformanceContext();
-
   const submitForm = useUpdateBasicInfo();
 
   useEffect(() => {
-    if (performanceUid && performance) {
+    if (memberUid && member) {
       const data = {
-        title: performance.title,
-        identifier: performanceUid.identifier,
-        date_of_premiere: format(performanceUid.date_of_premiere, "yyyy-MM-dd"),
-        performance_type_uid: performanceUid.performance_type_uid,
-        slogan: performance.slogan,
+        name: member.name,
+        surname: member.surname,
+        motto: member.motto,
+        identifier: memberUid.identifier,
+        date_of_joining: format(memberUid.date_of_joining, "yyyy-MM-dd"), // format(new Date(), "yyyy-MM-dd"),
+        date_of_birth: format(
+          memberUid.date_of_birth ?? new Date(),
+          "yyyy-MM-dd"
+        ),
+        membership_status_uid: memberUid.membership_status_uid,
+        email: memberUid.email,
       };
       resetFormState(data);
       setDbState(data);
     }
-  }, [performanceUid, performance]);
+  }, [memberUid, member]);
 
   const handleCancel = () => resetFormState(dbState);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (performanceUid) {
+    if (memberUid) {
       setSubmitting(true);
-      await submitForm(performanceUid.id, formState);
-      setPerformance((elem) => {
+      await submitForm(memberUid.id, formState);
+      setMember((elem) => {
         if (!elem) return null;
         return {
           ...elem,
-          slogan: formState.slogan,
-          title: formState.title,
+          name: formState.name,
+          surname: formState.surname,
+          motto: formState.motto,
         };
       });
-      setPerformanceUid((elem) => {
+      setMemberUid((elem) => {
         if (!elem) return null;
         return {
           ...elem,
           identifier: formState.identifier,
-          date_of_premiere: formState.date_of_premiere,
-          performance_type_uid: formState.performance_type_uid,
+          date_of_joining: formState.date_of_joining,
+          date_of_birth: formState.date_of_birth,
+          membership_status_uid: formState.membership_status_uid,
+          email: formState.email,
         };
       });
-      //setDbState(formState);
+      setDbState(formState);
       setSubmitting(false);
     }
   };
@@ -95,7 +105,7 @@ export default function BasicDataTab() {
         setField={setField}
         validateField={validateField}
       />
-      {performanceUid && performance && (
+      {memberUid && member && (
         <Box sx={{ display: "flex", gap: "0.9rem" }}>
           <Button
             variant="contained"

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { supabaseBrowserClient } from "@/lib/client";
 import { PaginationModel, SelectMembersForm, ViewMembers } from "../types";
 
-export default function useSelectMembers() {
+export default function useSelectMembersView() {
   const [rows, setRows] = useState<ViewMembers[]>([]);
   const [rowCount, setRowCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);

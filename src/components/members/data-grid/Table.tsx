@@ -1,7 +1,7 @@
 "use client"
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import React from "react";
-import useSelectMembers from "@components/members/hooks/useSelectMembers";
+import useSelectMembersView from "@components/members/hooks/useSelectMembersView";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
@@ -10,7 +10,7 @@ import { PaginationModel, TableProps } from "../types";
 
 export default function Table({formState, setField}:TableProps) {
   const router = useRouter();
-  const { rows, rowCount, isLoading, debouncedFetch } = useSelectMembers();
+  const { rows, rowCount, isLoading, debouncedFetch } = useSelectMembersView();
   const [paginationModel, setPaginationModel] = React.useState<PaginationModel>({
     page: 0,
     pageSize: 5,

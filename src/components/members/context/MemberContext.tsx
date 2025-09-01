@@ -1,7 +1,15 @@
-import { createContext, useContext } from "react";
-import { MemberContextType, MemberProviderProps } from "../types";
+import { createContext, useContext, useEffect, useState } from "react";
+import {
+  MemberContextType,
+  MemberProviderProps,
+  MembersRow,
+  MembersUidRow,
+} from "../types";
 import useSelectMembershipStatuses from "../hooks/useSelectMembershipStatuses";
 import Loading from "@/components/loading/Loading";
+import useSelectMemberUid from "../hooks/useSelectMemberUid";
+import useSelectMembersView from "../hooks/useSelectMembersView";
+import useSelectMember from "../hooks/useSelectMember";
 
 const MemberContext = createContext<MemberContextType | undefined>(undefined);
 
@@ -12,13 +20,37 @@ export const useMemberContext = () => {
   return context;
 };
 
-export function MemberProvider({ children }: MemberProviderProps) {
-  const {membershipStatuses} = useSelectMembershipStatuses();
+export function MemberProvider({ children, identifier }: MemberProviderProps) {
+  const { membershipStatuses } = useSelectMembershipStatuses();
 
-  if(!membershipStatuses) return <Loading></Loading>
+  const { memberUidData } = useSelectMemberUid({ identifier: identifier });
+  const [memberUid, setMemberUid] = useState<MembersUidRow | null>(null);
 
+  const { memberData } = useSelectMember({ memberUid: memberUid?.id });
+  const [member, setMember] = useState<MembersRow | null>(null);
 
-  return <MemberContext.Provider value={{
-    membershipStatuses
-  }}>{children}</MemberContext.Provider>;
+  useEffect(() => {
+    setMemberUid(memberUidData);
+  }, [memberUidData]);
+
+  useEffect(() => {
+    setMember(memberData);
+  }, [memberData]);
+
+  if (!membershipStatuses) return <Loading></Loading>;
+
+  return (
+    <MemberContext.Provider
+      value={{
+        membershipStatuses,
+        
+        memberUid,
+        setMemberUid,
+        member,
+        setMember,
+      }}
+    >
+      {children}
+    </MemberContext.Provider>
+  );
 }

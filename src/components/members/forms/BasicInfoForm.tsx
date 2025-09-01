@@ -9,14 +9,14 @@ import { BasicInfoFormProps } from "../types";
 import { format } from "date-fns";
 import { useMemberContext } from "../context/MemberContext";
 
-export default function BasicInfoForm({formState,
-    errorState,
+export default function BasicInfoForm({
+  formState,
+  errorState,
 
-    setField,
-    validateField,}: BasicInfoFormProps) {
+  setField,
+  validateField,
+}: BasicInfoFormProps) {
   const { membershipStatuses } = useMemberContext();
-  
-
 
   return (
     <React.Fragment>
@@ -70,7 +70,6 @@ export default function BasicInfoForm({formState,
           fullWidth
           variant="standard"
           size="small"
-         
           value={formState.identifier}
           onChange={(e) => {
             setField("identifier", e.target.value);
@@ -80,26 +79,26 @@ export default function BasicInfoForm({formState,
           helperText={errorState.identifier.message}
           color="secondary"
         />
-   
-          <TextField
-            margin="dense"
-            id="motto"
-            name="motto"
-            label="Moto"
-            type="text"
-            fullWidth
-            variant="standard"
-            size="small"
-            value={formState.motto}
-            onChange={(e) => {
-              setField("motto", e.target.value);
-              validateField("motto", e.target.value);
-            }}
-            error={errorState.motto.error}
-            helperText={errorState.motto.message}
-            color="secondary"
-          />
-     
+
+        <TextField
+          margin="dense"
+          id="motto"
+          name="motto"
+          label="Moto"
+          type="text"
+          fullWidth
+          variant="standard"
+          size="small"
+          value={formState.motto}
+          onChange={(e) => {
+            setField("motto", e.target.value);
+            validateField("motto", e.target.value);
+          }}
+          error={errorState.motto.error}
+          helperText={errorState.motto.message}
+          color="secondary"
+        />
+
         <TextField
           select
           required
@@ -111,47 +110,44 @@ export default function BasicInfoForm({formState,
           id="membership-status-uid"
           name="membership_status_uid"
           value={formState.membership_status_uid}
-          
           onChange={(e) => {
             setField("membership_status_uid", e.target.value);
           }}
           color="secondary"
         >
-          { (
-            membershipStatuses.map((status) => {
-              return (
-                <MenuItem key={status.membership_status_uid} value={status.id}>
-                  {status.status_name}
-                </MenuItem>
-              );
-            })
-          ) }
+          {membershipStatuses.map((status) => {
+            return (
+              <MenuItem key={status.membership_status_uid} value={status.id}>
+                {status.status_name}
+              </MenuItem>
+            );
+          })}
         </TextField>
-       
-          <TextField
-            margin="dense"
-            id="email"
-            name="email"
-            label="Imejl"
-            type="text"
-            fullWidth
-            variant="standard"
-            size="small"
-            value={formState.email}
-            onChange={(e) => {
-              setField("email", e.target.value);
-              validateField("email", e.target.value);
-            }}
-            error={errorState.email.error}
-            helperText={errorState.email.message}
-            color="secondary"
-          />
-        
+
+        <TextField
+          margin="dense"
+          id="email"
+          name="email"
+          label="Imejl"
+          type="text"
+          fullWidth
+          variant="standard"
+          size="small"
+          value={formState.email}
+          onChange={(e) => {
+            setField("email", e.target.value);
+            validateField("email", e.target.value);
+          }}
+          error={errorState.email.error}
+          helperText={errorState.email.message}
+          color="secondary"
+        />
+
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={sr}>
           <DatePicker
             label="Datum upisa"
             name="date_of_joining"
-             value={new Date(formState.date_of_joining)}
+            value={new Date(formState.date_of_joining)}
             onChange={(date) => {
               setField("date_of_joining", date);
             }}
@@ -168,29 +164,32 @@ export default function BasicInfoForm({formState,
             }}
           />
         </LocalizationProvider>
-        
-          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={sr}>
-            <DatePicker
-              label="Datum rođenja"
-              name="date_of_birth"
-               value={new Date(formState.date_of_birth ?? format(new Date(), "yyyy-MM-dd"))}
-              onChange={(date) => {
-                setField("date_of_birth", date);
-              }}
-              format="dd. MM. yyyy"
-              slotProps={{
-                textField: {
-                  fullWidth: true,
-                  variant: "standard",
-                  size: "small",
-                  margin: "dense",
-                  required: false,
-                  color: "secondary",
-                },
-              }}
-            />
-          </LocalizationProvider>
-      
+
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={sr}>
+          <DatePicker
+            label="Datum rođenja"
+            name="date_of_birth"
+            value={
+              new Date(
+                formState.date_of_birth ?? format(new Date(), "yyyy-MM-dd")
+              )
+            }
+            onChange={(date) => {
+              setField("date_of_birth", date);
+            }}
+            format="dd. MM. yyyy"
+            slotProps={{
+              textField: {
+                fullWidth: true,
+                variant: "standard",
+                size: "small",
+                margin: "dense",
+                required: false,
+                color: "secondary",
+              },
+            }}
+          />
+        </LocalizationProvider>
       </Box>
     </React.Fragment>
   );

@@ -1,5 +1,5 @@
 import { Database } from "@/lib/database.t";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { SetFieldFunction } from "../custom-hooks/useFormReducer";
 import { ErrorState, ValidateFieldFunction } from "../custom-hooks/validators";
 
@@ -15,8 +15,19 @@ export type MembersRow = Database["public"]["Tables"]["members"]["Row"];
 export type ViewMembers = Database["public"]["Views"]["v_members"]["Row"];
 
 //Props
+
+export type useSelectMemberProps = {
+  memberUid?:number
+}
+
+export type UseSelectMemberUidProps = {
+  id?:number,
+  identifier?:string,
+}
+
 export interface MemberProviderProps {
   children: ReactNode;
+  identifier?:string;
 }
 
 export type SearchBarProps = {
@@ -44,6 +55,10 @@ export type TableProps = {
 //Other types
 export type MemberContextType = {
   membershipStatuses: MembershipStatusesRow[];
+  memberUid:MembersUidRow | null;
+  setMemberUid:Dispatch<SetStateAction<MembersUidRow | null>>,
+  member:MembersRow | null;
+  setMember:Dispatch<SetStateAction<MembersRow | null>>
 };
 
 export type SelectMembersForm = {
