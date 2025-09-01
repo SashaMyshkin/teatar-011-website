@@ -8,6 +8,7 @@ import AboutPerformance from "@/components/performances/tabs/about-performance/A
 import Poster from "@components/performances/tabs/poster/Poster";
 import { ChangeProvider } from "@/components/context/ChangeContext";
 import PerformanceGallery from "@/components/performances/tabs/performance-gallery/PerformanceGallery";
+import Roles from "../../roles/Roles";
 
 function a11yProps(index: number) {
   return {
@@ -32,6 +33,7 @@ export default function PerformanceTabs() {
           <Tab label="O predstavi" {...a11yProps(2)} />
           <Tab label="Poster" {...a11yProps(3)} />
           <Tab label="Galerija" {...a11yProps(4)} />
+          <Tab label="Uloge" {...a11yProps(5)} />
         </Tabs>
       </Box>
 
@@ -53,6 +55,9 @@ export default function PerformanceTabs() {
         <ChangeProvider>
           <PerformanceGallery />
         </ChangeProvider>
+      </CustomTabPanel>
+       <CustomTabPanel value={tabIndex} index={5}>
+        <Roles />
       </CustomTabPanel>
     </Box>
   );

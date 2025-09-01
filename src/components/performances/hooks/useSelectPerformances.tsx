@@ -18,7 +18,7 @@ export default function useSelectPerformances() {
     () =>
       debounce(async (formState: SelectPerformancesForm, paginationModel) => {
         setIsLoading(true);
-        const { title, performance_type_uid, is_public } = formState;
+        const { title, performance_type_uid, is_public, uid } = formState;
         const { page, pageSize } = paginationModel;
         const from = page * pageSize;
         const to = from + pageSize - 1;
@@ -30,9 +30,10 @@ export default function useSelectPerformances() {
               count: "exact",
             });
 
+          if(uid) query.eq("performance_uid", uid);
           if (title !== "") query.ilike("title", `%${title}%`);
           if (is_public < 2) query.eq("is_public", is_public);
-          query.eq("performance_type_uid", performance_type_uid);
+          if(performance_type_uid) query.eq("performance_type_uid", performance_type_uid);
           query.eq("script_id", scriptId);
           query.order("is_public", { ascending: false, nullsFirst: false });
           query.order("date_of_premiere", {

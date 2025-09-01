@@ -6,9 +6,10 @@ import {
 } from "@components/custom-hooks/validators";
 
 export interface SelectPerformancesForm {
-  title: string;
+  title?: string;
   is_public: number;
-  performance_type_uid: number;
+  performance_type_uid?: number;
+  uid?:number;
 }
 
 export interface SelectPerformancesProps {
