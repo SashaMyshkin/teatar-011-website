@@ -14,20 +14,32 @@ export type MembersRow = Database["public"]["Tables"]["members"]["Row"];
 
 export type ViewMembers = Database["public"]["Views"]["v_members"]["Row"];
 
+export type MembersBiographies =
+  Database["public"]["Tables"]["members_biographies"]["Row"];
+
 //Props
 
-export type useSelectMemberProps = {
-  memberUid?:number
+export interface ParagraphCardProps {
+  index: number;
+  dragHandle: React.ReactNode;
 }
 
+export type UseSelectParagraphsProps = {
+  memberUid?: number;
+};
+
+export type useSelectMemberProps = {
+  memberUid?: number;
+};
+
 export type UseSelectMemberUidProps = {
-  id?:number,
-  identifier?:string,
-}
+  id?: number;
+  identifier?: string;
+};
 
 export interface MemberProviderProps {
   children: ReactNode;
-  identifier?:string;
+  identifier?: string;
 }
 
 export type SearchBarProps = {
@@ -41,34 +53,39 @@ export type DialogProps = {
 };
 
 export type BasicInfoFormProps = {
-   formState: BasicInfoFormFields
-    errorState: ErrorState<BasicInfoFormFields>
-    setField: SetFieldFunction<BasicInfoFormFields>
-    validateField: ValidateFieldFunction<BasicInfoFormFields>
-}
+  formState: BasicInfoFormFields;
+  errorState: ErrorState<BasicInfoFormFields>;
+  setField: SetFieldFunction<BasicInfoFormFields>;
+  validateField: ValidateFieldFunction<BasicInfoFormFields>;
+};
 
 export type TableProps = {
-  formState: SelectMembersForm
-  setField: SetFieldFunction<SelectMembersForm>
-}
+  formState: SelectMembersForm;
+  setField: SetFieldFunction<SelectMembersForm>;
+};
 
 //Other types
 export type MemberContextType = {
   membershipStatuses: MembershipStatusesRow[];
-  memberUid:MembersUidRow | null;
-  setMemberUid:Dispatch<SetStateAction<MembersUidRow | null>>,
-  member:MembersRow | null;
-  setMember:Dispatch<SetStateAction<MembersRow | null>>
+  memberUid: MembersUidRow | null;
+  setMemberUid: Dispatch<SetStateAction<MembersUidRow | null>>;
+  member: MembersRow | null;
+  setMember: Dispatch<SetStateAction<MembersRow | null>>;
+  paragraphs: MembersBiographies[] | null;
+  setParagraphs: Dispatch<SetStateAction<MembersBiographies[] | null>>;
 };
 
 export type SelectMembersForm = {
   name: string;
   surname: string;
   is_public: number;
-  uid?:number;
+  uid?: number;
 };
 
-export type BasicInfoFormFields = Pick<MembersRow, "name" | "surname" | "motto"> &
+export type BasicInfoFormFields = Pick<
+  MembersRow,
+  "name" | "surname" | "motto"
+> &
   Pick<
     MembersUidRow,
     | "identifier"
@@ -79,6 +96,6 @@ export type BasicInfoFormFields = Pick<MembersRow, "name" | "surname" | "motto">
   >;
 
 export type PaginationModel = {
-  page:number,
-  pageSize:number
-}
+  page: number;
+  pageSize: number;
+};

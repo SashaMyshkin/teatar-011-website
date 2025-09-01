@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   MemberContextType,
   MemberProviderProps,
+  MembersBiographies,
   MembersRow,
   MembersUidRow,
 } from "../types";
@@ -10,6 +11,7 @@ import Loading from "@/components/loading/Loading";
 import useSelectMemberUid from "../hooks/useSelectMemberUid";
 import useSelectMembersView from "../hooks/useSelectMembersView";
 import useSelectMember from "../hooks/useSelectMember";
+import useSelectParagraphs from "../hooks/useSelectParagraphs";
 
 const MemberContext = createContext<MemberContextType | undefined>(undefined);
 
@@ -29,6 +31,13 @@ export function MemberProvider({ children, identifier }: MemberProviderProps) {
   const { memberData } = useSelectMember({ memberUid: memberUid?.id });
   const [member, setMember] = useState<MembersRow | null>(null);
 
+    const { paragraphsData } = useSelectParagraphs({
+      memberUid: memberUid?.id,
+    });
+    const [paragraphs, setParagraphs] = useState<MembersBiographies[] | null>(
+      null
+    );
+
   useEffect(() => {
     setMemberUid(memberUidData);
   }, [memberUidData]);
@@ -36,6 +45,10 @@ export function MemberProvider({ children, identifier }: MemberProviderProps) {
   useEffect(() => {
     setMember(memberData);
   }, [memberData]);
+
+    useEffect(() => {
+      if (paragraphsData) setParagraphs(paragraphsData);
+    }, [paragraphsData]);
 
   if (!membershipStatuses) return <Loading></Loading>;
 
@@ -48,6 +61,8 @@ export function MemberProvider({ children, identifier }: MemberProviderProps) {
         setMemberUid,
         member,
         setMember,
+        paragraphs,
+        setParagraphs
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import CustomTabPanel from "@components/members/tabs/CustomTabPanel";
 import BasicInfoTab from "@/components/members/tabs/basic-info/BasicDataTab";
-import BiographyTab from "@/components/members_/tabs/biography/BiographyTab";
+import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
 import ProfilePhoto from "@/components/members_/tabs/profile-photo/ProfilePhoto";
 import { ChangeProvider } from "@/components/context/ChangeContext";
 import Publishing from "@/components/members_/tabs/publishing/Publishing";
@@ -37,10 +37,10 @@ export default function MemberTabs() {
       <CustomTabPanel value={tabIndex} index={0}>
         <BasicInfoTab />
       </CustomTabPanel>
-      {/*<CustomTabPanel value={tabIndex} index={1}>
+      <CustomTabPanel value={tabIndex} index={1}>
         <BiographyTab />
       </CustomTabPanel>
-      <CustomTabPanel value={tabIndex} index={2}>
+      {/*<CustomTabPanel value={tabIndex} index={2}>
         <ChangeProvider>
           <ProfilePhoto />
         </ChangeProvider>
