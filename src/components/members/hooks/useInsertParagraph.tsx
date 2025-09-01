@@ -4,16 +4,16 @@ import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 
 export default function useInsertParagraph() {
-  const { memb, performanceUid, setParagraphs } = useMemberContext();
+  const { memberUid, paragraphs, setParagraphs } = useMemberContext();
   const { language } = useLanguageContext();
 
   return async (newParagraph: string) => {
-    if (paragraphs && performanceUid) {
+    if (paragraphs && memberUid) {
       try {
         const selectResult = await supabaseBrowserClient
-          .from("performances_about")
+          .from("members_biographies")
           .select("order_number")
-          .eq("performance_uid", performanceUid.id)
+          .eq("member_uid", memberUid.id)
           .eq("script_id", language.id)
           .order("order_number", { ascending: false })
           .limit(1)
@@ -22,11 +22,11 @@ export default function useInsertParagraph() {
         const max = unwrap(selectResult);
 
         const result = await supabaseBrowserClient
-          .from("performances_about")
+          .from("members_biographies")
           .insert([
             {
               paragraph: newParagraph,
-              performance_uid: performanceUid.id,
+              member_uid: memberUid.id,
               script_id: language.id,
               order_number: max ? max.order_number + 1 : 1,
             },

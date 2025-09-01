@@ -5,9 +5,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { sr } from "date-fns/locale";
-import { BasicInfoFormProps } from "../types";
+import { BasicInfoFormProps } from "@components/members/types";
 import { format } from "date-fns";
-import { useMemberContext } from "../context/MemberContext";
+import { useMemberContext } from "@components/members/context/MemberContext";
 
 export default function BasicInfoForm({
   formState,

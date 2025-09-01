@@ -19,7 +19,7 @@ export default function Members() {
     <React.Fragment>
       <MemberProvider>
         <SearchBar formState={formState} setField={setField}></SearchBar>
-        <Table formState={formState} setField={setField}></Table>
+        <Table formState={formState}></Table>
       </MemberProvider>
     </React.Fragment>
   );

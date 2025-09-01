@@ -1,7 +1,7 @@
 import React from "react";
 
 import { supabaseBrowserClient } from "@/lib/client";
-import { MediaEntityTypeRow } from "../types";
+import { MediaEntityTypeRow } from "@components/image-manager/types";
 
 export function useMediaEntityType(type: string) {
   const [mediaEntityType, setMediaEntityType] = React.useState<MediaEntityTypeRow | null>(null);

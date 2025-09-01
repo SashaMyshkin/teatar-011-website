@@ -1,7 +1,7 @@
 import { Database } from "@/lib/database.t";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { SetFieldFunction } from "../custom-hooks/useFormReducer";
-import { ErrorState, ValidateFieldFunction } from "../custom-hooks/validators";
+import { SetFieldFunction } from "@components/custom-hooks/useFormReducer";
+import { ErrorState, ValidateFieldFunction } from "@components/custom-hooks/validators";
 
 //DATABASE TYPES
 
@@ -18,6 +18,13 @@ export type MembersBiographies =
   Database["public"]["Tables"]["members_biographies"]["Row"];
 
 //Props
+
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
 
 export interface ParagraphCardProps {
   index: number;
@@ -61,7 +68,7 @@ export type BasicInfoFormProps = {
 
 export type TableProps = {
   formState: SelectMembersForm;
-  setField: SetFieldFunction<SelectMembersForm>;
+  //setField: SetFieldFunction<SelectMembersForm>;
 };
 
 //Other types

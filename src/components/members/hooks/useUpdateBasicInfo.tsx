@@ -1,9 +1,8 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
-import { BasicInfoForm } from "@/components/performances/types";
 import { unwrap } from "@/lib/errors/supabaseError";
 import { supabaseBrowserClient } from "@lib/client";
 import { useState } from "react";
-import { BasicInfoFormFields } from "../types";
+import { BasicInfoFormFields } from "@components/members/types";
 
 export function useUpdateBasicInfo() {
   const { language } = useLanguageContext();

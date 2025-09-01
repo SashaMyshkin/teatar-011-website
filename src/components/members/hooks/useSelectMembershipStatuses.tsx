@@ -1,9 +1,8 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
-import { Database } from "@/lib/database.t";
 import { unwrap } from "@/lib/errors/supabaseError";
 import { useEffect, useState } from "react";
-import { MembershipStatusesRow } from "../types";
+import { MembershipStatusesRow } from "@components/members/types";
 
 
 

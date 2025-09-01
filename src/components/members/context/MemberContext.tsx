@@ -5,13 +5,12 @@ import {
   MembersBiographies,
   MembersRow,
   MembersUidRow,
-} from "../types";
-import useSelectMembershipStatuses from "../hooks/useSelectMembershipStatuses";
-import Loading from "@/components/loading/Loading";
-import useSelectMemberUid from "../hooks/useSelectMemberUid";
-import useSelectMembersView from "../hooks/useSelectMembersView";
-import useSelectMember from "../hooks/useSelectMember";
-import useSelectParagraphs from "../hooks/useSelectParagraphs";
+} from "@components/members/types";
+import useSelectMembershipStatuses from "@components/members/hooks/useSelectMembershipStatuses";
+import Loading from "@components/loading/Loading";
+import useSelectMemberUid from "@components/members/hooks/useSelectMemberUid";
+import useSelectMember from "@components/members/hooks/useSelectMember";
+import useSelectParagraphs from "@components/members/hooks/useSelectParagraphs";
 
 const MemberContext = createContext<MemberContextType | undefined>(undefined);
 

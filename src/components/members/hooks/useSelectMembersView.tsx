@@ -2,7 +2,7 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { debounce } from "lodash";
 import React, { useState } from "react";
 import { supabaseBrowserClient } from "@/lib/client";
-import { PaginationModel, SelectMembersForm, ViewMembers } from "../types";
+import { PaginationModel, SelectMembersForm, ViewMembers } from "@components/members/types";
 
 export default function useSelectMembersView() {
   const [rows, setRows] = useState<ViewMembers[]>([]);

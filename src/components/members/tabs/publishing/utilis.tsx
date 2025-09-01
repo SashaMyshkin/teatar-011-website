@@ -1,6 +1,6 @@
 import { supabaseBrowserClient } from "@/lib/client";
 import { Dispatch, SetStateAction } from "react";
-import { MembersUidRow } from "../../types";
+import { MembersUidRow } from "@components/members/types";
 import { unwrap } from "@/lib/errors/supabaseError";
 
 interface toogleActivationProps {

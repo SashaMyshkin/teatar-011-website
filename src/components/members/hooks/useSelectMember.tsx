@@ -1,12 +1,9 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
-import {
-  TablePerformances,
-  UseSelectPerformanceProps,
-} from "@components/performances/types";
+
 import { useEffect, useState } from "react";
-import { MembersRow, useSelectMemberProps } from "../types";
+import { MembersRow, useSelectMemberProps } from "@components/members/types";
 
 export default function useSelectMember({
   memberUid,

@@ -12,9 +12,9 @@ import { useFieldValidator } from "@/components/custom-hooks/validators";
 import { format } from "date-fns";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { BasicInfoFormFields } from "../types";
+import { BasicInfoFormFields } from "@components/members/types";
 import { memberValidation } from "@/lib/zod/input/createMember";
-import { useInsertBasicInfo } from "../hooks/useInsertBasicInfo";
+import { useInsertBasicInfo } from "@components/members/hooks/useInsertBasicInfo";
 
 const initialFormState: BasicInfoFormFields = {
   name: "",

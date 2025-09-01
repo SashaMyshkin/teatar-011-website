@@ -1,7 +1,7 @@
 import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 import { useEffect, useState } from "react";
-import { MembersUidRow, UseSelectMemberUidProps } from "../types";
+import { MembersUidRow, UseSelectMemberUidProps } from "@components/members/types";
 
 export default function useSelectMemberUid({
   id,

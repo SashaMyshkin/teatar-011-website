@@ -6,9 +6,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
-import { PaginationModel, TableProps } from "../types";
+import { PaginationModel, TableProps } from "@components/members/types";
 
-export default function Table({formState, setField}:TableProps) {
+export default function Table({formState}:TableProps) {
   const router = useRouter();
   const { rows, rowCount, isLoading, debouncedFetch } = useSelectMembersView();
   const [paginationModel, setPaginationModel] = React.useState<PaginationModel>({

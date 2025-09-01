@@ -1,14 +1,14 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import BasicInfoForm from "@components/members/forms/BasicInfoForm";
-import { useMemberContext } from "../../context/MemberContext";
-import { BasicInfoFormFields } from "../../types";
+import { useMemberContext } from "@components/members/context/MemberContext";
+import { BasicInfoFormFields } from "@components/members/types";
 import { format } from "date-fns";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
 import { memberValidation } from "@/lib/zod/input/createMember";
 import { Box, Button } from "@mui/material";
 import _ from "lodash";
-import { useUpdateBasicInfo } from "../../hooks/useUpdateBasicInfo";
+import { useUpdateBasicInfo } from "@components/members/hooks/useUpdateBasicInfo";
 
 const initialFormState: BasicInfoFormFields = {
   name: "",
