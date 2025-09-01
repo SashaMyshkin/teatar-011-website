@@ -2,14 +2,14 @@ import React from "react";
 import { Box, Button, Paper } from "@mui/material";
 import { format, parse } from "date-fns";
 
-import Form from "@/components/members/form/form";
+import Form from "@/components/members_/form/form";
 import { useFormReducer } from "@/components/custom-hooks/useFormReducer";
 import { useFieldValidator } from "@/components/custom-hooks/validators";
-import { useUpdateMember } from "@/components/members/hooks/useUpdateMember";
+import { useUpdateMember } from "@/components/members_/hooks/useUpdateMember";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { useAlert } from "@/components/context/AlertContext";
 
-import { NormalizedUpdateMemberForm } from "@/components/members/types";
+import { NormalizedUpdateMemberForm } from "@/components/members_/types";
 import { memberValidation } from "@/lib/zod/input/createMember";
 
 type Props = {

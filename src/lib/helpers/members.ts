@@ -1,4 +1,4 @@
-import { NormalizedUpdateMemberForm, UpdateMemberForm } from "@/components/members/types";
+import { NormalizedUpdateMemberForm, UpdateMemberForm } from "@/components/members_/types";
 
 export function normalizeMemberData(data: UpdateMemberForm): NormalizedUpdateMemberForm {
   return {

@@ -1,6 +1,6 @@
 import { useMediaEntityType } from "@/components/image-manager/hooks/useMediaEntityType";
-import { useProfileImage } from "@components/members/hooks/useSelectProfileImage";
-import { useMemberContext } from "@components/members/MembersContext";
+import { useProfileImage } from "@/components/members_/hooks/useSelectProfileImage";
+import { useMemberContext } from "@/components/members_/MembersContext";
 import Loading from "@/components/loading/Loading";
 import ImageManageWrapper from "@/components/image-manager/ImageManageWrapper";
 import { Box } from "@mui/material";

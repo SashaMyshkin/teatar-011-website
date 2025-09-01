@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useMemo, useState } from "react";
-import { MemberContextProps } from "@components/members/types";
-import { useSelectMemberByIdentifier } from "@components/members/hooks/useSelectMemberByIdentifier";
+import { MemberContextProps } from "@/components/members_/types";
+import { useSelectMemberByIdentifier } from "@/components/members_/hooks/useSelectMemberByIdentifier";
 import Loading from "@components/loading/Loading";
 import { Typography } from "@mui/material";
 import { useParams } from "next/navigation";

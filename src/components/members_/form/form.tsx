@@ -5,8 +5,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { sr } from "date-fns/locale";
-import { useMembershipStatuses } from "@/components/members/hooks/useMembershipStatuses";
-import { ManageMemberProps } from "@/components/members/types";
+import { useMembershipStatuses } from "@/components/members_/hooks/useMembershipStatuses";
+import { ManageMemberProps } from "@/components/members_/types";
 
 export default function Form({
   manageMemberProps,

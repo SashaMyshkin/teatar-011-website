@@ -1,7 +1,7 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import React from "react";
-import { ParagraphRow } from "@/components/members/types";
+import { ParagraphRow } from "@/components/members_/types";
 import { useChange } from "@/components/context/ChangeContext";
 
 export function useSelectBiography(identifier: string) {

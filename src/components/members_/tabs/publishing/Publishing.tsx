@@ -7,18 +7,18 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
-import { useMemberContext } from "@components/members/MembersContext";
+import { useMemberContext } from "@/components/members_/MembersContext";
 import {
   deleteMember,
   toogleActivation,
   tooglePublishing,
-} from "@components/members/tabs/publishing/utilis";
+} from "@/components/members_/tabs/publishing/utilis";
 import { useState } from "react";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import {
   deleteValidation,
   validatePublishing,
-} from "@components/members/tabs/publishing/validation";
+} from "@/components/members_/tabs/publishing/validation";
 import { useRouter } from "next/navigation";
 
 export default function Publishing() {

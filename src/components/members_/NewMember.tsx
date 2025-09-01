@@ -1,7 +1,7 @@
 "use client"
 import { Fab } from "@mui/material";
 import React from "react";
-import Dialog from "@components/members/dialog/Dialog";
+import Dialog from "@/components/members_/dialog/Dialog";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 export default function NewMember() {
   const [open, setOpen] = React.useState(false);

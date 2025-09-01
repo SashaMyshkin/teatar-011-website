@@ -1,6 +1,6 @@
 import { supabaseBrowserClient } from "@/lib/client";
 import React from "react";
-import { MembersUid } from "@/components/members/types";
+import { MembersUid } from "@/components/members_/types";
 
 export function useSelectMemberByIdentifier(identifier: string) {
   const [memberUidRow, setMemberUidRow] = React.useState<MembersUid | null>(null);

@@ -1,6 +1,6 @@
 "use client"
-import { MemberProvider } from "@/components/members/MembersContext";
-import MemberTabs from "@/components/members/tabs/MemberTabs";
+import { MemberProvider } from "@/components/members_/MembersContext";
+import MemberTabs from "@/components/members_/tabs/MemberTabs";
 import React from "react";
 
 export default function Home() {
