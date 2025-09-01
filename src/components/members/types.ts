@@ -1,89 +1,108 @@
-import { ErrorState, ValidateFieldFunction } from "@components/custom-hooks/validators";
-import { SetFieldFunction } from "@components/custom-hooks/useFormReducer";
 import { Database } from "@/lib/database.t";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import { SetFieldFunction } from "@components/custom-hooks/useFormReducer";
+import { ErrorState, ValidateFieldFunction } from "@components/custom-hooks/validators";
+
+//DATABASE TYPES
+
+export type MembershipStatusesRow =
+  Database["public"]["Tables"]["members_membership_status"]["Row"];
+
+export type MembersUidRow = Database["public"]["Tables"]["members_uid"]["Row"];
+
+export type MembersRow = Database["public"]["Tables"]["members"]["Row"];
+
+export type ViewMembers = Database["public"]["Views"]["v_members"]["Row"];
+
+export type MembersBiographies =
+  Database["public"]["Tables"]["members_biographies"]["Row"];
+
+//Props
+
+export interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+
+export interface ParagraphCardProps {
+  index: number;
+  dragHandle: React.ReactNode;
+}
+
+export type UseSelectParagraphsProps = {
+  memberUid?: number;
+};
+
+export type useSelectMemberProps = {
+  memberUid?: number;
+};
+
+export type UseSelectMemberUidProps = {
+  id?: number;
+  identifier?: string;
+};
+
+export interface MemberProviderProps {
+  children: ReactNode;
+  identifier?: string;
+}
+
+export type SearchBarProps = {
+  formState: SelectMembersForm;
+  setField: SetFieldFunction<SelectMembersForm>;
+};
 
 export type DialogProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type V_members = Database["public"]["Views"]["v_members"]["Row"];
-export type MembersUid = Database["public"]["Tables"]["members_uid"]["Row"];
-
-type RemoveNull<T> = {
-  [K in keyof T]: Exclude<T[K], null>;
+export type BasicInfoFormProps = {
+  formState: BasicInfoFormFields;
+  errorState: ErrorState<BasicInfoFormFields>;
+  setField: SetFieldFunction<BasicInfoFormFields>;
+  validateField: ValidateFieldFunction<BasicInfoFormFields>;
 };
 
-/*type RemoveUndefined<T> = {
-  [K in keyof T]: Exclude<T[K], undefined>;
-};*/
+export type TableProps = {
+  formState: SelectMembersForm;
+  //setField: SetFieldFunction<SelectMembersForm>;
+};
 
-export type UpdateMemberForm = Pick<
-  V_members,
-  | "name"
-  | "surname"
-  | "identifier"
-  | "date_of_joining"
-  | "date_of_birth"
-  | "membership_status_uid"
-  | "motto"
-  | "email"
->;
-
-
-
-export type InsertMemberForm = Pick<
-  V_members,
-  | "name"
-  | "surname"
-  | "identifier"
-  | "date_of_joining"
-  | "membership_status_uid"
- 
->;
-
-export type NormalizedUpdateMemberForm = RemoveNull<UpdateMemberForm>;
-export type NormalizedInsertMemberForm = RemoveNull<InsertMemberForm>;
-
-type ManageInsertProps = {
-  action: "insert"
-  formState: NormalizedInsertMemberForm
-  errorState: ErrorState<NormalizedInsertMemberForm>
-  setField: SetFieldFunction<NormalizedInsertMemberForm>
-  validateField: ValidateFieldFunction<NormalizedInsertMemberForm>
-}
-
-type ManageUpdateProps = {
-  action: "update"
-  formState: NormalizedUpdateMemberForm
-  errorState: ErrorState<NormalizedUpdateMemberForm>
-  setField: SetFieldFunction<NormalizedUpdateMemberForm>
-  validateField: ValidateFieldFunction<NormalizedUpdateMemberForm>
-}
-
-export type ManageMemberProps = ManageInsertProps | ManageUpdateProps;
+//Other types
+export type MemberContextType = {
+  membershipStatuses: MembershipStatusesRow[];
+  memberUid: MembersUidRow | null;
+  setMemberUid: Dispatch<SetStateAction<MembersUidRow | null>>;
+  member: MembersRow | null;
+  setMember: Dispatch<SetStateAction<MembersRow | null>>;
+  paragraphs: MembersBiographies[] | null;
+  setParagraphs: Dispatch<SetStateAction<MembersBiographies[] | null>>;
+};
 
 export type SelectMembersForm = {
-  name:string,
-  surname:string,
-  is_public:number
-}
+  name: string;
+  surname: string;
+  is_public: number;
+  uid?: number;
+};
 
-export type SelectMembersProps = {
-  formState: SelectMembersForm
-  setField: SetFieldFunction<SelectMembersForm>
-}
+export type BasicInfoFormFields = Pick<
+  MembersRow,
+  "name" | "surname" | "motto"
+> &
+  Pick<
+    MembersUidRow,
+    | "identifier"
+    | "date_of_joining"
+    | "date_of_birth"
+    | "membership_status_uid"
+    | "email"
+  >;
 
-
-//BIOGRAPHY
-export type ParagraphRow = Database["public"]["Tables"]["members_biographies"]["Row"]
-
-export type MemberContextProps = {
-  member_uid: number;
-  identifier: string;
-  setIsPublic: Dispatch<SetStateAction<boolean>>;
-  setIsActive: Dispatch<SetStateAction<boolean>>;
-  isPublic:boolean;
-  isActive:boolean;
+export type PaginationModel = {
+  page: number;
+  pageSize: number;
 };

@@ -38,7 +38,7 @@ export default function ResponsiveDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: 3000 }}>
+      <AppBar position="fixed" sx={{ zIndex: 101 }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <IconButton
             color="inherit"

@@ -1,33 +1,38 @@
 import { supabaseBrowserClient } from "@/lib/client";
 import { Dispatch, SetStateAction } from "react";
+import { MembersUidRow } from "@components/members/types";
+import { unwrap } from "@/lib/errors/supabaseError";
 
 interface toogleActivationProps {
   member_uid: number;
   isActive: boolean;
-
-  setIsActive: Dispatch<SetStateAction<boolean>>;
+  setMemberUid: Dispatch<SetStateAction<MembersUidRow | null>>;
 }
 
 interface tooglePublishingProps {
   isPublic: boolean;
   member_uid: number;
-  setIsPublic: Dispatch<SetStateAction<boolean>>;
+  setMemberUid: Dispatch<SetStateAction<MembersUidRow | null>>;
 }
 
 export async function toogleActivation({
   member_uid,
   isActive,
-  setIsActive,
+  setMemberUid,
 }: toogleActivationProps) {
   const value = !isActive ? 1 : 0;
 
   try {
-    await supabaseBrowserClient
+    const res = await supabaseBrowserClient
       .from("members_uid")
       .update({ is_active: value })
-      .eq("id", member_uid);
+      .eq("id", member_uid)
+      .select("*")
+      .single();
 
-    setIsActive(!isActive);
+    const newMemberUid = unwrap(res);
+
+    setMemberUid(newMemberUid);
   } catch (err) {
     console.error("Članu se nije izmenio status Aktivacije.", err);
   }
@@ -39,17 +44,21 @@ export async function tooglePublishing({
   member_uid,
 
   isPublic,
-  setIsPublic,
+  setMemberUid,
 }: tooglePublishingProps) {
   const value = !isPublic ? 1 : 0;
 
   try {
-    await supabaseBrowserClient
+    const res = await supabaseBrowserClient
       .from("members_uid")
       .update({ is_public: value })
-      .eq("id", member_uid);
+      .eq("id", member_uid)
+      .select("*")
+      .single();
 
-    setIsPublic(!isPublic);
+    const newState = unwrap(res);
+
+    setMemberUid(newState);
   } catch (err) {
     console.error("Član nije objavljen na sajtu", err);
   }

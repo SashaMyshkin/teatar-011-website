@@ -1,42 +1,39 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { debounce } from "lodash";
-import React from "react";
-import {
-  SelectPerformancesForm,
-  ViewPerformances,
-} from "@/components/performances/types";
+import React, { useState } from "react";
 import { supabaseBrowserClient } from "@/lib/client";
+import { PaginationModel, SelectMembersForm, ViewMembers } from "@components/members/types";
 
-export default function useSelectPerformances() {
-  const [rows, setRows] = React.useState<ViewPerformances[]>([]);
-  const [rowCount, setRowCount] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(false);
+export default function useSelectMembersView() {
+  const [rows, setRows] = useState<ViewMembers[]>([]);
+  const [rowCount, setRowCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const { language } = useLanguageContext();
-  const {id:scriptId} = language;
 
   const debouncedFetch = React.useMemo(
     () =>
-      debounce(async (formState: SelectPerformancesForm, paginationModel) => {
+      debounce(async (formState: SelectMembersForm, paginationModel:PaginationModel) => {
         setIsLoading(true);
-        const { title, performance_type_uid, is_public, uid } = formState;
+        const { name, surname, is_public, uid} = formState;
         const { page, pageSize } = paginationModel;
         const from = page * pageSize;
         const to = from + pageSize - 1;
 
         try {
           const query = supabaseBrowserClient
-            .from("v_performances")
+            .from("v_members")
             .select("*", {
               count: "exact",
             });
 
-          if(uid) query.eq("performance_uid", uid);
-          if (title !== "") query.ilike("title", `%${title}%`);
+          if(uid) query.eq("member_uid", uid);
+          if (name !== "") query.ilike("name", `%${name}%`);
+          if (surname !== "") query.ilike("surname", `%${surname}%`);
           if (is_public < 2) query.eq("is_public", is_public);
-          if(performance_type_uid) query.eq("performance_type_uid", performance_type_uid);
-          query.eq("script_id", scriptId);
+          
+          query.eq("script_id", language.id);
           query.order("is_public", { ascending: false, nullsFirst: false });
-          query.order("date_of_premiere", {
+          query.order("date_of_joining", {
             ascending: false,
             nullsFirst: false,
           });
@@ -61,7 +58,7 @@ export default function useSelectPerformances() {
           setIsLoading(false);
         }
       }, 300),
-    [scriptId]
+    [language.id]
   );
 
   return { debouncedFetch, isLoading, rows, rowCount };

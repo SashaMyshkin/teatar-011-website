@@ -51,3 +51,6 @@ export interface UseProfileImageProps {
   image_id?: number;
   type?: string;
 }
+
+export type MediaEntityTypeRow = Database["public"]["Tables"]["media_entity_types"]["Row"];
+

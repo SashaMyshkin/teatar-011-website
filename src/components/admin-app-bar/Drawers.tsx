@@ -10,7 +10,9 @@ export function DesktopDrawer() {
       variant="permanent"
       sx={{
         display: { xs: "none", sm: "block" },
+        "& .mui-oc2eyy-MuiPaper-root-MuiDrawer-paper": {zIndex:100},
         "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+        
       }}
       open
     >

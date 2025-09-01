@@ -1,24 +1,24 @@
 "use client"
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import React from "react";
-import useSelectMembers from "@/components/members/hooks/useSelectMembers";
+import useSelectMembersView from "@components/members/hooks/useSelectMembersView";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { green, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
-import { SelectMembersProps } from "@/components/members/types";
+import { PaginationModel, TableProps } from "@components/members/types";
 
-export default function Table({selectMembersProps}:{selectMembersProps:SelectMembersProps}) {
+export default function Table({formState}:TableProps) {
   const router = useRouter();
-  const { rows, rowCount, isLoading, debouncedFetch } = useSelectMembers();
-  const [paginationModel, setPaginationModel] = React.useState({
+  const { rows, rowCount, isLoading, debouncedFetch } = useSelectMembersView();
+  const [paginationModel, setPaginationModel] = React.useState<PaginationModel>({
     page: 0,
     pageSize: 5,
   });
 
   React.useEffect(() => {
-    debouncedFetch(paginationModel, selectMembersProps.formState);
-  }, [paginationModel, selectMembersProps.formState, debouncedFetch]);
+    debouncedFetch(formState, paginationModel);
+  }, [paginationModel, formState, debouncedFetch]);
 
   const handleRowClick: GridEventListener<"rowClick"> = (params) => {
     const identifier = params.row.identifier;

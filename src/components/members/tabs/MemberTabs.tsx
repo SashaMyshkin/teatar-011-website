@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Box, Tabs, Tab } from "@mui/material";
-import CustomTabPanel from "@/components/members/tabs/CustomTabPanel";
-import BasicInfoTab from "@/components/members/tabs/basic-info/BasicInfoTab";
+import CustomTabPanel from "@components/members/tabs/CustomTabPanel";
+import BasicInfoTab from "@/components/members/tabs/basic-info/BasicDataTab";
 import BiographyTab from "@/components/members/tabs/biography/BiographyTab";
 import ProfilePhoto from "@/components/members/tabs/profile-photo/ProfilePhoto";
 import { ChangeProvider } from "@/components/context/ChangeContext";

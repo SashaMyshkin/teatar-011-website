@@ -7,22 +7,22 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
-import { useMemberContext } from "@components/members/MembersContext";
+import { useMemberContext } from "@components/members/context/MemberContext";
 import {
   deleteMember,
   toogleActivation,
   tooglePublishing,
-} from "@components/members/tabs/publishing/utilis";
+} from "@/components/members/tabs/publishing/utilis";
 import { useState } from "react";
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import {
   deleteValidation,
   validatePublishing,
-} from "@components/members/tabs/publishing/validation";
+} from "@/components/members/tabs/publishing/validation";
 import { useRouter } from "next/navigation";
 
 export default function Publishing() {
-  const { isActive, isPublic, setIsActive, member_uid, setIsPublic } =
+  const { memberUid, setMemberUid } =
     useMemberContext();
   const [loadingActivation, setLoadingActivation] = useState(false);
   const [loadingPublishing, setLoadingPublishing] = useState(false);
@@ -30,14 +30,18 @@ export default function Publishing() {
   const [validationResult, setValidationResult] = useState<string[]>([]);
   const router = useRouter();
   const { language } = useLanguageContext();
-  const {id:scriptId} = language;
+  
+  if(!memberUid) return <></>
+
+  const isActive = Boolean(memberUid.is_active)
+  const isPublic = Boolean(memberUid.is_public)
+  const member_uid = memberUid.id
 
   const handleActivation = async () => {
     setLoadingActivation(true);
     await toogleActivation({
       isActive,
-
-      setIsActive,
+      setMemberUid,
       member_uid,
     });
     setValidationResult([]);
@@ -48,11 +52,11 @@ export default function Publishing() {
     setValidationResult([]);
     setLoadingPublishing(true);
 
-    const result = await validatePublishing({ member_uid, scriptId });
+    const result = await validatePublishing({ member_uid, scriptId:language.id });
 
     if (result.length === 0) {
       await tooglePublishing({
-        setIsPublic,
+        setMemberUid,
         isPublic,
         member_uid,
       });
@@ -65,10 +69,10 @@ export default function Publishing() {
   const handleDelete = async () => {
     try {
       setLoadingDeletion(true);
-      const result = await deleteValidation(member_uid);
+      const result = await deleteValidation(memberUid.id);
 
       if (result.length === 0) {
-        await deleteMember(member_uid);
+        await deleteMember(memberUid.id);
         router.push("/protected/members");
       }
       setLoadingDeletion(false);
