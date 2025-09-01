@@ -1,0 +1,69 @@
+import { Database } from "@/lib/database.t";
+import { ReactNode } from "react";
+import { SetFieldFunction } from "../custom-hooks/useFormReducer";
+import { ErrorState, ValidateFieldFunction } from "../custom-hooks/validators";
+
+//DATABASE TYPES
+
+export type MembershipStatusesRow =
+  Database["public"]["Tables"]["members_membership_status"]["Row"];
+
+export type MembersUidRow = Database["public"]["Tables"]["members_uid"]["Row"];
+
+export type MembersRow = Database["public"]["Tables"]["members"]["Row"];
+
+export type ViewMembers = Database["public"]["Views"]["v_members"]["Row"];
+
+//Props
+export interface MemberProviderProps {
+  children: ReactNode;
+}
+
+export type SearchBarProps = {
+  formState: SelectMembersForm;
+  setField: SetFieldFunction<SelectMembersForm>;
+};
+
+export type DialogProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type BasicInfoFormProps = {
+   formState: BasicInfoFormFields
+    errorState: ErrorState<BasicInfoFormFields>
+    setField: SetFieldFunction<BasicInfoFormFields>
+    validateField: ValidateFieldFunction<BasicInfoFormFields>
+}
+
+export type TableProps = {
+  formState: SelectMembersForm
+  setField: SetFieldFunction<SelectMembersForm>
+}
+
+//Other types
+export type MemberContextType = {
+  membershipStatuses: MembershipStatusesRow[];
+};
+
+export type SelectMembersForm = {
+  name: string;
+  surname: string;
+  is_public: number;
+  uid?:number;
+};
+
+export type BasicInfoFormFields = Pick<MembersRow, "name" | "surname" | "motto"> &
+  Pick<
+    MembersUidRow,
+    | "identifier"
+    | "date_of_joining"
+    | "date_of_birth"
+    | "membership_status_uid"
+    | "email"
+  >;
+
+export type PaginationModel = {
+  page:number,
+  pageSize:number
+}
