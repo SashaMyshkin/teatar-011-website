@@ -12,13 +12,14 @@ export default function useSelectPerformances() {
   const [rowCount, setRowCount] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
   const { language } = useLanguageContext();
-  const {id:scriptId} = language;
+  const { id: scriptId } = language;
 
   const debouncedFetch = React.useMemo(
     () =>
       debounce(async (formState: SelectPerformancesForm, paginationModel) => {
         setIsLoading(true);
-        const { title, performance_type_uid, is_public, uid } = formState;
+        const { title, performance_type_uid, is_public, uid, is_active } =
+          formState;
         const { page, pageSize } = paginationModel;
         const from = page * pageSize;
         const to = from + pageSize - 1;
@@ -30,10 +31,14 @@ export default function useSelectPerformances() {
               count: "exact",
             });
 
-          if(uid) query.eq("performance_uid", uid);
+          if (uid) query.eq("performance_uid", uid);
           if (title !== "") query.ilike("title", `%${title}%`);
-          if (is_public < 2) query.eq("is_public", is_public);
-          if(performance_type_uid) query.eq("performance_type_uid", performance_type_uid);
+          if (!(is_public === undefined) && is_public < 2)
+            query.eq("is_public", is_public);
+          if (!(is_active === undefined) && is_active < 2)
+            query.eq("is_active", is_active);
+          if (performance_type_uid)
+            query.eq("performance_type_uid", performance_type_uid);
           query.eq("script_id", scriptId);
           query.order("is_public", { ascending: false, nullsFirst: false });
           query.order("date_of_premiere", {

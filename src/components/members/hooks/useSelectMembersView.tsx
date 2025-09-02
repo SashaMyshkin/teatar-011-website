@@ -14,7 +14,7 @@ export default function useSelectMembersView() {
     () =>
       debounce(async (formState: SelectMembersForm, paginationModel:PaginationModel) => {
         setIsLoading(true);
-        const { name, surname, is_public, uid} = formState;
+        const { name, surname, is_public, uid, is_active} = formState;
         const { page, pageSize } = paginationModel;
         const from = page * pageSize;
         const to = from + pageSize - 1;
@@ -29,7 +29,10 @@ export default function useSelectMembersView() {
           if(uid) query.eq("member_uid", uid);
           if (name !== "") query.ilike("name", `%${name}%`);
           if (surname !== "") query.ilike("surname", `%${surname}%`);
-          if (is_public < 2) query.eq("is_public", is_public);
+          if (!(is_public === undefined) && is_public < 2)
+            query.eq("is_public", is_public);
+          if (!(is_active === undefined) && is_active < 2)
+            query.eq("is_active", is_active);
           
           query.eq("script_id", language.id);
           query.order("is_public", { ascending: false, nullsFirst: false });

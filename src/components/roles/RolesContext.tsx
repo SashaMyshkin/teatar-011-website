@@ -1,11 +1,20 @@
-/*import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import useSelectPerformances from "../performances/hooks/useSelectPerformances";
-import { ViewPerformances } from "../performances/types";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
+import useSelectPerformances from "@components/performances/hooks/useSelectPerformances";
+import { ViewPerformances } from "@components/performances/types";
+import useSelectMembersView from "@components/members/hooks/useSelectMembersView";
+import { ViewMembers } from "@components/members/types";
 
-type RolesContextType = {};
+type RolesContextType = {
+  performancesData: ViewPerformances[] | null;
+  membersData: ViewMembers[] | null;
+};
 interface RolesProviderProps {
   children: ReactNode;
-  performance_uid?:number
 }
 
 const RolesContext = createContext<RolesContextType | undefined>(undefined);
@@ -17,22 +26,39 @@ export function useRolesContext() {
   return context;
 }
 
-export function RolesProvider({ children,performance_uid }: RolesProviderProps) {
-  const {debouncedFetch, isLoading, rows} = useSelectPerformances();
-  const [performances, setPerfomances] = useState<ViewPerformances[]>([]);
+export function RolesProvider({ children }: RolesProviderProps) {
+  const { debouncedFetch: fetchPerformances, rows: performancesData } =
+    useSelectPerformances();
+  const { debouncedFetch: fetchMembers, rows: membersData } =
+    useSelectMembersView();
 
-  useEffect(()=>{
-    debouncedFetch({
-      is_public: 1,
-      uid:performance_uid
-    }, {
-      page: 0,
-      pageSize: 100,
-    })
-  }, [debouncedFetch, performance_uid]);
+  useEffect(() => {
+    fetchPerformances(
+      {
+        is_active: 1,
+      },
+      {
+        page: 0,
+        pageSize: 100,
+      }
+    );
+  }, [fetchPerformances]);
 
-  useEffect(()=>{
-    setPerfomances(rows)
-  }, [rows])
-  return <RolesContext.Provider value={{}}>{children}</RolesContext.Provider>;
-}*/
+  useEffect(() => {
+    fetchMembers(
+      {
+        is_public: 1,
+      },
+      {
+        page: 0,
+        pageSize: 100,
+      }
+    );
+  }, [fetchPerformances]);
+
+  return (
+    <RolesContext.Provider value={{ membersData, performancesData }}>
+      {children}
+    </RolesContext.Provider>
+  );
+}

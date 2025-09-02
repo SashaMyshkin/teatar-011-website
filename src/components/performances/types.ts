@@ -7,9 +7,10 @@ import {
 
 export interface SelectPerformancesForm {
   title?: string;
-  is_public: number;
+  is_public?: number;
   performance_type_uid?: number;
   uid?:number;
+  is_active?:number
 }
 
 export interface SelectPerformancesProps {

@@ -83,10 +83,11 @@ export type MemberContextType = {
 };
 
 export type SelectMembersForm = {
-  name: string;
-  surname: string;
-  is_public: number;
+  name?: string;
+  surname?: string;
+  is_public?: number;
   uid?: number;
+  is_active?:number
 };
 
 export type BasicInfoFormFields = Pick<
