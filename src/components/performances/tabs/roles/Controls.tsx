@@ -1,7 +1,7 @@
-import { Box, Button, InputLabel, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import useInsertRole from "@components/performances/hooks/useInsertRole";
-import { usePerformanceContext } from "../../context/PerformanceContext";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
 
 export default function Controls() {
   const {setRoles, roles} = usePerformanceContext()

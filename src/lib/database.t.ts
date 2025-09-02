@@ -924,19 +924,19 @@ export type Database = {
         Row: {
           description: string
           id: number
-          importance: number
+          order_number: number
           performance_uid: number
         }
         Insert: {
           description: string
           id?: number
-          importance: number
+          order_number: number
           performance_uid: number
         }
         Update: {
           description?: string
           id?: number
-          importance?: number
+          order_number?: number
           performance_uid?: number
         }
         Relationships: [
@@ -1240,7 +1240,7 @@ export type Database = {
       v_roles: {
         Row: {
           description: string | null
-          importance: number | null
+          order_number: number | null
           performance_role_uid: number | null
           performance_uid: number | null
           role_name: string | null

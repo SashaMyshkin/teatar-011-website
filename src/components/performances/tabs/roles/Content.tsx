@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Divider, Paper, Stack } from "@mui/material";
+import { Divider, Stack } from "@mui/material";
 import {
   DndContext,
   closestCenter,
@@ -19,19 +19,19 @@ import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import {
   RolesRow,
-  TablePerformancesAbout,
 } from "@components/performances/types";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import RoleCard from "./RoleCard";
+import RoleCard from "@components/performances/tabs/roles/RoleCard";
 import Loading from "@/components/loading/Loading";
+import useUpdateRole from "@components/performances/hooks/useUpdateRole";
 
-const itemsPerColumn = 5;
-const columnWidth = 250;
+const itemsPerColumn = 4;
+//const columnWidth = 250;
 
 export default function Content() {
-  const { roles } = usePerformanceContext();
+  const { roles,setRoles } = usePerformanceContext();
   const sensors = useSensors(useSensor(PointerSensor));
-  //const update = useUpdateParagraph();
+  const update = useUpdateRole();
 
   if (!roles) return <Loading></Loading>;
 
@@ -50,15 +50,15 @@ export default function Content() {
 
       const newOrder = arrayMove(roles, oldIndex, newIndex);
 
-      const newStatePromises: Promise<TablePerformancesAbout>[] = [];
+      const newStatePromises: Promise<RolesRow>[] = [];
 
-      /*newOrder.forEach((elem, index) => {
-        newStatePromises.push(update({id:elem.id, order_number:index+1, }))
+      newOrder.forEach((elem, index) => {
+        newStatePromises.push(update({id:elem.performance_role_uid ?? 0, order_number:index+1, }))
       });
 
       const newState = await Promise.all(newStatePromises);
 
-      setParagraphs(newState);*/
+      setRoles(newState);
     }
   };
 
@@ -76,8 +76,7 @@ export default function Content() {
   };
 
   // Control how many items per column you want
-  const ITEMS_PER_COLUMN = 4; // Change this number to control column size
-  const columns = createColumns(roles, ITEMS_PER_COLUMN);
+  const columns = createColumns(roles, itemsPerColumn);
 
   return (
     <DndContext

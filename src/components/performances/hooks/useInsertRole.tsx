@@ -2,7 +2,7 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import { RolesRow } from "../types";
+import { RolesRow } from "@components/performances/types";
 
 export default function useInsertRole() {
   const { performanceUid } = usePerformanceContext();
@@ -10,13 +10,23 @@ export default function useInsertRole() {
 
   return async (roleName: string): Promise<RolesRow | null> => {
     if (performanceUid) {
+      const selectResult = await supabaseBrowserClient
+        .from("performances_roles_uid")
+        .select("order_number")
+        .eq("performance_uid", performanceUid.id)
+        .order("order_number", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const max = unwrap(selectResult);
+    const order_number = max?.order_number ? max.order_number + 1 : 1;
       const queryResult = await supabaseBrowserClient
         .from("performances_roles_uid")
         .insert([
           {
             performance_uid: performanceUid.id,
             description: roleName,
-            importance: 0,
+            order_number: order_number,
           },
         ])
         .select()
@@ -40,16 +50,14 @@ export default function useInsertRole() {
 
       return {
         description: roleName,
-        importance: 0,
+        order_number: order_number,
         performance_role_uid: role_uid,
         performance_uid: performanceUid.id,
         role_name: roleName,
         script_id: language.id,
-      }
+      };
     }
 
     return null;
-
-
   };
 }

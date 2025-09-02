@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, {  useEffect, useState } from "react";
-import { ParagraphCardProps, RoleCardProps, RolesRow, TablePerformancesAbout } from "@components/performances/types";
+import { RoleCardProps, RolesRow } from "@components/performances/types";
 import {
   cardContentSx,
   dragHandleStyle,
@@ -15,9 +15,9 @@ import {
   textFieldSx,
 } from "@components/performances/tabs/roles/styles";
 import _ from "lodash";
-import useUpdateParagraph from "@components/performances/hooks/useUpdateParagraph";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import useDeleteParagraph from "@components/performances/hooks/useDeleteParagraph";
+import useUpdateRole from "@components/performances/hooks/useUpdateRole";
+import useDeleteRole from "@components/performances/hooks/useDeleteRole";
 
 
 
@@ -37,16 +37,16 @@ export default function RoleCard({
     }
   }, [roles,index]);
 
-  /*const submit = useUpdateParagraph();
-  const submitDelete = useDeleteParagraph();*/
+  const submit = useUpdateRole();
+  const submitDelete = useDeleteRole();
 
-  /*const handleDelete = async () => {
-    if (paragraphs) {
+  const handleDelete = async () => {
+    if (roles) {
       setLoadingDelete(true);
-      const error = await submitDelete(paragraphs[index].id);
+      const error = await submitDelete(roles[index].performance_role_uid ?? 0);
       if(!error){
-        const newState = paragraphs.filter((elem)=>elem.id != paragraphs[index].id);
-        setParagraphs(newState);
+        const newState = roles.filter((elem)=>elem.performance_role_uid != roles[index].performance_role_uid);
+        setRoles(newState);
       }
       setLoadingDelete(false);
     }
@@ -55,20 +55,20 @@ export default function RoleCard({
   const handleSave = async () => {
     setLoading(true);
 
-    if (paragraphs && paragraphChanges) {
-      const data = await submit({
-        id: paragraphs[index].id,
-        paragraph: paragraphChanges.paragraph,
+    if (roles && rolesChanges) {
+      await submit({
+        id: roles[index].performance_role_uid ?? 0,
+        role_name: rolesChanges.role_name ?? "",
       });
 
-      const newState = [...paragraphs];
-      newState[index].paragraph = data.paragraph;
+      const newState = [...roles];
+      newState[index].role_name = rolesChanges.role_name;
 
-      setParagraphs(newState);
+      setRoles(newState);
     }
 
     setLoading(false);
-  };*/
+  };
 
   if (!(rolesChanges && roles)) return <></>;
 
@@ -99,7 +99,7 @@ export default function RoleCard({
         <Button
           size="small"
           color="primary"
-          /*onClick={handleSave}*/
+          onClick={handleSave}
           disabled={_.isEqual(roles[index], rolesChanges)}
           loading={loading}
         >
@@ -116,8 +116,8 @@ export default function RoleCard({
         <Button
           size="small"
           color="error"
-          /*onClick={handleDelete}
-          loading={loadingDelete}*/
+          onClick={handleDelete}
+          loading={loadingDelete}
         >
           Obriši
         </Button>
@@ -125,72 +125,3 @@ export default function RoleCard({
     </Card>
   );
 }
-
-
-/*import React from "react";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-} from "@mui/material";
-import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import Loading from "@/components/loading/Loading";
-
-const itemsPerColumn = 5;
-const columnWidth = 250;
-export default function RoleCard() {
-  const { roles } = usePerformanceContext();
-
-  if (!roles) return <Loading></Loading>;
-
-  const createColumns = () => {
-    const columns = [];
-    for (let i = 0; i < roles.length; i += itemsPerColumn) {
-      columns.push(roles.slice(i, i + itemsPerColumn));
-    }
-    return columns;
-  };
-
-  const columns = createColumns();
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        gap: 2,
-        overflow: "auto",
-        padding: 1,
-        marginTop: "1rem",
-      }}
-    >
-      {columns.map((columnData, columnIndex) => (
-        <Paper
-          sx={{
-            width: columnWidth,
-            padding: 1,
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            flexShrink: 0,
-          }}
-          key={columnIndex}
-          elevation={2}
-        >
-          <List>
-            {columnData.map((item, itemIndex) => (
-              <ListItem disablePadding key={itemIndex}>
-                <ListItemButton>
-                  <ListItemText primary={item.role_name} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
-      ))}
-    </Box>
-  );
-}*/
