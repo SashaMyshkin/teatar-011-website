@@ -9,6 +9,7 @@ import {
 } from "react";
 import {
   PerformanceType,
+  RolesRow,
   TablePerformances,
   TablePerformancesAbout,
   TablePerformancesUID,
@@ -18,6 +19,7 @@ import Loading from "@/components/loading/Loading";
 import useSelectPerformanceUid from "@components/performances/hooks/useSelectPerformanceUid";
 import useSelectPerformance from "@components/performances/hooks/useSelectPerformance";
 import useSelectParagraphs from "@components/performances/hooks/useSelectParagraphs";
+import useSelectRoles from "@components/performances/hooks/useSelectRoles";
 
 type PerformanceContextType = {
   performanceTypes: PerformanceType[];
@@ -30,6 +32,9 @@ type PerformanceContextType = {
 
   paragraphs: TablePerformancesAbout[] | null;
   setParagraphs: Dispatch<SetStateAction<TablePerformancesAbout[] | null>>;
+
+  roles:RolesRow[] | null;
+  setRoles:Dispatch<SetStateAction<RolesRow[] | null>>;
 };
 
 interface PerformanceProviderProps {
@@ -77,6 +82,9 @@ export function PerformanceProvider({
     null
   );
 
+  const {rolesData} = useSelectRoles({performanceId:performanceUid?.id});
+  const [roles, setRoles] = useState<RolesRow[] | null>(null);
+
   useEffect(() => {
     if (types) setPerformanceTypes(types);
   }, [types]);
@@ -93,6 +101,11 @@ export function PerformanceProvider({
     if (performanceData) setPerformance(performanceData);
   }, [performanceData]);
 
+   useEffect(() => {
+    console.log("rolesDataChanged", rolesData)
+    if (rolesData) setRoles(rolesData);
+  }, [rolesData]);
+
   if (!performanceTypes) return <Loading />;
 
   return (
@@ -105,7 +118,8 @@ export function PerformanceProvider({
         performance,
         paragraphs,
         setParagraphs,
-        
+        roles,
+        setRoles
       }}
     >
       {children}

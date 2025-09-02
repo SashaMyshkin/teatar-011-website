@@ -8,7 +8,7 @@ import AboutPerformance from "@/components/performances/tabs/about-performance/A
 import Poster from "@components/performances/tabs/poster/Poster";
 import { ChangeProvider } from "@/components/context/ChangeContext";
 import PerformanceGallery from "@/components/performances/tabs/performance-gallery/PerformanceGallery";
-import Roles from "@components/roles/Roles";
+import Roles from "@components/performances/tabs/roles/Roles";
 
 function a11yProps(index: number) {
   return {

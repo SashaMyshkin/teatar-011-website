@@ -71,3 +71,16 @@ export interface ParagraphCardProps {
   index: number;
   dragHandle: React.ReactNode;
 }
+
+export interface RoleCardProps {
+  index: number;
+  dragHandle: React.ReactNode;
+}
+
+
+
+export type RolesRow = Database["public"]["Views"]["v_roles"]["Row"];
+
+export interface UseSelectRolesProps {
+  performanceId?:number
+}
