@@ -841,19 +841,19 @@ export type Database = {
         Row: {
           id: number
           performance_role_uid: number
-          role_name: string
+          role_name: string | null
           script_id: number
         }
         Insert: {
           id?: number
           performance_role_uid: number
-          role_name: string
+          role_name?: string | null
           script_id: number
         }
         Update: {
           id?: number
           performance_role_uid?: number
-          role_name?: string
+          role_name?: string | null
           script_id?: number
         }
         Relationships: [
@@ -924,19 +924,19 @@ export type Database = {
         Row: {
           description: string
           id: number
-          importance: number
+          order_number: number
           performance_uid: number
         }
         Insert: {
           description: string
           id?: number
-          importance: number
+          order_number: number
           performance_uid: number
         }
         Update: {
           description?: string
           id?: number
-          importance?: number
+          order_number?: number
           performance_uid?: number
         }
         Relationships: [
@@ -1233,6 +1233,53 @@ export type Database = {
             columns: ["performance_type_uid"]
             isOneToOne: false
             referencedRelation: "performances_types_uid"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_roles: {
+        Row: {
+          description: string | null
+          order_number: number | null
+          performance_role_uid: number | null
+          performance_uid: number | null
+          role_name: string | null
+          script_id: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "performances_roles_performance_role_uid_fkey"
+            columns: ["performance_role_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_roles_uid"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "scripts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_members"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_membership_statuses"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_roles_uid_performance_uid_fkey"
+            columns: ["performance_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_uid"
             referencedColumns: ["id"]
           },
         ]
