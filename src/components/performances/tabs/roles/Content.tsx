@@ -95,7 +95,7 @@ export default function Content() {
             spacing={2}
             sx={{
               marginTop:"2rem",
-              height: "27rem",
+              height: "2rem",
               justifyContent: "center",
               alignItems: "flex-start",
             }}

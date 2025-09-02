@@ -2,8 +2,12 @@
 import Controls from "@components/performances/tabs/roles/Controls";
 import Content from "./Content";
 
-export default function Roles(){
-  //const {roles,setRoles} = usePerformanceContext();
+export default function Roles() {
 
-  return(<><Controls/><Content/></>)
+  return (
+    <>
+      <Controls />
+      <Content />
+    </>
+  );
 }
