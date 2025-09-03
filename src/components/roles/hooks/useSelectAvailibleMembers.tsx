@@ -5,7 +5,6 @@ import { unwrap } from "@/lib/errors/supabaseError";
 import { useEffect, useState } from "react";
 
 export default function useSelectAvailibleMembers() {
-  const [rows, setRows] = useState<ViewMembers[]>([]);
   const { language } = useLanguageContext();
 
   return async function (performanceUid: number) {
@@ -13,7 +12,8 @@ export default function useSelectAvailibleMembers() {
       .from("v_roles_members")
       .select("member_uid")
       .eq("performance_uid", performanceUid)
-      .eq("script_id", language.id);
+      .eq("script_id", language.id)
+      .not("member_uid", "is", null);
 
     const excludedMembersData = unwrap(excludedMembers);
 
@@ -27,12 +27,13 @@ export default function useSelectAvailibleMembers() {
       .select("*")
       .eq("is_public", 1)
       .eq("script_id", language.id)
-      .not("member_uid", "in", `(${excludedUids.join(',')})`);
+      .not("member_uid", "in", `(${excludedUids.join(',')})`)
+      .order("date_of_joining");
 
     const data = unwrap(queryResult);
 
-    setRows(data);
+    
 
-    return rows;
+    return data;
   };
 }

@@ -1,11 +1,13 @@
-import Controls from "@components/roles/Controls"
+import Controls from "@components/roles/Controls";
+import Content from "./Content";
+import { useState } from "react";
 
-interface RolesProps{
-  performance_uid?:number,
-  member_uid?:number
-}
-
-export default function Roles({performance_uid, member_uid}:RolesProps){
-  console.log(performance_uid, member_uid)
-  return<><Controls></Controls></>
+export default function Roles() {
+   const [performanceUid, setPerformanceUid] = useState(0);
+  return (
+    <>
+      <Controls performanceUid={performanceUid} setPerformanceUid={setPerformanceUid}></Controls>
+      <Content performanceUid={performanceUid}></Content>
+    </>
+  );
 }

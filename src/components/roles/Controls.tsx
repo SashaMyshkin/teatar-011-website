@@ -1,18 +1,27 @@
 import { Box, Button, MenuItem, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { RolesRow } from "../performances/types";
 import { useRolesContext } from "./RolesContext";
 import { ViewMembers } from "../members/types";
 import useSelectAvailibleMembers from "./hooks/useSelectAvailibleMembers";
+import useSelectAvailibleRoles from "./hooks/useSelectAvailibleRoles";
+import { Database } from "@/lib/database.t";
 
-export default function Controls() {
+interface ControlsProps {
+  performanceUid:number;
+  setPerformanceUid:Dispatch<SetStateAction<number>>
+}
+
+export type RolesMembersRow = Database["public"]["Views"]["v_roles_members"]["Row"];
+
+export default function Controls({performanceUid, setPerformanceUid}:ControlsProps) {
+  const selectAvailableRoles = useSelectAvailibleRoles();
   const { performancesData } = useRolesContext();
   const selectAvailableMembers = useSelectAvailibleMembers();
   const [membersData, setMembersData] = useState<ViewMembers[]>([]);
-  const [roles, setRoles] = useState<RolesRow[] | null>(null);
+  const [roles, setRoles] = useState<RolesMembersRow[] | null>(null);
   const [role, setRole] = useState(0);
   const [member, setMember] = useState(0);
-  const [performanceUid, setPerformanceUid] = useState(0);
 
   useEffect(() => {
     async function fetchMembers() {
@@ -21,6 +30,15 @@ export default function Controls() {
     }
 
     fetchMembers();
+  }, [performanceUid]);
+
+  useEffect(() => {
+    async function fetchRoles() {
+      const data = await selectAvailableRoles(performanceUid);
+      setRoles(data);
+    }
+
+    fetchRoles();
   }, [performanceUid]);
 
   return (

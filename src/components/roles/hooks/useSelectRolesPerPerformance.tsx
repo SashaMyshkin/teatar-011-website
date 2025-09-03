@@ -1,21 +1,23 @@
 import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
+import { Database } from "@/lib/database.t";
 import { unwrap } from "@/lib/errors/supabaseError";
+import { useState } from "react";
 
-export default function useSelectAvailibleRoles() {
+export default function useSelectRolesPerPerformance() {
   const { language } = useLanguageContext();
 
-  return async function (performanceUid: number) {
-    const queryResult = await supabaseBrowserClient
+  return async (performanceUid: number) => {
+    const roles = await supabaseBrowserClient
       .from("v_roles_members")
       .select("*")
       .eq("performance_uid", performanceUid)
       .eq("script_id", language.id)
-      .is("member_uid", null)
       .order("order_number");
 
-    const data = unwrap(queryResult);
+    const data = unwrap(roles);
 
-    return data
+
+    return data;
   };
 }
