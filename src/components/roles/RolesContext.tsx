@@ -35,14 +35,14 @@ export function RolesProvider({ children }: RolesProviderProps) {
   useEffect(() => {
     fetchPerformances(
       {
-        is_active: 1,
+        is_public: 1,
       },
       {
         page: 0,
         pageSize: 100,
       }
     );
-  }, [fetchPerformances]);
+  }, []);
 
   useEffect(() => {
     fetchMembers(
@@ -54,7 +54,9 @@ export function RolesProvider({ children }: RolesProviderProps) {
         pageSize: 100,
       }
     );
-  }, [fetchPerformances]);
+  }, []);
+
+  console.log("membersData", membersData)
 
   return (
     <RolesContext.Provider value={{ membersData, performancesData }}>

@@ -10,13 +10,15 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import PeopleIcon from '@mui/icons-material/People';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
+import CurtainsIcon from '@mui/icons-material/Curtains';
 /*import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';*/
 import { usePathname } from "next/navigation";
 
 const links = [
   { name: "Početna", pathname: "/protected/home", icon: MailIcon },
   { name: "Članovi", pathname: "/protected/members", icon: PeopleIcon },
-  { name: "Predstave", pathname: "/protected/performances", icon: TheaterComedyIcon },
+  { name: "Predstave", pathname: "/protected/performances", icon: CurtainsIcon },
+  { name: "Uloge", pathname: "/protected/roles", icon: TheaterComedyIcon },
   /*{
     name: "Festivali i nagrade",
     pathname: "/festivals-and-awards",

@@ -2,7 +2,11 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { debounce } from "lodash";
 import React, { useState } from "react";
 import { supabaseBrowserClient } from "@/lib/client";
-import { PaginationModel, SelectMembersForm, ViewMembers } from "@components/members/types";
+import {
+  PaginationModel,
+  SelectMembersForm,
+  ViewMembers,
+} from "@components/members/types";
 
 export default function useSelectMembersView() {
   const [rows, setRows] = useState<ViewMembers[]>([]);
@@ -12,55 +16,61 @@ export default function useSelectMembersView() {
 
   const debouncedFetch = React.useMemo(
     () =>
-      debounce(async (formState: SelectMembersForm, paginationModel:PaginationModel) => {
-        setIsLoading(true);
-        const { name, surname, is_public, uid, is_active} = formState;
-        const { page, pageSize } = paginationModel;
-        const from = page * pageSize;
-        const to = from + pageSize - 1;
+      debounce(
+        async (
+          formState: SelectMembersForm,
+          paginationModel: PaginationModel
+        ) => {
+          setIsLoading(true);
+          const { name, surname, is_public, uid, is_active } = formState;
+          const { page, pageSize } = paginationModel;
+          const from = page * pageSize;
+          const to = from + pageSize - 1;
 
-        try {
-          const query = supabaseBrowserClient
-            .from("v_members")
-            .select("*", {
+          try {
+            const query = supabaseBrowserClient.from("v_members").select("*", {
               count: "exact",
             });
 
-          if(uid) query.eq("member_uid", uid);
-          if (name !== "") query.ilike("name", `%${name}%`);
-          if (surname !== "") query.ilike("surname", `%${surname}%`);
-          if (!(is_public === undefined) && is_public < 2)
-            query.eq("is_public", is_public);
-          if (!(is_active === undefined) && is_active < 2)
-            query.eq("is_active", is_active);
-          
-          query.eq("script_id", language.id);
-          query.order("is_public", { ascending: false, nullsFirst: false });
-          query.order("date_of_joining", {
-            ascending: false,
-            nullsFirst: false,
-          });
-          query.range(from, to);
+            if (uid) query.eq("member_uid", uid);
+            if (!(name === undefined) && name !== "")
+              query.ilike("name", `%${name}%`);
+            if (!(surname === undefined) && surname !== "")
+              query.ilike("surname", `%${surname}%`);
+            if (!(is_public === undefined) && is_public < 2)
+              query.eq("is_public", is_public);
+            if (!(is_active === undefined) && is_active < 2)
+              query.eq("is_active", is_active);
 
-          const { data, count, error } = await query;
+            query.eq("script_id", language.id);
+            query.order("is_public", { ascending: false, nullsFirst: false });
+            query.order("date_of_joining", {
+              ascending: false,
+              nullsFirst: false,
+            });
+            query.range(from, to);
 
-          if (count) setRowCount(count);
+            const { data, count, error } = await query;
 
-          if (data) setRows(data);
+            if (count) setRowCount(count);
 
-          if (error)
-            throw new Error(
-              `${error.name}: ${error.message}; ${error.details}; ${error.cause}`
+            if (data) setRows(data);
+
+            if (error)
+              throw new Error(
+                `${error.name}: ${error.message}; ${error.details}; ${error.cause}`
+              );
+          } catch (err) {
+            console.log(
+              "Greška prilikom preuzimanja podataka o predstavama.",
+              err
             );
-        } catch (err) {
-          console.log(
-            "Greška prilikom preuzimanja podataka o predstavama.",
-            err
-          );
-        } finally {
-          setIsLoading(false);
-        }
-      }, 300),
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        300
+      ),
     [language.id]
   );
 

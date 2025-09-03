@@ -32,11 +32,10 @@ export default function useSelectPerformances() {
             });
 
           if (uid) query.eq("performance_uid", uid);
-          if (title !== "") query.ilike("title", `%${title}%`);
+          if (!(title === undefined) && title !== "") query.ilike("title", `%${title}%`);
           if (!(is_public === undefined) && is_public < 2)
             query.eq("is_public", is_public);
-          if (!(is_active === undefined) && is_active < 2)
-            query.eq("is_active", is_active);
+          
           if (performance_type_uid)
             query.eq("performance_type_uid", performance_type_uid);
           query.eq("script_id", scriptId);

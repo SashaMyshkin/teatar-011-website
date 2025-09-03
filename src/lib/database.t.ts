@@ -130,6 +130,13 @@ export type Database = {
             referencedRelation: "members_uid"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "awards_festivals_members_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "v_roles_members"
+            referencedColumns: ["member_uid"]
+          },
         ]
       }
       awards_uid: {
@@ -445,6 +452,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "members_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "v_roles_members"
+            referencedColumns: ["member_uid"]
+          },
+          {
             foreignKeyName: "members_script_id_fkey"
             columns: ["script_id"]
             isOneToOne: false
@@ -496,6 +510,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "members_uid"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "members_biographies_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "v_roles_members"
+            referencedColumns: ["member_uid"]
           },
           {
             foreignKeyName: "members_biographies_script_id_fkey"
@@ -912,6 +933,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "performances_roles_members_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "v_roles_members"
+            referencedColumns: ["member_uid"]
+          },
+          {
             foreignKeyName: "performances_roles_members_performance_role_uid_fkey"
             columns: ["performance_role_uid"]
             isOneToOne: false
@@ -1176,6 +1204,13 @@ export type Database = {
             referencedRelation: "members_uid"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "members_member_uid_fkey"
+            columns: ["member_uid"]
+            isOneToOne: false
+            referencedRelation: "v_roles_members"
+            referencedColumns: ["member_uid"]
+          },
         ]
       }
       v_membership_statuses: {
@@ -1240,6 +1275,54 @@ export type Database = {
       v_roles: {
         Row: {
           description: string | null
+          order_number: number | null
+          performance_role_uid: number | null
+          performance_uid: number | null
+          role_name: string | null
+          script_id: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "performances_roles_performance_role_uid_fkey"
+            columns: ["performance_role_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_roles_uid"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "scripts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_members"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_roles_script_id_fkey"
+            columns: ["script_id"]
+            isOneToOne: false
+            referencedRelation: "v_membership_statuses"
+            referencedColumns: ["script_id"]
+          },
+          {
+            foreignKeyName: "performances_roles_uid_performance_uid_fkey"
+            columns: ["performance_uid"]
+            isOneToOne: false
+            referencedRelation: "performances_uid"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_roles_members: {
+        Row: {
+          actor: string | null
+          member_uid: number | null
           order_number: number | null
           performance_role_uid: number | null
           performance_uid: number | null
