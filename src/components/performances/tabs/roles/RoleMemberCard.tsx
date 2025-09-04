@@ -1,17 +1,8 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import { cardContentSx, dragHandleStyle } from "@components/members/tabs/biography/styles";
-import { Database } from "@/lib/database.t";
 import Image from "next/image";
-import { RolesMembersRow } from "../../types";
-import { use } from "react";
 import { usePerformanceContext } from "../../context/PerformanceContext";
-
-
-interface RoleMemberCardProps {
-
-  dragHandle: React.ReactNode;
-  index: number;
-}
+import { RoleMemberCardProps } from "../../types";
 
 export default function RoleMemberCard({ dragHandle,index }: RoleMemberCardProps) {
   const {rolesMembers} = usePerformanceContext();

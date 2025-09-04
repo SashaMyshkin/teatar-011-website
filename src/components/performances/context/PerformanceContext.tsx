@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import {
-  PerformanceType,
+  PerformancesTypesRow,
   RolesMembersRow,
   RolesRow,
   TablePerformances,
@@ -23,7 +23,7 @@ import useSelectParagraphs from "@components/performances/hooks/useSelectParagra
 import useSelectRoles from "@components/performances/hooks/useSelectRoles";
 
 type PerformanceContextType = {
-  performanceTypes: PerformanceType[];
+  performanceTypes: PerformancesTypesRow[];
 
   performanceUid: TablePerformancesUID | null;
   setPerformanceUid: Dispatch<SetStateAction<TablePerformancesUID | null>>;
@@ -62,7 +62,7 @@ export function PerformanceProvider({
 }: PerformanceProviderProps) {
   const { types } = useSelectTypes();
   const [performanceTypes, setPerformanceTypes] = useState<
-    PerformanceType[] | null
+    PerformancesTypesRow[] | null
   >(null);
 
   const { performanceUidData } = useSelectPerformanceUid({ identifier });
