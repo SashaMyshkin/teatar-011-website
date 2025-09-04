@@ -31,8 +31,8 @@ export default function Controles() {
     >
       <Box>
         <TextField
-          id="role-name"
-          name="role-name"
+          id="new-role-name"
+          name="new-role-name"
           label="Naziv nove uloge"
           margin="dense"
           type="text"

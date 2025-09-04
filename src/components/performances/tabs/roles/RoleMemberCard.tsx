@@ -1,18 +1,101 @@
-import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import { cardContentSx, dragHandleStyle } from "@components/members/tabs/biography/styles";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
+import {
+  cardContentSx,
+  dragHandleStyle,
+} from "@components/performances/tabs/roles/styles";
 import Image from "next/image";
-import { usePerformanceContext } from "../../context/PerformanceContext";
-import { RoleMemberCardProps } from "../../types";
+import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
+import {
+  RoleMemberCardProps,
+  RolesMembersRow,
+} from "@components/performances/types";
+import { useState } from "react";
+import { useRolesContext } from "./RolesContext";
+import { ViewMembers } from "@/components/members/types";
 
-export default function RoleMemberCard({ dragHandle,index }: RoleMemberCardProps) {
-  const {rolesMembers} = usePerformanceContext();
+export default function RoleMemberCard({
+  dragHandle,
+  index,
+}: RoleMemberCardProps) {
+  const { membersData } = useRolesContext();
+  const { rolesMembers } = usePerformanceContext();
+  const [roleName, setRoleName] = useState(rolesMembers[index].role_name);
+  const [selectedMember, setSelectedMember] = useState<ViewMembers | null>(
+    membersData.find((m) => m.member_uid === rolesMembers[index].member_uid) ||
+      null
+  );
+
   return (
     <Card variant="outlined" sx={{ position: "relative", maxWidth: "15rem" }}>
-       {dragHandle && <div style={{ ...dragHandleStyle }}>{dragHandle}</div>}
+      {dragHandle && <div style={{ ...dragHandleStyle }}>{dragHandle}</div>}
       <CardContent sx={cardContentSx}>
-        <Image src="/roleplaceholder.jpg" alt="placeholder" width={200} height={200}></Image><br></br>
-        <Typography color="warning">{rolesMembers[index].role_name}</Typography> 
-        {rolesMembers[index].actor ? rolesMembers[index].actor : "Nije dodeljeno"}
+        <Image
+          src="/roleplaceholder.jpg"
+          alt="placeholder"
+          width={200}
+          height={200}
+        ></Image>
+        <br></br>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+            mb: 2,
+            justifyContent: "center",
+          }}
+        >
+          <Box>
+            <TextField
+              id="role-name"
+              name="role-name"
+              margin="dense"
+              type="text"
+              fullWidth
+              variant="standard"
+              size="small"
+              color="warning"
+              value={roleName}
+              onChange={(e) => setRoleName(e.target.value)}
+              sx={{ width: "100%" }}
+            />
+          </Box>
+          {/*<Box>
+        <Button
+          type="button"
+          /*onClick={handleAddRole}
+          loading={loading}
+          variant="contained"
+          sx={{ mt: 2 }}
+          size="small"
+          //disabled={!roleName?.trim().length || loading}
+        >
+          Sačuvaj
+        </Button>
+      </Box>*/}
+        </Box>
+        <Box>
+          <Autocomplete
+            value={selectedMember}
+            options={membersData}
+            getOptionLabel={(option) => `${option.name} ${option.surname}`}
+            onChange={(_, newValue) => setSelectedMember(newValue)} 
+            renderInput={(params) => (
+              <TextField {...params} variant="standard" />
+            )}
+            sx={{ width:"100%", margin: "auto" }}
+          />
+        </Box>
       </CardContent>
 
       <CardActions>

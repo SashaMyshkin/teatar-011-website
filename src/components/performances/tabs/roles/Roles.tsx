@@ -1,12 +1,13 @@
 import React from "react";
 import Content from "@components/performances/tabs/roles/Content";
 import Controles from "@components/performances/tabs/roles/Controles";
+import { RolesProvider } from "./RolesContext";
 
 export default function Roles() {
   return (
-    <React.Fragment>
+    <RolesProvider>
       <Controles></Controles>
       <Content></Content>
-    </React.Fragment>
+    </RolesProvider>
   );
 }
