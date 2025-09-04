@@ -2,13 +2,13 @@ import { useLanguageContext } from "@/components/context/LanguageContext";
 import { supabaseBrowserClient } from "@/lib/client";
 import { unwrap } from "@/lib/errors/supabaseError";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import { RolesRow } from "@components/performances/types";
+import { RolesMembersRow, RolesRow } from "@components/performances/types";
 
 export default function useInsertRole() {
   const { performanceUid } = usePerformanceContext();
-  const { language, languages } = useLanguageContext();
+  const { language } = useLanguageContext();
 
-  return async (roleName: string): Promise<RolesRow | null> => {
+  return async (roleName: string): Promise<RolesMembersRow | null> => {
     if (performanceUid) {
       const selectResult = await supabaseBrowserClient
         .from("performances_roles_uid")
@@ -19,7 +19,7 @@ export default function useInsertRole() {
         .maybeSingle();
 
       const max = unwrap(selectResult);
-    const order_number = max?.order_number ? max.order_number + 1 : 1;
+      const order_number = max?.order_number ? max.order_number + 1 : 1;
       const queryResult = await supabaseBrowserClient
         .from("performances_roles_uid")
         .insert([
@@ -34,28 +34,35 @@ export default function useInsertRole() {
 
       const { id: role_uid } = unwrap(queryResult);
 
-      const localized = languages.map((elem) => {
+      /*const localized = languages.map((elem) => {
         return {
           performance_role_uid: role_uid,
           script_id: elem.id,
           role_name: elem.id === language.id ? roleName : null,
         };
-      });
+      });*/
 
       const result = await supabaseBrowserClient
         .from("performances_roles")
-        .insert(localized);
+        .insert([
+          {
+            performance_role_uid: role_uid,
+            script_id: language.id,
+            role_name: roleName,
+          },
+        ]);
 
       unwrap(result);
 
-      return {
-        description: roleName,
-        order_number: order_number,
-        performance_role_uid: role_uid,
-        performance_uid: performanceUid.id,
-        role_name: roleName,
-        script_id: language.id,
-      };
+      const rolesMembersResult = await supabaseBrowserClient
+        .from("v_roles_members")
+        .select("*")
+        .eq("performance_role_uid", role_uid)
+        .eq("performance_uid", performanceUid.id)
+        .eq("script_id", language.id)
+        .single();
+
+      return unwrap(rolesMembersResult);
     }
 
     return null;

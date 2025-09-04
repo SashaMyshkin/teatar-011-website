@@ -9,6 +9,7 @@ import {
 } from "react";
 import {
   PerformanceType,
+  RolesMembersRow,
   RolesRow,
   TablePerformances,
   TablePerformancesAbout,
@@ -33,8 +34,8 @@ type PerformanceContextType = {
   paragraphs: TablePerformancesAbout[] | null;
   setParagraphs: Dispatch<SetStateAction<TablePerformancesAbout[] | null>>;
 
-  roles:RolesRow[] | null;
-  setRoles:Dispatch<SetStateAction<RolesRow[] | null>>;
+  rolesMembers: RolesMembersRow[];
+  setRolesMembers: Dispatch<SetStateAction<RolesMembersRow[]>>;
 };
 
 interface PerformanceProviderProps {
@@ -83,7 +84,7 @@ export function PerformanceProvider({
   );
 
   const {rolesData} = useSelectRoles({performanceId:performanceUid?.id});
-  const [roles, setRoles] = useState<RolesRow[] | null>(null);
+  const [rolesMembers, setRolesMembers] = useState<RolesMembersRow[]>([]);
 
   useEffect(() => {
     if (types) setPerformanceTypes(types);
@@ -103,7 +104,7 @@ export function PerformanceProvider({
 
    useEffect(() => {
     console.log("rolesDataChanged", rolesData)
-    if (rolesData) setRoles(rolesData);
+    if (rolesData) setRolesMembers(rolesData);
   }, [rolesData]);
 
   if (!performanceTypes) return <Loading />;
@@ -118,8 +119,8 @@ export function PerformanceProvider({
         performance,
         paragraphs,
         setParagraphs,
-        roles,
-        setRoles
+        rolesMembers,
+        setRolesMembers
       }}
     >
       {children}

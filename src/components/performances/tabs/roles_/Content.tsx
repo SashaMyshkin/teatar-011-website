@@ -21,7 +21,7 @@ import {
   RolesRow,
 } from "@components/performances/types";
 import { usePerformanceContext } from "@components/performances/context/PerformanceContext";
-import RoleCard from "@components/performances/tabs/roles/RoleCard";
+import RoleCard from "@/components/performances/tabs/roles/RoleMemberCard";
 import Loading from "@/components/loading/Loading";
 import useUpdateRole from "@components/performances/hooks/useUpdateRole";
 

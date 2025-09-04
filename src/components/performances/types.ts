@@ -85,3 +85,5 @@ export type RolesRow = Database["public"]["Views"]["v_roles"]["Row"];
 export interface UseSelectRolesProps {
   performanceId?:number
 }
+
+export type RolesMembersRow = Database["public"]["Views"]["v_roles_members"]["Row"];
